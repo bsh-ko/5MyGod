@@ -1,6 +1,6 @@
 ---
 name: Documentation
-about: Add or eidt documents
+about: 문서 추가/수정 작업
 title: ""
 labels: documentation
 assignees: ""

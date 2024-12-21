@@ -1,6 +1,6 @@
 ---
 name: Fix
-about: Fix a bug or a problem
+about: 버그 또는 문제 상황 해결 작업
 title: ""
 labels: fix
 assignees: ""

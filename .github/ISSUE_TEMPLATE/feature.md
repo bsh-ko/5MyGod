@@ -1,6 +1,6 @@
 ---
 name: Feature development
-about: Add a new feature
+about: 새로운 기능 개발/추가
 title: ""
 labels: feature
 assignees: ""

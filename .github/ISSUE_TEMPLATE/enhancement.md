@@ -1,6 +1,6 @@
 ---
 name: Enhancement
-about: Adjust or enhance an existing feature
+about: 기존 기능 보완/개선 작업
 title: ""
 labels: enhancement
 assignees: ""
