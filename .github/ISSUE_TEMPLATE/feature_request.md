@@ -1,26 +1,31 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
-labels: {feature, enhancement}
-assignees: ''
-
+title: ""
+labels: { feature, enhancement }
+assignees: ""
 ---
 
 ## 💡 요청 내용
+
 기능 추가/개선 요청 내용을 설명해주세요.
 
 ## 🔍 문제점 혹은 필요성
+
 요청 내용이 필요한 이유를 설명해주세요.
 
 ## 🚀 구현 방안
+
 요청 내용의 구현 방안을 제안해주세요.
 
 ## 🎉 기대 효과
+
 요청 내용이 구현되었을 때의 기대 효과를 알려주세요.
 
 ## 📚 참고 사항
+
 해당 작업에 대해 참고할 만한 내용이 있다면 적어주세요.
 
 ## 💻 기타 정보
+
 추가적인 정보가 있다면 적어주세요.
