@@ -1,8 +1,8 @@
 ---
 name: Others
 about: 기타 이슈
-title: ""
-labels: ""
+title: "[others] 제목"
+labels: ["others"]
 assignees: ""
 ---
 

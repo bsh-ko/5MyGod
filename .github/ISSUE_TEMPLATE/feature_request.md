@@ -1,8 +1,8 @@
 ---
 name: Feature request
 about: 기능 추가/개선을 요청
-title: ""
-labels: { feature, enhancement }
+title: "[feature_request] 제목"
+labels: ["feature", "enhancement"]
 assignees: ""
 ---
 

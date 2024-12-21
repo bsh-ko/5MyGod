@@ -1,8 +1,8 @@
 ---
 name: Feature
 about: 새로운 기능 개발/추가
-title: ""
-labels: feature
+title: "[feature] 제목"
+labels: ["feature"]
 assignees: ""
 ---
 

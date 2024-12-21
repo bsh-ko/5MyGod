@@ -1,8 +1,8 @@
 ---
 name: Fix
 about: 버그 또는 문제 상황 해결 작업
-title: ""
-labels: fix
+title: "[fix] 제목"
+labels: ["fix"]
 assignees: ""
 ---
 
