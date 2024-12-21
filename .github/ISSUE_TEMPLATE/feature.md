@@ -1,5 +1,5 @@
 ---
-name: Feature development
+name: Feature
 about: 새로운 기능 개발/추가
 title: ""
 labels: feature
