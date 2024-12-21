@@ -1,7 +1,7 @@
 ---
 name: Bug Report
 about: 버그 신고/보고
-title: "[BUG] <문제 요약>"
+title: "[BUG] 제목"
 labels: ["bug"]
 assignees: ""
 ---
