@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오는 길에 - 로그인 페이지</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="../../../dist/index.css" rel="stylesheet" />
+  </head>
+  <body class="min-h-screen flex items-center justify-center">
+    <!-- 핸드폰 사이즈 맞춘 레이아웃 -->
+    <div class="login max-w-[393px] h-screen bg-background-color font-laundry">
+      <!-- 로그인 화면 -->
+      <div class="login__content p-6 pt-[172px] flex flex-col items-center justify-center">
+        <h1 class="login__title text-[36px] font-bold text-primary-500 leading-normal tracking-[-2.88px] text-center">
+          오는길에
+        </h1>
+        <form class="login__form mt-6 w-full font-normal">
+          <div class="login__field mb-3">
+            <label for="email" class="login__label block"></label>
+            <input
+              type="email"
+              id="email"
+              class="login__input mt-1 block w-full p-3 border text-gray-700 border-gray-300 rounded-[10px] bg-white shadow-[0px_1px_2px_rgba(0,0,0,0.30)]"
+              placeholder="E-mail"
+              required
+            />
+          </div>
+          <div class="login__field mb-3">
+            <label for="password" class="login__label block"></label>
+            <input
+              type="password"
+              id="password"
+              class="login__input mt-1 block w-full p-3 border text-gray-700 border-gray-300 rounded-[10px] bg-white shadow-[0px_1px_2px_rgba(0,0,0,0.30)]"
+              placeholder="비밀번호"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="login__button w-full px-4 py-3 bg-primary-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+          >
+            로그인하기
+          </button>
+          <!-- <p class="login__signup mt-2 text-center text-sm text-gray-600">
+            <a href="/users/signup" class="login__signup-link text-gray-500 hover:text-blue-700">회원가입</a>
+          </p> -->
+          <p class="pt-[187px] text-center text-gray-700 font-pretendard"><a href="">간편 로그인</a></p>
+          <button
+            type="submit"
+            class="login__button w-full mt-3 px-4 py-3 bg-kakao text-black font-semibold rounded-lg hover:bg-yellow-400 transition duration-200 font-pretendard"
+          >
+            카카오로 계속하기
+          </button>
+          <button
+            type="submit"
+            class="login__button w-full mt-3 px-4 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition duration-200 font-pretendard"
+          >
+            APPLE로 계속하기
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
