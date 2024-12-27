@@ -9,7 +9,7 @@ export default {
       },
 
       fontFamily: {
-        laundry: ["TTLaundryGothicB", "sans-serif"], // font-laundry 로 사용
+        laundry: ["TTLaundryGothicR", "sans-serif"], // font-laundry 로 사용
         pretendard: ["Pretendard-Regular", "sans-serif"], // font-pretendard 로 사용
       },
 
