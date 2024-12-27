@@ -6,6 +6,12 @@ export default {
       boxShadow: {
         // 레이아웃 짤 때 경계선 보기 위해 사용. shadow-inset 으로 사용
         inset: "inset 0 0 10px",
+
+        // 카드 그림자
+        "card-shadow": "0px 1px 2px 0px rgba(0, 0, 0, 0.30)",
+
+        // 탭 내부 그림자
+        "tab-inner-shadow": "0px 1px 2px 0px rgba(0, 0, 0, 0.10) inset",
       },
 
       fontFamily: {
