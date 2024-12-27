@@ -4,20 +4,59 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main</title>
+    <link href="../../../dist/index.css" rel="stylesheet" />
   </head>
   <body>
-    <header>헤더 - 오는길에</header>
-    <main>
-      <div class="l_container">
-        <div class="list_info">게시물 20건이 있습니다</div>
-        <ul class="list">
-          <li class="list_item">죽 사다 주세요</li>
-          <li class="list_item">문서 작성해주세요</li>
-          <li class="list_item">사진 찍어주세요</li>
-          <button class="button_request">심부름 요청하기</button>
+    <div class="l_container max-w-[393px] h-screen mx-auto flex flex-col">
+      <header
+        class="font-laundry shadow-inset shadow-gray-500 h-[50px] flex items-center justify-center"
+      >
+        헤더
+      </header>
+
+      <main
+        class="shadow-inset shadow-yellow-200 flex-grow p-[16px] flex flex-col gap-[16px]"
+      >
+        <div class="list_info font-pretendard shadow-inset shadow-green-800">
+          게시물 20건이 있습니다
+        </div>
+
+        <ul
+          class="list shadow-inset shadow-red-300 flex flex-col items-center gap-[24px]"
+        >
+          <li
+            class="list_item shadow-inset shadow-indigo-500 w-full h-[116px] p-[18px] flex gap-[24px]"
+          >
+            <div class="li_image flex-shrink-0">이미지</div>
+            <div class="li_contents flex flex-col flex-grow">
+              <h2 class="li_title">죽 사다 주세요</h2>
+              <ul class="li_tags flex">
+                태그 목록
+              </ul>
+              <div class="li_info flex flex-grow justify-between">
+                <div>시간</div>
+                <div>금액</div>
+              </div>
+            </div>
+          </li>
+          <li class="list_item shadow-inset shadow-indigo-500 w-full">
+            문서 작성해주세요
+          </li>
+          <li class="list_item shadow-inset shadow-indigo-500 w-full">
+            사진 찍어주세요
+          </li>
         </ul>
-      </div>
-    </main>
-    <footer>내비게이션 바</footer>
+      </main>
+
+      <button class="button_request bg-blue-700 w-full h-[64px]">
+        심부름 요청하기
+      </button>
+
+      <footer
+        class="shadow-inset shadow-gray-500 h-[83px] flex items-center justify-center"
+      >
+        내비게이션 바
+      </footer>
+    </div>
   </body>
 </html>
