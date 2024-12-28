@@ -9,51 +9,317 @@
   <body>
     <div class="l_container max-w-[393px] h-screen mx-auto flex flex-col">
       <header
-        class="font-laundry shadow-inset shadow-gray-500 h-[50px] flex items-center justify-center"
+        class="font-laundry shadow-inset shadow-gray-500 h-[50px] flex items-center justify-center flex-shrink-0"
       >
         헤더
       </header>
 
       <main
-        class="shadow-inset shadow-yellow-200 flex-grow p-[16px] flex flex-col gap-[16px]"
+        class="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll"
       >
-        <div class="list_info font-pretendard shadow-inset shadow-green-800">
-          게시물 20건이 있습니다
+        <div
+          class="list_info font-laundry text-[14px] text-gray-700 flex justify-between items-center px-2"
+        >
+          <p>심부름 <span class="text-red-500">6건</span>이 있어요</p>
+
+          <div class="flex gap-4">
+            <img src="../../assets/filter.svg" />
+            <img src="../../assets/search.svg" />
+          </div>
         </div>
 
-        <ul
-          class="list shadow-inset shadow-red-300 flex flex-col items-center gap-[24px]"
-        >
+        <ul class="list flex flex-col items-center gap-[24px]">
           <li
-            class="list_item shadow-inset shadow-indigo-500 w-full h-[116px] p-[18px] flex gap-[24px]"
+            class="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center"
           >
-            <div class="li_image flex-shrink-0">이미지</div>
-            <div class="li_contents flex flex-col flex-grow">
-              <h2 class="li_title">죽 사다 주세요</h2>
-              <ul class="li_tags flex">
-                태그 목록
+            <img
+              src="../../assets/🛵 bike.svg"
+              alt="게시글 대표이미지"
+              class="flex-shrink-0 w-[40px] h-[40px]"
+            />
+
+            <div
+              class="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]"
+            >
+              <h2
+                class="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis"
+              >
+                죽과 상비약 부탁
+              </h2>
+
+              <ul class="li_tags flex gap-[8px] min-w-0 w-full overflow-scroll">
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-[#FCFFD8] font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/watch.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  시간이 생명
+                </li>
+
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-[#FFD8E0] font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/siren.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  <p class="tag_text font-pretendard text-[16px] max-w-full">
+                    도와주세요
+                  </p>
+                </li>
               </ul>
               <div class="li_info flex flex-grow justify-between">
-                <div>시간</div>
-                <div>금액</div>
+                <div class="font-pretendard text-card-timelimit">
+                  1시간 남음
+                </div>
+                <div class="font-pretendard text-card-price">15,000원</div>
               </div>
             </div>
           </li>
-          <li class="list_item shadow-inset shadow-indigo-500 w-full">
-            문서 작성해주세요
+
+          <li
+            class="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center"
+          >
+            <img
+              src="../../assets/👍🏻 thumb.svg"
+              alt="게시글 대표이미지"
+              class="flex-shrink-0 w-[40px] h-[40px]"
+            />
+
+            <div
+              class="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]"
+            >
+              <h2
+                class="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis"
+              >
+                문서 작성해주세요
+              </h2>
+              <ul class="li_tags flex gap-[8px] min-w-0 w-full overflow-scroll">
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-orange-100 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/calendar.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  일정 조정 가능
+                </li>
+
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-primary-50 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/money.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  금액 협의 가능
+                </li>
+              </ul>
+              <div class="li_info flex flex-grow justify-between">
+                <div class="font-pretendard text-card-timelimit">3일 남음</div>
+                <div class="font-pretendard text-card-price">30,000원</div>
+              </div>
+            </div>
           </li>
-          <li class="list_item shadow-inset shadow-indigo-500 w-full">
-            사진 찍어주세요
+
+          <li
+            class="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center"
+          >
+            <img
+              src="../../assets/🌟 star.svg"
+              alt="게시글 대표이미지"
+              class="flex-shrink-0 w-[40px] h-[40px]"
+            />
+
+            <div
+              class="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]"
+            >
+              <h2
+                class="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis"
+              >
+                SNS 프로필 사진 찍어주세요
+              </h2>
+              <ul class="li_tags flex gap-[8px] min-w-0 w-full overflow-scroll">
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-orange-100 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/calendar.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  일정 조정 가능
+                </li>
+              </ul>
+              <div class="li_info flex flex-grow justify-between">
+                <div class="font-pretendard text-card-timelimit">7일 남음</div>
+                <div class="font-pretendard text-card-price">20,000원</div>
+              </div>
+            </div>
+          </li>
+
+          <li
+            class="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center"
+          >
+            <img
+              src="../../assets/🧞 genie.svg"
+              alt="게시글 대표이미지"
+              class="flex-shrink-0 w-[40px] h-[40px]"
+            />
+
+            <div
+              class="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]"
+            >
+              <h2
+                class="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis"
+              >
+                티켓팅 대신 해주세요
+              </h2>
+              <ul class="li_tags flex gap-[8px] min-w-0 w-full overflow-scroll">
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-primary-50 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/money.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  금액 협의 가능
+                </li>
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-[#FFD8E0] font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/siren.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  <p class="tag_text font-pretendard text-[16px] max-w-full">
+                    도와주세요
+                  </p>
+                </li>
+              </ul>
+              <div class="li_info flex flex-grow justify-between">
+                <div class="font-pretendard text-card-timelimit">곧 마감</div>
+                <div class="font-pretendard text-card-price">30,000원</div>
+              </div>
+            </div>
+          </li>
+
+          <li
+            class="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center"
+          >
+            <img
+              src="../../assets/💕 twohearts.svg"
+              alt="게시글 대표이미지"
+              class="flex-shrink-0 w-[40px] h-[40px]"
+            />
+
+            <div
+              class="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]"
+            >
+              <h2
+                class="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis"
+              >
+                아이 돌봄 해주세요
+              </h2>
+              <ul class="li_tags flex gap-[8px] min-w-0 w-full overflow-scroll">
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-neutral-100 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/🚺️ female.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  여자만
+                </li>
+
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-neutral-100 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/adult.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  <p class="tag_text font-pretendard text-[16px] max-w-full">
+                    어른만
+                  </p>
+                </li>
+              </ul>
+              <div class="li_info flex flex-grow justify-between">
+                <div class="font-pretendard text-card-timelimit">1일 남음</div>
+                <div class="font-pretendard text-card-price">50,000원</div>
+              </div>
+            </div>
+          </li>
+
+          <li
+            class="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center"
+          >
+            <img
+              src="../../assets/💕 twohearts.svg"
+              alt="게시글 대표이미지"
+              class="flex-shrink-0 w-[40px] h-[40px]"
+            />
+
+            <div
+              class="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]"
+            >
+              <h2
+                class="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis"
+              >
+                강아지 돌봄 해주세요
+              </h2>
+              <ul class="li_tags flex gap-[8px] min-w-0 w-full overflow-scroll">
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-neutral-100 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/🚹️ male.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  남자만
+                </li>
+
+                <li
+                  class="tag flex items-center gap-[4px] px-[6px] rounded bg-neutral-100 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0"
+                >
+                  <img
+                    src="../../assets/adult.svg"
+                    alt="태그 이미지"
+                    class="tag_image w-[18px] h-[18px]"
+                  />
+                  <p class="tag_text font-pretendard text-[16px] max-w-full">
+                    어른만
+                  </p>
+                </li>
+              </ul>
+              <div class="li_info flex flex-grow justify-between">
+                <div class="font-pretendard text-card-timelimit">7일 남음</div>
+                <div class="font-pretendard text-card-price">50,000원</div>
+              </div>
+            </div>
           </li>
         </ul>
       </main>
 
-      <button class="button_request bg-blue-700 w-full h-[64px]">
-        심부름 요청하기
+      <button
+        class="button_request bg-primary-500 w-full h-[64px] rounded-t-[10px] font-laundry text-[24px] font-bold text-[#fff] flex-shrink-0"
+      >
+        새로운 심부름 요청하기
       </button>
 
       <footer
-        class="shadow-inset shadow-gray-500 h-[83px] flex items-center justify-center"
+        class="font-laundry shadow-inset shadow-gray-500 h-[83px] flex items-center justify-center flex-shrink-0"
       >
         내비게이션 바
       </footer>
