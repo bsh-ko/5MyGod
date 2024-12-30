@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail</title>
+    <link href="../../../dist/index.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="l_container max-w-[393px] h-screen mx-auto flex flex-col">
+      <header
+        class="font-laundry shadow-inset shadow-gray-500 h-[50px] flex items-center justify-center flex-shrink-0"
+      >
+        헤더
+      </header>
+
+      <main
+        class="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll"
+      >
+        <div class="post bg-[#fff] p-[22px] rounded-lg shadow-card-shadow">
+          <div
+            class="post_header border-b-[1px] border-gray-400 pb-[20px] flex flex-col gap-[20px]"
+          >
+            <div
+              class="post_title font-laundry text-detail-title break-all flex gap-[12px] items-center"
+            >
+              <!-- <img src="../../assets/🌟 star.svg" /> -->
+              <h1>제목입니다 제목입니다</h1>
+            </div>
+
+            <div
+              class="profile_card flex gap-[12px] items-center text-small-text"
+            >
+              <img
+                src="../../assets/🧞 genie.svg"
+                class="profile_image rounded-full w-[36px] h-[36px] border-[1px] bg-gray-100 shrink-0"
+              />
+              <div class="flex-grow">닉네임입니다 닉네임입니다</div>
+              <img
+                class="gender w-[28px] h-[28px]"
+                src="../../assets/🚹️ male.svg"
+              />
+              <div class="like_number shrink-0 flex gap-[2px] items-center">
+                <img
+                  src="../../assets/👍🏻 thumb.svg"
+                  class="w-[24px] h-[24px]"
+                />
+                16
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="post_body py-[20px] flex flex-col gap-[16px] font-pretendard text-regular-text"
+          >
+            <div class="post_detail">
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi,
+                atque tempore impedit fuga esse voluptas. Omnis reiciendis,
+                accusantium amet suscipit laudantium perspiciatis eos saepe!
+                Saepe tenetur itaque aliquid nihil totam!
+              </p>
+            </div>
+            <div class="post_info flex flex-col gap-[12px]">
+              <div class="post_time flex gap-[8px] items-center">
+                <img
+                  src="../../assets/redwatch.svg"
+                  class="w-[20px] h-[20px]"
+                />
+                <p>
+                  <span class="">12월 31일</span>
+                  <span class="text-primary-500">19:00</span> 까지
+                </p>
+              </div>
+
+              <div class="post_price flex gap-[8px] items-center">
+                <img src="../../assets/money.svg" class="w-[20px] h-[20px]" />
+                <p>20,000 원</p>
+              </div>
+
+              <div class="post_location flex flex-col gap-[16px]">
+                <div class="flex items-center gap-[8px]">
+                  <img src="../../assets/pin.svg" class="w-[20px] h-[20px]" />
+                  <p class="flex-grow">위치</p>
+                </div>
+                <div
+                  class="post_map w-full h-[150px] bg-gray-400 rounded-md"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="comments bg-[#fff] p-[22px] rounded-lg shadow-card-shadow flex flex-col gap-[20px]"
+        >
+          <h2 class="font-laundry text-[16px] text-gray-700">댓글 목록</h2>
+
+          <ul class="list flex flex-col items-center gap-[24px]">
+            <li
+              class="list_item w-full min-h-[100px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[16px] flex flex-col gap-[12px]"
+            >
+              <div
+                class="comment_profile_card flex gap-[12px] items-center text-small-text flex-shrink-0"
+              >
+                <img
+                  src="../../assets/🧞 genie.svg"
+                  class="profile_image rounded-full w-[36px] h-[36px] border-[1px] bg-gray-100 shrink-0"
+                />
+                <div class="flex-grow">닉네임입니다 닉네임입니다</div>
+              </div>
+              <div class="comment_content font-pretendard text-small-text">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit
+                placeat, modi maxime assumenda pariatur porro quas sapiente
+                commodi quasi eligendi, molestiae quam doloremque. Nemo nam qui
+                eius facere fugiat delectus?
+              </div>
+            </li>
+
+            <li
+              class="list_item w-full min-h-[100px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[16px] flex flex-col gap-[12px]"
+            >
+              <div
+                class="comment_profile_card flex gap-[12px] items-center text-small-text flex-shrink-0"
+              >
+                <img
+                  src="../../assets/🧞 genie.svg"
+                  class="profile_image rounded-full w-[36px] h-[36px] border-[1px] bg-gray-100 shrink-0"
+                />
+                <div class="flex-grow">닉네임입니다 닉네임입니다</div>
+              </div>
+              <div class="comment_content font-pretendard text-small-text">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit
+                placeat, modi maxime assumenda pariatur porro quas sapiente
+                commodi quasi eligendi, molestiae quam doloremque. Nemo nam qui
+                eius facere fugiat delectus?
+              </div>
+            </li>
+          </ul>
+
+          <form class="comment-form flex gap-[12px] items-center">
+            <input
+              type="text"
+              placeholder="댓글을 입력하세요"
+              class="comment-input flex-grow border border-gray-400 rounded-lg p-[10px] text-regular-text"
+            />
+            <button
+              type="submit"
+              class="submit-btn bg-primary-500 text-white rounded-lg p-[10px] font-bold font-laundry min-w-[48px] flex-shrink-0"
+            >
+              제출
+            </button>
+          </form>
+        </div>
+      </main>
+
+      <button
+        class="button_request bg-complementary-300 w-full h-[64px] rounded-t-[10px] font-laundry text-[24px] font-bold text-primary-500 flex-shrink-0"
+      >
+        지원하기
+      </button>
+
+      <footer
+        class="font-laundry shadow-inset shadow-gray-500 h-[83px] flex items-center justify-center flex-shrink-0"
+      >
+        내비게이션 바
+      </footer>
+    </div>
+  </body>
+</html>
