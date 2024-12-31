@@ -3,10 +3,6 @@ export default {
   content: ["./src/**/*.{js,jsx,html}"],
   theme: {
     extend: {
-      fontFamily: {
-        pretendard: ['Pretendard', 'sans-serif'],// Pretendard 폰트 추가
-        laundry: ['LaundryGothic', 'sans-serif'], //LaundryGothic 폰트 추가
-      },
       boxShadow: {
         // 레이아웃 짤 때 경계선 보기 위해 사용. shadow-inset 으로 사용
         inset: "inset 0 0 10px",
