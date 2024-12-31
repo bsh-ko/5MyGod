@@ -5,6 +5,7 @@ ListItem.propTypes = {
   item: PropTypes.shape({
     _id: PropTypes.number.isRequired,
     name: PropTypes.string,
+    price: PropTypes.number.isRequired,
     user: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }),
@@ -69,7 +70,7 @@ export default function ListItem({ item }) {
 
         <div className="li_info flex flex-grow justify-between">
           <div className="font-pretendard text-card-timelimit">1시간 남음</div>
-          <div className="font-pretendard text-card-price">15,000원</div>
+          <div className="font-pretendard text-card-price">{item.price}</div>
         </div>
       </div>
     </li>
