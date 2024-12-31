@@ -1116,7 +1116,7 @@ export const initData = async (clientId, nextSeq) => {
             depth: 1,
           },
           {
-            code: "TA07", // 5번 대분류
+            code: "TA07", // 7번 대분류
             value: "어른만",
             depth: 1,
           },
