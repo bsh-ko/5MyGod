@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "bruno-onyourway",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
