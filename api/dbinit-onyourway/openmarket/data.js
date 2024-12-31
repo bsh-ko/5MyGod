@@ -91,6 +91,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           category: ["PC01"],
           tags: ["TA01", "TA02"],
+          due: "2025.01.03 18:00:00",
         },
       },
       // {
