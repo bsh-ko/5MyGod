@@ -91,6 +91,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           category: ["PC01"],
           tags: ["TA01", "TA02"],
+          due: "2025.01.03 18:00:00",
         },
       },
       // {
@@ -1040,27 +1041,27 @@ export const initData = async (clientId, nextSeq) => {
         title: "심부름 카테고리",
         codes: [
           {
-            code: "CA01", // 1번 대분류
+            code: "PC01", // 1번 대분류
             value: "배달",
             depth: 1, // 대메뉴
           },
           {
-            code: "CA02", // 2번 대분류
+            code: "PC02", // 2번 대분류
             value: "전문가",
             depth: 1,
           },
           {
-            code: "CA03", // 3번 대분류
+            code: "PC03", // 3번 대분류
             value: "재능판매",
             depth: 1,
           },
           {
-            code: "CA04", // 4번 대분류
+            code: "PC04", // 4번 대분류
             value: "대행",
             depth: 1,
           },
           {
-            code: "CA05", // 5번 대분류
+            code: "PC05", // 5번 대분류
             value: "돌봄",
             depth: 1,
           },

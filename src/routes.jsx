@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
 
 const Layout = lazy(() => import("@components/layout"));
-const MainPage = lazy(() => import("@pages/MainPage"));
+const MainPage = lazy(() => import("@pages/board/MainPage"));
 
 const router = createBrowserRouter(
   [
