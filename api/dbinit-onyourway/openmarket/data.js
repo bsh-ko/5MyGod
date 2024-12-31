@@ -94,6 +94,126 @@ export const initData = async (clientId, nextSeq) => {
           due: "2025.01.03 18:00:00",
         },
       },
+      {
+        _id: await nextSeq("product"),
+        seller_id: 2,
+        price: 30000,
+
+        show: true,
+        active: true,
+        name: "문서 작성해주세요",
+        quantity: 1,
+        buyQuantity: 0,
+
+        content: `
+          <div class="product-detail">
+            <p>전문 문서 작성 도와주세요</p>
+          </div>
+          `,
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC02"],
+          tags: ["TA03", "TA04"],
+          due: "2025.01.02 18:00:00",
+        },
+      },
+      {
+        _id: await nextSeq("product"),
+        seller_id: 2,
+        price: 20000,
+
+        show: true,
+        active: true,
+        name: "SNS 프로필 사진 찍어주세요",
+        quantity: 1,
+        buyQuantity: 0,
+
+        content: `
+          <div class="product-detail">
+            <p>프로필 사진 가볍게 찍어주세요</p>
+          </div>
+          `,
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC03"],
+          tags: ["TA03"],
+          due: "2025.01.02 18:00:00",
+        },
+      },
+      {
+        _id: await nextSeq("product"),
+        seller_id: 2,
+        price: 20000,
+
+        show: true,
+        active: true,
+        name: "티켓팅 대신 해주세요",
+        quantity: 1,
+        buyQuantity: 0,
+
+        content: `
+          <div class="product-detail">
+            <p>오굿굿 콘서트 꼭 가고 싶어요</p>
+          </div>
+          `,
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC04"],
+          tags: ["TA02", "TA04"],
+          due: "2025.01.02 20:00:00",
+        },
+      },
+      {
+        _id: await nextSeq("product"),
+        seller_id: 2,
+        price: 20000,
+
+        show: true,
+        active: true,
+        name: "아이 돌봄 해주세요",
+        quantity: 1,
+        buyQuantity: 0,
+
+        content: `
+          <div class="product-detail">
+            <p>저희 집 꼬맹이 잠깐 돌봐주세요</p>
+          </div>
+          `,
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC05"],
+          tags: ["TA06", "TA07"],
+          due: "2025.01.04 18:00:00",
+        },
+      },
+      {
+        _id: await nextSeq("product"),
+        seller_id: 2,
+        price: 20000,
+
+        show: true,
+        active: true,
+        name: "강아지 돌봄 해주세요",
+        quantity: 1,
+        buyQuantity: 0,
+
+        content: `
+          <div class="product-detail">
+            <p>저희 집 멍멍이 잠깐 돌봐주세요</p>
+          </div>
+          `,
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC05"],
+          tags: ["TA05", "TA07"],
+          due: "2025.01.05 18:00:00",
+        },
+      },
       // {
       //   _id: await nextSeq("product"),
       //   seller_id: 2,
