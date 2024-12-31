@@ -1,5 +1,6 @@
 import TagList from "@pages/board/TagList";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 ListItem.propTypes = {
   item: PropTypes.shape({
@@ -13,9 +14,39 @@ ListItem.propTypes = {
     extra: PropTypes.shape({
       category: PropTypes.arrayOf(PropTypes.string).isRequired, // category는 문자열 배열로 전달되어야 함
       tags: PropTypes.arrayOf(PropTypes.string), // tag도 문자열 배열로 전달되어야 함
+      due: PropTypes.string.isRequired,
     }),
   }),
 };
+
+// 남은 시간 계산하는 헬퍼 함수
+function calculateRemainingTime(due) {
+  const now = moment(); // 현재 시각
+  const dueTime = moment(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 moment 객체로 변환
+  const diff = dueTime.diff(now); // 남은 시간 (밀리초 단위)
+
+  if (diff <= 0) {
+    return "마감";
+  }
+
+  // 남은 시간 계산
+  const duration = moment.duration(diff); // moment의 duration 사용
+  const days = Math.floor(duration.asDays()); // 남은 일수
+  const hours = duration.hours(); // 남은 시간
+  const minutes = duration.minutes(); // 남은 분
+
+  // 남은 시간에 따라 다른 텍스트 반환
+  if (days > 0) {
+    // 1일 이상 남았을 때
+    return `${days}일 남음`;
+  } else if (hours > 0) {
+    // 1일 미만, 시간 단위로 남았을 때
+    return `${hours}시간 남음`;
+  } else if (minutes > 0) {
+    // 1시간 미만으로 남았을 때
+    return "곧 마감";
+  }
+}
 
 export default function ListItem({ item }) {
   // category에 따라 이미지 경로 매핑
@@ -30,6 +61,9 @@ export default function ListItem({ item }) {
   // category의 첫번째 값을 기반으로 이미지 경로 설정
   const categoryImage =
     categoryImages[item.extra?.category[0]] || "/assets/check.svg"; // category 설정이 안 된 경우 기본 이미지로 체크이미지 표시
+
+  // 남은 시간
+  const remainingTime = calculateRemainingTime(item.extra?.due);
 
   return (
     <li className="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center">
@@ -69,8 +103,10 @@ export default function ListItem({ item }) {
         <TagList tags={item.extra?.tags} />
 
         <div className="li_info flex flex-grow justify-between">
-          <div className="font-pretendard text-card-timelimit">1시간 남음</div>
-          <div className="font-pretendard text-card-price">{item.price}</div>
+          <div className="font-pretendard text-card-timelimit">
+            {remainingTime}
+          </div>
+          <div className="font-pretendard text-card-price">{item.price} 원</div>
         </div>
       </div>
     </li>
