@@ -1,4 +1,3 @@
-// import InputError from "@components/InputError";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -15,7 +14,7 @@ export default function Signup() {
   const axios = useAxiosInstance();
   const addUser = useMutation({
     mutationFn: async (userInfo) => {
-      userInfo.type = "user";
+      userInfo.type = "seller";
       console.log(userInfo);
       return axios.post(`/users`, userInfo);
     },
