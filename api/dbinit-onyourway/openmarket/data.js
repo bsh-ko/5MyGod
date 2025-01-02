@@ -24,6 +24,10 @@ export const initData = async (clientId, nextSeq) => {
         image: `/files/${clientId}/user-muzi.webp`,
         createdAt: getTime(-100, -60 * 60 * 3),
         updatedAt: getTime(-100, -60 * 60 * 3),
+        extra: {
+          gender: "male",
+          likes: 120,
+        },
       },
       {
         _id: await nextSeq("user"),
@@ -38,6 +42,10 @@ export const initData = async (clientId, nextSeq) => {
         image: `/files/${clientId}/user-neo.webp`,
         createdAt: getTime(-50),
         updatedAt: getTime(-30, -60 * 60 * 3),
+        extra: {
+          gender: "male",
+          likes: 54,
+        },
       },
       {
         _id: await nextSeq("user"),
@@ -52,6 +60,10 @@ export const initData = async (clientId, nextSeq) => {
         image: `/files/${clientId}/user-apeach.webp`,
         createdAt: getTime(-40, -60 * 30),
         updatedAt: getTime(-30, -60 * 20),
+        extra: {
+          gender: "female",
+          likes: 200,
+        },
       },
       {
         _id: await nextSeq("user"),
@@ -66,6 +78,10 @@ export const initData = async (clientId, nextSeq) => {
         image: `/files/${clientId}/user-jayg.webp`,
         createdAt: getTime(-20, -60 * 30),
         updatedAt: getTime(-10, -60 * 60 * 12),
+        extra: {
+          gender: "female",
+          likes: 9,
+        },
       },
     ],
     // 상품 (심부름 요청 글)
