@@ -97,11 +97,7 @@ export const initData = async (clientId, nextSeq) => {
         quantity: 1,
         buyQuantity: 0,
 
-        content: `
-          <div class="product-detail">
-            <p>죽과 상비약 사다 주세요</p>
-          </div>
-          `,
+        content: "죽과 상비약 사다 주세요",
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
@@ -121,11 +117,7 @@ export const initData = async (clientId, nextSeq) => {
         quantity: 1,
         buyQuantity: 0,
 
-        content: `
-          <div class="product-detail">
-            <p>전문 문서 작성 도와주세요</p>
-          </div>
-          `,
+        content: "전문 문서 작성 도와주세요",
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
@@ -145,11 +137,7 @@ export const initData = async (clientId, nextSeq) => {
         quantity: 1,
         buyQuantity: 0,
 
-        content: `
-          <div class="product-detail">
-            <p>프로필 사진 가볍게 찍어주세요</p>
-          </div>
-          `,
+        content: "프로필 사진 바꾸고 싶은데 가볍게 찍어주세요",
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
@@ -169,11 +157,7 @@ export const initData = async (clientId, nextSeq) => {
         quantity: 1,
         buyQuantity: 0,
 
-        content: `
-          <div class="product-detail">
-            <p>오굿굿 콘서트 꼭 가고 싶어요</p>
-          </div>
-          `,
+        content: "오굿굿 콘서트 꼭 가고 싶은데 티켓팅 대신 해주세요",
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
@@ -193,11 +177,7 @@ export const initData = async (clientId, nextSeq) => {
         quantity: 1,
         buyQuantity: 0,
 
-        content: `
-          <div class="product-detail">
-            <p>저희 집 꼬맹이 잠깐 돌봐주세요</p>
-          </div>
-          `,
+        content: "저희 집 꼬맹이 두 시간만 봐주세요",
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
@@ -217,11 +197,7 @@ export const initData = async (clientId, nextSeq) => {
         quantity: 1,
         buyQuantity: 0,
 
-        content: `
-          <div class="product-detail">
-            <p>저희 집 멍멍이 잠깐 돌봐주세요</p>
-          </div>
-          `,
+        content: "저희 집 멍멍이 두 시간만 봐주세요",
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
