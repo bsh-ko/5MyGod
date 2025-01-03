@@ -9,24 +9,32 @@
     <title>지원자 목록</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="../../../dist/index.css" rel="stylesheet" />
-    </style>
   </head>
-  <body class="flex justify-center items-center h-screen bg-[#F5F9FF]">
+  <body class="flex justify-center items-center bg-[#F5F9FF]">
     <div
-      class="w-[393px] h-screen flex flex-col bg-white shadow-lg overflow-hidden"
+      class="w-[393px] min-h-[852px] max-h-screen flex flex-col bg-white shadow-lg overflow-hidden"
     >
       <!-- ✅ 헤더 -->
-    <header class="flex items-center p-4 bg-[#F5F9FF] sticky top-0 z-10">
-      <button class="w-4 h-4 flex-shrink-0 stroke-[2.5] text-[#1E1E1E] flex items-center justify-center mr-[2px]">
-        <img src="/5MyGod/src/assets/Rectangle 470.svg" class="w-full h-full object-contain" />
-      </button>
-      <h1 class="font-laundry text-[24px] font-normal leading-normal tracking-[-1.92px]">
-        지원자들
-      </h1>
-    </header>
+      <header class="flex items-center p-4 bg-[#F5F9FF] sticky top-0 z-10">
+        <button
+          class="w-4 h-4 flex-shrink-0 stroke-[2.5] text-[#1E1E1E] flex items-center justify-center mr-[2px]"
+        >
+          <img
+            src="/5MyGod/src/assets/Rectangle 470.svg"
+            class="w-full h-full object-contain"
+          />
+        </button>
+        <h1
+          class="font-laundry text-[24px] font-normal leading-normal tracking-[-1.92px]"
+        >
+          지원자들
+        </h1>
+      </header>
 
       <!-- ✅ 지원자 목록 -->
-      <main class="font-Pretendard text-gray-black-900 flex-1 p-4 space-y-6 overflow-y-auto bg-[#F5F9FF]">
+      <main
+        class="font-Pretendard text-gray-black-900 flex-1 p-4 space-y-6 overflow-y-auto bg-[#F5F9FF]"
+      >
         <!-- 지원자 카드 1 -->
         <div
           class="w-[360px] h-[84px] flex-shrink-0 flex items-center justify-between bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.30)]"
@@ -41,7 +49,7 @@
             </div>
           </div>
           <button
-            class="font-laundry w-[77px] h-[84px] flex-shrink-0 rounded-r-[10px] bg-[#4849E8] text-white text-sm shadow-[0px_1px_2px_0px_rgba(0,0,0,0.30)]]"
+            class="font-laundry w-[77px] h-[84px] flex-shrink-0 rounded-r-[10px] bg-[#4849E8] text-white text-sm shadow-[0px_1px_2px_0px_rgba(0,0,0,0.30)]"
           >
             수락하기
           </button>
