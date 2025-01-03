@@ -131,7 +131,7 @@ export default function Signup() {
                 <div className="flex space-x-4">
                   <button
                     type="button"
-                    className={`px-4 py-2 rounded ${
+                    className={`w-full px-4 py-2 rounded ${
                       gender === "male" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
                     }`}
                     onClick={() => setGender("male")}
@@ -140,7 +140,7 @@ export default function Signup() {
                   </button>
                   <button
                     type="button"
-                    className={`px-4 py-2 rounded ${
+                    className={`w-full px-4 py-2 rounded ${
                       gender === "female" ? "bg-pink-500 text-white" : "bg-gray-200 text-gray-700"
                     }`}
                     onClick={() => setGender("female")}
