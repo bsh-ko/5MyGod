@@ -147,7 +147,7 @@ export default function Detail() {
                 ) : (
                   <>
                     <div className="message_nomap flex justify-center   rounded-lg p-[8px] text-gray-700">
-                      픽업이 필요 없어요.
+                      픽업이 필요 없어요
                     </div>
                   </>
                 )}
@@ -189,7 +189,7 @@ export default function Detail() {
                   </>
                 ) : (
                   <div className="message_nomap flex justify-center rounded-lg p-[8px] text-gray-700">
-                    도착 위치 정보가 없어요.
+                    도착 위치 정보가 없어요
                   </div>
                 )}
               </div>
