@@ -13,6 +13,7 @@ export default function Signup() {
     handleSubmit,
     formState: { errors },
     setError,
+    watch,
   } = useForm();
 
   const addUser = useMutation({
@@ -79,21 +80,27 @@ export default function Signup() {
                 <input
                   type="password"
                   id="confirmPassword"
-                  {...register("confirmPassword", { required: "비밀번호를 확인해주세요." })}
+                  {...register("confirmPassword", {
+                    required: "비밀번호를 확인해주세요.",
+                    validate: (value) => value === watch("password") || "비밀번호가 일치하지 않습니다.",
+                  })}
                   placeholder="비밀번호를 확인하세요"
                   className="mt-1 block w-full p-3 border text-gray-700 border-gray-300 rounded-[10px] bg-white shadow-card-shadow"
                 />
                 {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword.message}</p>}
               </div>
 
-              {/* 이름 */}
+              {/* 닉네임 */}
               <div>
-                <label htmlFor="name">이름</label>
+                <label htmlFor="name">닉네임</label>
                 <input
                   type="name"
                   id="name"
-                  {...register("name", { required: "이름을 입력해주세요." })}
-                  placeholder="이름을 입력하세요"
+                  {...register("name", {
+                    required: "닉네임을 입력해주세요.",
+                    maxLength: { value: 9, message: "9자 이하로 입력해주세요." },
+                  })}
+                  placeholder="닉네임을 입력하세요"
                   className="mt-1 block w-full p-3 border text-gray-700 border-gray-300 rounded-[10px] bg-white shadow-card-shadow"
                 />
                 {errors.confirmPassword && <p className="text-red-500">{errors.name.message}</p>}
