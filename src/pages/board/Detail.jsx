@@ -115,7 +115,7 @@ export default function Detail() {
                 <p className="flex-grow">픽업 위치</p>
               </div>
 
-              <div className="post_map w-full rounded-lg shadow-card-shadow p-[12px] pb-[4px] border-[1px]">
+              <div className="post_map w-full rounded-lg shadow-card-shadow p-[12px] border-[1px]">
                 {pickupLocation?.coordinates ? (
                   <>
                     {pickupLocation?.coordinates && (
@@ -146,7 +146,7 @@ export default function Detail() {
                   </>
                 ) : (
                   <>
-                    <div className="message_nomap flex justify-center  bg-neutral-100 rounded-lg p-[8px] text-gray-700">
+                    <div className="message_nomap flex justify-center   rounded-lg p-[8px] text-gray-700">
                       픽업이 필요 없어요.
                     </div>
                   </>
@@ -159,7 +159,7 @@ export default function Detail() {
                 <p className="flex-grow">도착 위치</p>
               </div>
 
-              <div className="post_map w-full rounded-lg shadow-card-shadow p-[12px] pb-[4px] border-[1px]">
+              <div className="post_map w-full rounded-lg shadow-card-shadow p-[12px] border-[1px]">
                 {arrivalLocation?.coordinates ? (
                   <>
                     {arrivalLocation?.coordinates && (
@@ -188,7 +188,7 @@ export default function Detail() {
                     </div>
                   </>
                 ) : (
-                  <div className="message_nomap flex justify-center  bg-neutral-100 rounded-lg p-[8px] text-gray-700">
+                  <div className="message_nomap flex justify-center rounded-lg p-[8px] text-gray-700">
                     도착 위치 정보가 없어요.
                   </div>
                 )}
