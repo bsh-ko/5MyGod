@@ -2,21 +2,27 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import useGenderStore from "@zustand/userGenderStore";
 
 export default function Signup() {
   const navigate = useNavigate();
+  const axios = useAxiosInstance();
+  const { gender, setGender } = useGenderStore();
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
   } = useForm();
-  const axios = useAxiosInstance();
+
   const addUser = useMutation({
     mutationFn: async (userInfo) => {
       userInfo.type = "seller";
-      console.log(userInfo);
-      return axios.post(`/users`, userInfo);
+      userInfo.extra = { gender };
+      // confirmPassword를 userInfo에서 제거하는 코드
+      const { confirmPassword, ...userInfoWithoutConfirmPW } = userInfo;
+      console.log(userInfoWithoutConfirmPW); //제거 확인
+      return axios.post(`/users`, userInfoWithoutConfirmPW);
     },
     onSuccess: () => {
       alert("회원가입 완료");
@@ -34,7 +40,7 @@ export default function Signup() {
 
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100">
-      <div className="signup w-screen max-w-[393px] h-screen bg-background-color font-laundry">
+      <div className="signup w-screen max-w-[393px]  bg-background-color font-laundry">
         <div className="signup__content p-6 pt-[50px] flex flex-col items-center justify-center">
           <h1 className="signup__title text-[36px] font-bold text-primary-500 leading-normal tracking-[-2.88px] text-center">
             오는길에
@@ -117,6 +123,32 @@ export default function Signup() {
                   className="mt-1 block w-full p-3 border text-gray-700 border-gray-300 rounded-[10px] bg-white shadow-card-shadow"
                 />
                 {errors.address && <p className="text-red-500">{errors.address.message}</p>}
+              </div>
+
+              {/* 성별 선택 */}
+              <div>
+                <label htmlFor="gender">성별</label>
+                <div className="flex space-x-4">
+                  <button
+                    type="button"
+                    className={`px-4 py-2 rounded ${
+                      gender === "male" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+                    }`}
+                    onClick={() => setGender("male")}
+                  >
+                    남성
+                  </button>
+                  <button
+                    type="button"
+                    className={`px-4 py-2 rounded ${
+                      gender === "female" ? "bg-pink-500 text-white" : "bg-gray-200 text-gray-700"
+                    }`}
+                    onClick={() => setGender("female")}
+                  >
+                    여성
+                  </button>
+                </div>
+                {!gender && <p className="text-red-500 mt-2">성별을 선택해주세요.</p>}
               </div>
 
               {/* 회원가입 버튼 */}
