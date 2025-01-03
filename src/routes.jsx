@@ -6,7 +6,6 @@ const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
 const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
-const MyPage = lazy(() => import("@pages/user/Mypage"));
 
 const router = createBrowserRouter(
   [
@@ -23,7 +22,6 @@ const router = createBrowserRouter(
         // { path: ":type/:_id/edit", element: <Edit /> },
         { path: "users/signup", element: <Signup /> },
         { path: "users/login", element: <Login /> },
-        { path: "users/profile", element: <MyPage /> },
       ],
     },
   ],
