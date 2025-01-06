@@ -1,8 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
+import Detail from "@pages/board/Detail";
 
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
+const Login = lazy(() => import("@pages/user/Login"));
+const Signup = lazy(() => import("@pages/user/Signup"));
 
 const router = createBrowserRouter(
   [
@@ -12,12 +15,13 @@ const router = createBrowserRouter(
       // errorElement: <ErrorPage />,
       children: [
         { index: true, element: <MainPage /> },
+        { path: "products/:_id", element: <Detail /> },
         // { path: ":type", element: <List /> },
         // { path: ":type/new", element: <New /> },
         // { path: ":type/:_id", element: <Detail /> },
         // { path: ":type/:_id/edit", element: <Edit /> },
-        // { path: "users/signup", element: <Signup /> },
-        // { path: "users/login", element: <Login /> },
+        { path: "users/signup", element: <Signup /> },
+        { path: "users/login", element: <Login /> },
       ],
     },
   ],
