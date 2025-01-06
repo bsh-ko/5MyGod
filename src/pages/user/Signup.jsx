@@ -34,7 +34,7 @@ export default function Signup() {
       if (err.response?.data.errors) {
         err.response?.data.errors.forEach((error) => setError(error.path, { message: error.msg }));
       } else {
-        alert(err.response?.data.message || "잠시후 다시 요청하세요.");
+        alert(err.response?.data.message || "잠시 후 다시 요청해주세요.");
       }
     },
   });
