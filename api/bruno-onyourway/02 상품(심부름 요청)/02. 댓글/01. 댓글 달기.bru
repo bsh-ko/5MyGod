@@ -6,6 +6,21 @@ meta {
 
 post {
   url: {{url}}/replies/
-  body: none
-  auth: none
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+  "order_id": 1,
+  "product_id": 2,
+  "content": "안녕안녕",
+  "extra": {
+  "createdAt":""
+  }
+  }
 }
