@@ -1,9 +1,9 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 function getTime(day = 0, second = 0) {
-  return moment()
-    .add(day, "days")
-    .add(second, "seconds")
+  return dayjs()
+    .add(day, "day")
+    .add(second, "second")
     .format("YYYY.MM.DD HH:mm:ss");
 }
 

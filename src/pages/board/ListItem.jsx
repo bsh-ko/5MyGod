@@ -1,6 +1,6 @@
 import TagList from "@pages/board/TagList";
 import PropTypes from "prop-types";
-import moment from "moment";
+import dayjs from "dayjs";
 
 ListItem.propTypes = {
   item: PropTypes.shape({
@@ -20,30 +20,54 @@ ListItem.propTypes = {
 };
 
 // 남은 시간 계산하는 헬퍼 함수
+// function calculateRemainingTime(due) {
+//   const now = moment(); // 현재 시각
+//   const dueTime = moment(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 moment 객체로 변환
+//   const diff = dueTime.diff(now); // 남은 시간 (밀리초 단위)
+
+//   if (diff <= 0) {
+//     return "마감";
+//   }
+
+//   // 남은 시간 계산
+//   const duration = moment.duration(diff); // moment의 duration 사용
+//   const days = Math.floor(duration.asDays()); // 남은 일수
+//   const hours = duration.hours(); // 남은 시간
+//   const minutes = duration.minutes(); // 남은 분
+
+//   // 남은 시간에 따라 다른 텍스트 반환
+//   if (days > 0) {
+//     // 1일 이상 남았을 때
+//     return `${days}일 남음`;
+//   } else if (hours > 0) {
+//     // 1일 미만, 시간 단위로 남았을 때
+//     return `${hours}시간 남음`;
+//   } else if (minutes > 0) {
+//     // 1시간 미만으로 남았을 때
+//     return "곧 마감";
+//   }
+// }
 function calculateRemainingTime(due) {
-  const now = moment(); // 현재 시각
-  const dueTime = moment(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 moment 객체로 변환
-  const diff = dueTime.diff(now); // 남은 시간 (밀리초 단위)
+  const now = dayjs(); // 현재 시각
+  const dueTime = dayjs(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 dayjs 객체로 변환
+  const diff = dueTime.diff(now, "millisecond"); // 남은 시간 (밀리초 단위)
 
   if (diff <= 0) {
     return "마감";
   }
 
   // 남은 시간 계산
-  const duration = moment.duration(diff); // moment의 duration 사용
-  const days = Math.floor(duration.asDays()); // 남은 일수
-  const hours = duration.hours(); // 남은 시간
-  const minutes = duration.minutes(); // 남은 분
+  const duration = {
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)), // 남은 일수
+    hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), // 남은 시간
+    minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)), // 남은 분
+  };
 
-  // 남은 시간에 따라 다른 텍스트 반환
-  if (days > 0) {
-    // 1일 이상 남았을 때
-    return `${days}일 남음`;
-  } else if (hours > 0) {
-    // 1일 미만, 시간 단위로 남았을 때
-    return `${hours}시간 남음`;
-  } else if (minutes > 0) {
-    // 1시간 미만으로 남았을 때
+  if (duration.days > 0) {
+    return `${duration.days}일 남음`;
+  } else if (duration.hours > 0) {
+    return `${duration.hours}시간 남음`;
+  } else if (duration.minutes > 0) {
     return "곧 마감";
   }
 }
