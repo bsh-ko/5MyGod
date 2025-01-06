@@ -13,6 +13,23 @@ export const initData = async (clientId, nextSeq) => {
     user: [
       {
         _id: await nextSeq("user"),
+        email: "test@market.com",
+        password: "12345678",
+        name: "테스트",
+        phone: "01012345678",
+        address: "서울시 강남구 역삼동 456",
+        type: "admin",
+        loginType: "email",
+        image: `/files/${clientId}/user-muzi.webp`,
+        createdAt: getTime(-100, -60 * 60 * 3),
+        updatedAt: getTime(-100, -60 * 60 * 3),
+        extra: {
+          gender: "male",
+          likes: 999,
+        },
+      },
+      {
+        _id: await nextSeq("user"),
         email: "admin@market.com",
         password:
           "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
