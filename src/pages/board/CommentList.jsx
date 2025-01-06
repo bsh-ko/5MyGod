@@ -21,9 +21,7 @@ export default function CommentList() {
     return <div>댓글 로드 중...</div>;
   }
 
-  const commentList = data.item.map((item) => (
-    <CommentListItem key={item._id} item={item} />
-  ));
+  const hasReplies = data.item && data.item.length > 0;
 
   return (
     <>
@@ -31,7 +29,15 @@ export default function CommentList() {
         <h2 className="font-laundry text-[16px] text-gray-700">댓글 목록</h2>
 
         <ul className="list flex flex-col items-center gap-[24px]">
-          {commentList}
+          {hasReplies ? (
+            data.item.map((item) => (
+              <CommentListItem key={item._id} item={item} />
+            ))
+          ) : (
+            <div className="font-laundry text-input-title text-gray-400">
+              아직 댓글이 없어요
+            </div>
+          )}
         </ul>
       </div>
 
