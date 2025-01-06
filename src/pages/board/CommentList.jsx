@@ -30,10 +30,12 @@ export default function CommentList() {
 
         <ul className="list flex flex-col items-center gap-[24px]">
           {hasReplies ? (
+            // 댓글이 있을 때
             data.item.map((item) => (
               <CommentListItem key={item._id} item={item} />
             ))
           ) : (
+            // 댓글이 없을 때
             <div className="font-laundry text-input-title text-gray-400">
               아직 댓글이 없어요
             </div>
