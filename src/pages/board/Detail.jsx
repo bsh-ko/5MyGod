@@ -1,5 +1,6 @@
 import LocationMap from "@components/LocationMap";
 import useAxiosInstance from "@hooks/useAxiosInstance";
+import CommentList from "@pages/board/CommentList";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
@@ -65,7 +66,7 @@ export default function Detail() {
           <div className="profile_card flex gap-[12px] items-center text-small-text">
             <img
               src={`https://11.fesp.shop${data.item.seller.image}`}
-              className="profile_image rounded-full w-[36px] h-[36px] border-[1px] bg-gray-100 bg-cover bg-center shrink-0"
+              className="profile_image rounded-full w-[36px] h-[36px] border-primary-50 border-[1px] bg-cover bg-center shrink-0"
             />
 
             <div className="nickname">{data.item.seller.name}</div>
@@ -198,58 +199,7 @@ export default function Detail() {
         </div>
       </div>
 
-      {/* 댓글 목록 */}
-      <div className="comments bg-[#fff] p-[22px] rounded-lg shadow-card-shadow flex flex-col gap-[20px]">
-        <h2 className="font-laundry text-[16px] text-gray-700">댓글 목록</h2>
-
-        <ul className="list flex flex-col items-center gap-[24px]">
-          <li className="list_item w-full min-h-[100px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[16px] flex flex-col gap-[12px]">
-            <div className="comment_profile_card flex gap-[12px] items-center text-small-text flex-shrink-0">
-              <img
-                src="/assets/genie.png"
-                className="profile_image rounded-full w-[36px] h-[36px] border-[1px] bg-gray-100 shrink-0"
-              />
-              <div className="flex-grow">닉네임입니다 닉네임입니다</div>
-            </div>
-            <div className="comment_content font-pretendard text-small-text">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit
-              placeat, modi maxime assumenda pariatur porro quas sapiente
-              commodi quasi eligendi, molestiae quam doloremque. Nemo nam qui
-              eius facere fugiat delectus?
-            </div>
-          </li>
-
-          <li className="list_item w-full min-h-[100px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[16px] flex flex-col gap-[12px]">
-            <div className="comment_profile_card flex gap-[12px] items-center text-small-text flex-shrink-0">
-              <img
-                src="/assets/genie.png"
-                className="profile_image rounded-full w-[36px] h-[36px] border-[1px] bg-gray-100 shrink-0"
-              />
-              <div className="flex-grow">닉네임입니다 닉네임입니다</div>
-            </div>
-            <div className="comment_content font-pretendard text-small-text">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit
-              placeat, modi maxime assumenda pariatur porro quas sapiente
-              commodi quasi eligendi, molestiae quam doloremque. Nemo nam qui
-              eius facere fugiat delectus?
-            </div>
-          </li>
-        </ul>
-
-        <form className="comment-form flex gap-[12px] items-center">
-          <input
-            type="text"
-            placeholder="댓글을 입력하세요"
-            className="comment-input flex-grow border border-gray-400 rounded-lg p-[10px] text-regular-text"
-          />
-          <button
-            type="submit"
-            className="submit-btn bg-primary-500 text-white rounded-lg p-[10px] font-bold font-laundry min-w-[48px] flex-shrink-0"
-          >
-            제출
-          </button>
-        </form>
-      </div>
+      <CommentList />
     </main>
   );
 }
