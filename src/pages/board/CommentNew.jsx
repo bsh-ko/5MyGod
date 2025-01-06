@@ -26,9 +26,6 @@ export default function CommentNew() {
         order_id: 1, // 필수 값인데 용도를 모르겠어서 우선 1로 하드코딩
         product_id: _id, // 현재 보고 있는 상품(심부름 글)의 번호
         content: formData.content, // 댓글 내용
-        extra: {
-          createdAt: new Date().toISOString(), // 생성 시간
-        },
       };
       return axios.post(`/replies/`, body);
     },
