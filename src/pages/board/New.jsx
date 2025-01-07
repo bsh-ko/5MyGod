@@ -210,7 +210,9 @@ export default function New() {
               }
               className="w-[24px] h-[24px] rounded-md"
             />
-            <p className="font-pretendard font-bold">픽업이 필요 없어요</p>
+            <p className="font-pretendard font-bold select-none">
+              픽업이 필요 없어요
+            </p>
           </label>
         </div>
 
