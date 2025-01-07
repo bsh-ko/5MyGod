@@ -4,6 +4,7 @@ import { lazy } from "react";
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
 const Detail = lazy(() => import("@pages/board/Detail"));
+const New = lazy(() => import("@pages/board/New"));
 // const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
 
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
       children: [
         { index: true, element: <MainPage /> },
         { path: "products/:_id", element: <Detail /> },
+        { path: "products/new", element: <New /> },
         // { path: ":type", element: <List /> },
         // { path: ":type/new", element: <New /> },
         // { path: ":type/:_id", element: <Detail /> },
