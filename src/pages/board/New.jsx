@@ -77,6 +77,8 @@ export default function New() {
   const [deliveryAddress, setDeliveryAddress] = useState(""); // 도착 주소
   const [isPickupOpen, setIsPickupOpen] = useState(false); // 픽업 주소 검색창 열기/닫기
   const [isDeliveryOpen, setIsDeliveryOpen] = useState(false); // 도착 주소 검색창 열기/닫기
+  const [isPickupDisabled, setIsPickupDisabled] = useState(false); // 픽업이 필요 없어요 상태
+  const [isdeliveryDisabled, setIsDeliveryDisabled] = useState(false); // 도착 위치가 필요 없어요 상태
 
   // 주소 선택 핸들러 (픽업)
   const handleCompletePickup = (data) => {
@@ -134,54 +136,82 @@ export default function New() {
           심부름의 위치를 알려주세요
         </p>
 
-        {/* 픽업 위치 */}
-        <div className="flex flex-col gap-[12px]">
-          <div className="flex gap-[8px] items-center">
-            <img src="../../assets/pin.svg" />
-            <p className="font-laundry font-bold">픽업 위치</p>
-          </div>
-
-          {/* 주소 검색 필드 */}
-          <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
-            <input
-              type="text"
-              className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
-              placeholder="주소 검색"
-              value={pickupAddress}
-              onClick={() => setIsPickupOpen(true)}
-              readOnly
-            ></input>
-          </div>
-
-          {/* Daum Postcode 검색창 */}
-          {isPickupOpen && (
-            <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
-              <DaumPostCode onComplete={handleCompletePickup} />
-              <button
-                className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
-                onClick={() => setIsPickupOpen(false)}
-              >
-                닫기
-              </button>
+        {/* 픽업 위치 입력 필드들 */}
+        {!isPickupDisabled ? (
+          <div className="pickup_fields flex flex-col gap-[12px]">
+            <div className="flex gap-[8px] items-center">
+              <img src="../../assets/pin.svg" />
+              <p className="font-laundry font-bold">픽업 위치</p>
             </div>
-          )}
 
-          {/* 상세 주소 입력 필드 */}
-          <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
-            <textarea
-              className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
-              placeholder="상세 주소"
-            ></textarea>
+            {/* 주소 검색 필드 */}
+            <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+              <input
+                type="text"
+                className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+                placeholder="주소 검색"
+                value={pickupAddress}
+                onClick={() => setIsPickupOpen(true)}
+                readOnly
+              ></input>
+            </div>
+
+            {/* Daum Postcode 검색창 */}
+            {isPickupOpen && (
+              <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
+                <DaumPostCode onComplete={handleCompletePickup} />
+                <button
+                  className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
+                  onClick={() => setIsPickupOpen(false)}
+                >
+                  닫기
+                </button>
+              </div>
+            )}
+
+            {/* 상세 주소 입력 필드 */}
+            <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+              <textarea
+                className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+                placeholder="상세 주소"
+              ></textarea>
+            </div>
           </div>
+        ) : (
+          <div className="no_pickup_message p-[20px] bg-gray-100 rounded-lg">
+            <p className="font-laundry flex justify-center text-lg text-gray-400">
+              픽업이 필요 없어요
+            </p>
+          </div>
+        )}
 
-          {/* 픽업이 필요 없어요 */}
-          <div className="checkbox flex items-center gap-[8px]">
+        {/* 픽업이 필요 없어요 */}
+        <div className="checkbox flex items-center gap-[8px]">
+          <input
+            type="checkbox"
+            id="no-pickup"
+            className="hidden" // 기본 체크박스 숨김
+            onChange={(e) => {
+              const isChecked = e.target.checked;
+              setIsPickupDisabled(isChecked); // 상태 업데이트
+              setIsPickupOpen(false); // 검색창 닫기
+              setPickupAddress(""); // 주소 초기화
+            }}
+          />
+          <label
+            htmlFor="no-pickup"
+            className="flex items-center cursor-pointer gap-[8px]"
+          >
             <img
-              src="../../assets/unchecked.svg"
+              src={
+                isPickupDisabled
+                  ? "/assets/checked.png"
+                  : "/assets/unchecked.png"
+              }
               className="w-[24px] h-[24px] rounded-md"
             />
             <p className="font-pretendard font-bold">픽업이 필요 없어요</p>
-          </div>
+          </label>
         </div>
 
         {/* 도착 위치 */}
