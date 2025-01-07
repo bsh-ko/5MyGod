@@ -9,16 +9,16 @@ export default function Detail() {
   const { _id } = useParams();
   // const queryClient = useQueryClient();
 
+  // 상품(심부름) 데이터 가져오기
   const { data } = useQuery({
     queryKey: ["products", _id],
     queryFn: () => axios.get(`/products/${_id}`),
     select: (res) => res.data,
   });
-
   console.log("article data: ", data);
 
+  // 회원 성별에 따라 이미지 매핑
   let genderImage;
-
   if (data?.item?.seller?.extra?.gender === "male") {
     genderImage = `/assets/male.png`;
   } else if (data?.item?.seller?.extra?.gender === "female") {
