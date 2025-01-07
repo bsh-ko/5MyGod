@@ -1,0 +1,190 @@
+import InputError from "@components/InputError";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import DaumPostCode from "react-daum-postcode";
+
+export default function New() {
+  const [selectedCategory, setSelectedCategory] = useState(""); // 카테고리 선택 상태 관리
+  const [selectedTags, setSelectedTags] = useState([]); // 태그 선택 상태 관리
+
+  const categories = ["배달", "전문가", "재능판매", "대행", "돌봄"];
+  const tags = [
+    "시간이 생명",
+    "도와주세요",
+    "일정 조정 가능",
+    "금액 협의 가능",
+    "남자만",
+    "여자만",
+    "어른만",
+  ];
+
+  // 카테고리 선택 / 해제 처리
+  const handleCategoryClick = (category) => {
+    // 이미 선택된 카테고리를 또 누르면 선택 해제, 선택 안되어 있던 카테고리를 누르면 선택
+    setSelectedCategory((prev) => (prev === category ? "" : category));
+  };
+
+  // 태그 선택 / 해제 처리
+  const handleTagClick = (tag) => {
+    setSelectedTags((prev) =>
+      // 이미 선택된 태그를 또 누르면 배열에서 제거(선택해제), 선택 안되어 있던 태그를 누르면 배열에 추가
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
+  // 카테고리 목록 렌더링 함수 (선택 / 비선택 구분됨)
+  const renderCategories = () =>
+    categories.map((category) => (
+      <li
+        key={category}
+        className={`category flex items-center gap-[4px] px-[6px] rounded  border-[1px] border-gray-500 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0 select-none cursor-pointer ${
+          selectedCategory === category
+            ? "bg-primary-500 text-white"
+            : "bg-gray-100 text-black"
+        }`}
+        onClick={() => handleCategoryClick(category)}
+      >
+        {category}
+      </li>
+    ));
+
+  // 태그 목록 렌더링 함수 (선택 / 비선택 구분됨)
+  const renderTags = () =>
+    tags.map((tag) => (
+      <li
+        key={tag}
+        className={`tag flex items-center gap-[4px] px-[6px] rounded border-[1px] border-gray-500 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0 select-none cursor-pointer ${
+          selectedTags.includes(tag)
+            ? "bg-primary-500 text-white"
+            : "bg-gray-100 text-black"
+        }`}
+        onClick={() => handleTagClick(tag)}
+      >
+        {tag}
+      </li>
+    ));
+
+  // 심부름 내용 필드 유효성 검증
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  return (
+    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
+      {/* 카테고리 선택 */}
+      <div className="task_category p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
+        <p className="font-laundry text-input-title">
+          심부름 구분을 선택해주세요
+        </p>
+        <ul className="category_list flex gap-[12px]">{renderCategories()}</ul>
+      </div>
+
+      {/* 태그 선택 */}
+      <div className="task_tag p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
+        <p className="font-laundry text-input-title">
+          태그를 선택해주세요{" "}
+          <span className="text-gray-500">(다중 선택 가능)</span>
+        </p>
+        <ul className="tag_list flex gap-[12px] flex-wrap">{renderTags()}</ul>
+      </div>
+
+      {/* 심부름 내용 */}
+      <form
+        className="task_content p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
+        onSubmit={handleSubmit()}
+      >
+        <p className="font-laundry text-input-title">무엇을 요청할까요?</p>
+
+        <div className="min-h-[200px] bg-gray-100 rounded-lg p-[20px]">
+          <textarea
+            className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
+            placeholder="심부름 내용을 설명해주세요"
+            {...register("content", {
+              required: "심부름 내용을 작성해주세요.",
+            })}
+          ></textarea>
+          <InputError target={errors.content} />
+        </div>
+      </form>
+
+      {/* 심부름 위치 */}
+      <div className="task_location p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
+        <p className="font-laundry text-input-title">
+          심부름의 위치를 알려주세요
+        </p>
+
+        {/* 픽업 위치 */}
+        <div className="flex flex-col gap-[12px]">
+          <div className="flex gap-[8px] items-center">
+            <img src="../../assets/pin.svg" />
+            <p className="font-laundry font-bold">픽업 위치</p>
+          </div>
+
+          {/* 주소 검색 필드 */}
+          <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+            <input
+              type="text"
+              className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+              placeholder="주소 검색"
+            ></input>
+          </div>
+
+          {/* 상세 주소 입력 필드 */}
+          <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+            <textarea
+              className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+              placeholder="상세 주소"
+            ></textarea>
+          </div>
+
+          {/* 픽업이 필요 없어요 */}
+          <div className="checkbox flex items-center gap-[8px]">
+            <img
+              src="../../assets/unchecked.svg"
+              className="w-[24px] h-[24px] rounded-md"
+            />
+            <p className="font-pretendard font-bold">픽업이 필요 없어요</p>
+          </div>
+        </div>
+
+        {/* 도착 위치 */}
+        <div className="flex flex-col gap-[12px]">
+          <div className="flex gap-[8px] items-center">
+            <img src="../../assets/pin.svg" />
+            <p className="font-laundry font-bold">도착 위치</p>
+          </div>
+
+          {/* 주소 검색 필드 */}
+          <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+            <input
+              type="text"
+              className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+              placeholder="주소 검색"
+            ></input>
+          </div>
+
+          {/* 상세 주소 입력 필드 */}
+          <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+            <textarea
+              className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+              placeholder="상세 주소"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      {/* 심부름 일시 */}
+      <div className="task_dateandtime p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
+        <p className="font-laundry text-input-title">
+          심부름의 날짜와 시간을 선택해주세요
+        </p>
+
+        <div className="w-full h-[40px] bg-gray-100 p-[12px] rounded-lg font-pretendard text-gray-500 flex items-center">
+          날짜 / 시간 선택 툴 추가 예정
+        </div>
+      </div>
+    </main>
+  );
+}
