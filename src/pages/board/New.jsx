@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import DaumPostCode from "react-daum-postcode";
 
 export default function New() {
+  //////////////// 카테고리, 태그 ////////////////
   const [selectedCategory, setSelectedCategory] = useState(""); // 카테고리 선택 상태 관리
   const [selectedTags, setSelectedTags] = useState([]); // 태그 선택 상태 관리
 
@@ -64,12 +65,30 @@ export default function New() {
       </li>
     ));
 
-  // 심부름 내용 필드 유효성 검증
+  //////////////// 심부름 내용 ////////////////
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  //////////////// 심부름 위치 ////////////////
+  const [pickupAddress, setPickupAddress] = useState(""); // 픽업 주소
+  const [deliveryAddress, setDeliveryAddress] = useState(""); // 도착 주소
+  const [isPickupOpen, setIsPickupOpen] = useState(false); // 픽업 주소 검색창 열기/닫기
+  const [isDeliveryOpen, setIsDeliveryOpen] = useState(false); // 도착 주소 검색창 열기/닫기
+
+  // 주소 선택 핸들러 (픽업)
+  const handleCompletePickup = (data) => {
+    setPickupAddress(data.address);
+    setIsPickupOpen(false); // 검색창 닫기
+  };
+
+  // 주소 선택 핸들러 (도착)
+  const handleCompleteDelivery = (data) => {
+    setDeliveryAddress(data.address);
+    setIsDeliveryOpen(false); // 검색창 닫기
+  };
 
   return (
     <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
@@ -128,8 +147,24 @@ export default function New() {
               type="text"
               className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
               placeholder="주소 검색"
+              value={pickupAddress}
+              onClick={() => setIsPickupOpen(true)}
+              readOnly
             ></input>
           </div>
+
+          {/* Daum Postcode 검색창 */}
+          {isPickupOpen && (
+            <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
+              <DaumPostCode onComplete={handleCompletePickup} />
+              <button
+                className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
+                onClick={() => setIsPickupOpen(false)}
+              >
+                닫기
+              </button>
+            </div>
+          )}
 
           {/* 상세 주소 입력 필드 */}
           <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
@@ -162,8 +197,24 @@ export default function New() {
               type="text"
               className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
               placeholder="주소 검색"
+              value={deliveryAddress}
+              onClick={() => setIsDeliveryOpen(true)}
+              readOnly
             ></input>
           </div>
+
+          {/* Daum Postcode 검색창 */}
+          {isDeliveryOpen && (
+            <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
+              <DaumPostCode onComplete={handleCompleteDelivery} />
+              <button
+                className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
+                onClick={() => setIsDeliveryOpen(false)}
+              >
+                닫기
+              </button>
+            </div>
+          )}
 
           {/* 상세 주소 입력 필드 */}
           <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
