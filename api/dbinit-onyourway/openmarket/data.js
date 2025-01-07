@@ -1,9 +1,9 @@
-import moment from "moment";
+import dayjs from "dayjs";
 
 function getTime(day = 0, second = 0) {
-  return moment()
-    .add(day, "days")
-    .add(second, "seconds")
+  return dayjs()
+    .add(day, "day")
+    .add(second, "second")
     .format("YYYY.MM.DD HH:mm:ss");
 }
 
@@ -11,6 +11,23 @@ export const initData = async (clientId, nextSeq) => {
   return {
     // 회원
     user: [
+      {
+        _id: await nextSeq("user"),
+        email: "test@market.com",
+        password: "12345678",
+        name: "테스트",
+        phone: "01012345678",
+        address: "서울시 강남구 역삼동 456",
+        type: "admin",
+        loginType: "email",
+        image: `/files/${clientId}/user-muzi.webp`,
+        createdAt: getTime(-100, -60 * 60 * 3),
+        updatedAt: getTime(-100, -60 * 60 * 3),
+        extra: {
+          gender: "male",
+          likes: 999,
+        },
+      },
       {
         _id: await nextSeq("user"),
         email: "admin@market.com",

@@ -1,14 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import useAxiosInstance from "@hooks/useAxiosInstance";
 import ListItem from "@pages/board/ListItem";
+import TagList from "@pages/board/TagList";
 
-// 임시 헤더
-const Header = () => (
-  <header className="font-laundry shadow-inset shadow-gray-500 h-[50px] flex items-center justify-center flex-shrink-0">
-    내심부름
-  </header>
-);
-
-// 탭 메뉴
+// 📝 **TabMenu 컴포넌트**
 const TabMenu = () => (
   <div className="px-4 py-2">
     <nav className="max-w-full bg-gray-100 border border-gray-200 rounded-lg p-2">
@@ -24,7 +19,7 @@ const TabMenu = () => (
   </div>
 );
 
-// 매칭 탭
+// 📝 **MatchingTab 컴포넌트**
 const MatchingTab = () => (
   <div className="px-4 py-2">
     <nav className="max-w-full bg-gray-100 border border-gray-200 rounded-lg">
@@ -40,33 +35,45 @@ const MatchingTab = () => (
   </div>
 );
 
-// 메인 콘텐츠
-const MainContent = () => (
-  <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
-    <TabMenu />
-    <MatchingTab />
-    <ul className="list flex flex-col items-center gap-[24px]">
-      {sampleItems.map((item) => (
-        <ListItem key={item._id} item={item} />
-      ))}
-    </ul>
-  </main>
-);
+// 📝 **MyErrand 컴포넌트**
+const MyErrand = () => {
+  const axiosInstance = useAxiosInstance(); // Axios 인스턴스 가져오기
+  const [errandItems, setErrandItems] = useState([]); // API 데이터 상태 저장
+  const [loading, setLoading] = useState(true); // 로딩 상태
+  const [error, setError] = useState(null); // 에러 상태
 
-// 푸터
-const Footer = () => (
-  <footer className="font-laundry shadow-inset shadow-gray-500 h-[83px] flex items-center justify-center flex-shrink-0">
-    내비게이션 바
-  </footer>
-);
+  // ✅ API 데이터 불러오기
+  useEffect(() => {
+    async function fetchErrands() {
+      try {
+        const response = await axiosInstance.get("/get/users"); // API 호출
+        setErrandItems(response.data); // 데이터 저장
+      } catch (err) {
+        console.error("API 호출 오류:", err);
+        setError(err);
+      } finally {
+        setLoading(false); // 로딩 종료
+      }
+    }
 
-// 메인 레이아웃
-const MyErrand = () => (
-  <div className="l_container max-w-[393px] h-screen mx-auto flex flex-col">
-    <Header />
-    <MainContent />
-    <Footer />
-  </div>
-);
+    fetchErrands();
+  }, [axiosInstance]);
+
+  // ✅ 로딩 상태 처리
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>오류 발생: {error.message}</div>;
+
+  return (
+    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
+      <TabMenu />
+      <MatchingTab />
+      <ul className="list flex flex-col items-center gap-[24px]">
+        {errandItems.map((item) => (
+          <ListItem key={item._id} item={item} />
+        ))}
+      </ul>
+    </main>
+  );
+};
 
 export default MyErrand;
