@@ -179,7 +179,7 @@ export default function New() {
           </div>
         ) : (
           <div className="no_pickup_message p-[20px] bg-gray-100 rounded-lg">
-            <p className="font-laundry flex justify-center text-lg text-gray-400">
+            <p className="font-pretendard font-extrabold flex justify-center text-lg text-gray-400">
               픽업이 필요 없어요
             </p>
           </div>
