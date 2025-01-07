@@ -223,6 +223,15 @@ export default function New() {
               placeholder="상세 주소"
             ></textarea>
           </div>
+
+          {/* 도착 위치가 필요 없어요 */}
+          <div className="checkbox flex items-center gap-[8px]">
+            <img
+              src="../../assets/unchecked.svg"
+              className="w-[24px] h-[24px] rounded-md"
+            />
+            <p className="font-pretendard font-bold">도착 위치가 필요 없어요</p>
+          </div>
         </div>
       </div>
 
