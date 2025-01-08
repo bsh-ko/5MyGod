@@ -13,7 +13,7 @@ export default function Profile({ nickname, earnings, hearts, isMyPage }) {
           <h2 className="text-xl">{nickname}</h2>
           {/* 하트 (isMyPage가 false일 때만 나란히 배치) */}
           {!isMyPage && (
-            <div className="flex items-center justify-between w-20 h-10 px-3 bg-white rounded-[10px]">
+            <div className="flex items-center justify-between w-20 h-10 px-3 bg-white rounded-[10px] gap-[2px]">
               <img src="/assets/heart.png" alt="하트 아이콘" className="w-5 h-5" />
               <span className="text-gray-black-900 text-sm leading-[20px]">{hearts || "0"}</span>
             </div>
