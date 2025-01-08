@@ -151,7 +151,7 @@ export default function MyPage() {
           </div>
         </header>
 
-        <Profile nickname="내이름마철두브런치"></Profile>
+        <Profile nickname="내이름마철두브런치" earnings={"34,645,000"} hearts={"999+"} isMyPage={true}></Profile>
 
         {/* 탭 섹션 */}
         <section className="mt-5 font-pretendard">
