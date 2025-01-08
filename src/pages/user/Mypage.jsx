@@ -140,17 +140,6 @@ export default function MyPage() {
     <div className="flex flex-col items-center justify-center bg-gray-100">
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
       <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color overflow-scroll">
-        {/* 헤더 */}
-        <header className="flex justify-between items-center px-4 py-3 border-b border-gray-200 font-laundry">
-          <h1 className="text-[24px] font-[400] text-gray-black-900">나의 정보</h1>
-          <div className="flex">
-            <img src="/assets/landline.svg" alt="전화기" />
-            <a href="#" className="text-sm text-primary-500 pl-1">
-              고객센터
-            </a>
-          </div>
-        </header>
-
         <Profile nickname="내이름마철두브런치" earnings={"34,645,000"} hearts={"999+"} isMyPage={true}></Profile>
 
         {/* 탭 섹션 */}
