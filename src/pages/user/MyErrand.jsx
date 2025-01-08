@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import ListItem from "@pages/board/ListItem";
-import TagList from "@pages/board/TagList";
 
-// 📝 **TabMenu 컴포넌트**
 const TabMenu = () => (
   <div className="px-4 py-2">
     <nav className="max-w-full bg-gray-100 border border-gray-200 rounded-lg p-2">
@@ -19,7 +17,6 @@ const TabMenu = () => (
   </div>
 );
 
-// 📝 **MatchingTab 컴포넌트**
 const MatchingTab = () => (
   <div className="px-4 py-2">
     <nav className="max-w-full bg-gray-100 border border-gray-200 rounded-lg">
@@ -35,43 +32,59 @@ const MatchingTab = () => (
   </div>
 );
 
-// 📝 **MyErrand 컴포넌트**
 const MyErrand = () => {
-  const axiosInstance = useAxiosInstance(); // Axios 인스턴스 가져오기
-  const [errandItems, setErrandItems] = useState([]); // API 데이터 상태 저장
-  const [loading, setLoading] = useState(true); // 로딩 상태
-  const [error, setError] = useState(null); // 에러 상태
+  const axiosInstance = useAxiosInstance();
+  const [errandItems, setErrandItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // ✅ API 데이터 불러오기
   useEffect(() => {
     async function fetchErrands() {
       try {
-        const response = await axiosInstance.get("/get/users"); // API 호출
-        setErrandItems(response.data); // 데이터 저장
+        const response = await axiosInstance.get("/posts/users");
+        console.log("API 응답 데이터:", response.data);
+
+        const allItems = response.data.item;
+        const currentUserId = sessionStorage.getItem("userId");
+
+        const myItems = allItems.filter(
+          (item) => item.user._id === Number(currentUserId)
+        );
+
+        setErrandItems(myItems);
       } catch (err) {
         console.error("API 호출 오류:", err);
         setError(err);
       } finally {
-        setLoading(false); // 로딩 종료
+        setLoading(false);
       }
     }
 
     fetchErrands();
   }, [axiosInstance]);
 
-  // ✅ 로딩 상태 처리
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>오류 발생: {error.message}</div>;
-
   return (
-    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
+    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-auto">
+      {/* ✅ 내가 작성한 게시글 목록 */}
       <TabMenu />
       <MatchingTab />
-      <ul className="list flex flex-col items-center gap-[24px]">
-        {errandItems.map((item) => (
-          <ListItem key={item._id} item={item} />
-        ))}
-      </ul>
+      {!loading && !error && errandItems.length > 0 && (
+        <ul className="list flex flex-col items-center gap-[24px]">
+          {errandItems.map((item) => (
+            <ListItem key={item._id} item={item} />
+          ))}
+        </ul>
+      )}
+
+      {/* ✅ 게시글이 없을 때 */}
+      {!loading && !error && errandItems.length === 0 && (
+        <div className="text-gray-500">내가 작성한 게시글이 없습니다.</div>
+      )}
+
+      {/* ✅ 로딩 상태 */}
+      {loading && <div>로딩 중...</div>}
+      {/* ✅ 오류 상태 */}
+      {error && <div>오류 발생: {error.message}</div>}
     </main>
   );
 };
