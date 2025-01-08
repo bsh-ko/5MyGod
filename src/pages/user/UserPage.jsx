@@ -88,7 +88,7 @@ export default function UserPage() {
         </header>
 
         {/* 프로필 */}
-        <Profile nickname="종로구뽀또그래퍼"></Profile>
+        <Profile nickname="종로구뽀또그래퍼" earnings={1000} hearts={10} isMyPage={false}></Profile>
 
         {/* 탭 섹션 */}
         <section className="mt-5 font-pretendard">
@@ -103,14 +103,33 @@ export default function UserPage() {
               </div>
               <div className="intro bg-white p-5 my-3">
                 <h3 className="text-lg font-bold mb-3 text-gray-700">심부름</h3>
-                <ul className="flex space-x-3">
+                <ul className="flex space-x-3 mb-6">
                   <li className="flex items-center">
                     <p className="bg-gray-100 px-2 py-1 rounded-md">편의점 배달</p>
                   </li>
                   <li className="flex items-center">
                     <p className="bg-gray-100 px-2 py-1 rounded-md">음식 배달</p>
                   </li>
+                  <li className="flex items-center">
+                    <p className="bg-gray-100 px-2 py-1 rounded-md">사진 촬영</p>
+                  </li>
                 </ul>
+                <h3 className="text-lg font-bold mb-3 text-gray-700">이동 수단</h3>
+                <ul className="flex space-x-3">
+                  <li className="flex items-center">
+                    <p className="bg-gray-100 px-2 py-1 rounded-md">도보</p>
+                  </li>
+                  <li className="flex items-center">
+                    <p className="bg-gray-100 px-2 py-1 rounded-md">대중교통</p>
+                  </li>
+                </ul>
+              </div>
+              <div className="intro bg-white p-5 my-3">
+                <h3 className="text-lg font-bold mb-3 text-gray-700">경력</h3>
+                <div className="flex gap-3 bg-gray-100 rounded-[10px] px-5 py-4 items-center">
+                  <p className="text-gray-black-900 font-[600px]">사진관 알바</p>
+                  <p className="text-gray-700 text-sm">우리동네 사진관 · 8개월</p>
+                </div>
               </div>
             </div>
           )}
