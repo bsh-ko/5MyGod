@@ -97,7 +97,8 @@ export default function New() {
       {/* 카테고리 선택 */}
       <div className="task_category p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
         <p className="font-laundry text-input-title">
-          심부름 구분을 선택해주세요
+          심부름 구분을 선택해주세요{" "}
+          <span className="text-gray-500">(필수)</span>
         </p>
         <ul className="category_list flex gap-[12px]">{renderCategories()}</ul>
       </div>
@@ -105,8 +106,7 @@ export default function New() {
       {/* 태그 선택 */}
       <div className="task_tag p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
         <p className="font-laundry text-input-title">
-          태그를 선택해주세요{" "}
-          <span className="text-gray-500">(다중 선택 가능)</span>
+          태그를 선택해주세요 <span className="text-gray-500">(선택)</span>
         </p>
         <ul className="tag_list flex gap-[12px] flex-wrap">{renderTags()}</ul>
       </div>
