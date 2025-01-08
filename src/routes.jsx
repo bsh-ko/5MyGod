@@ -4,7 +4,7 @@ import { lazy } from "react";
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
 const Detail = lazy(() => import("@pages/board/Detail"));
-// const Login = lazy(() => import("@pages/user/Login"));
+const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
 const MyPage = lazy(() => import("@pages/user/Mypage"));
 // const UserPage = lazy(() => import("@pages/user/Userpage"));
@@ -23,7 +23,7 @@ const router = createBrowserRouter(
         // { path: ":type/:_id", element: <Detail /> },
         // { path: ":type/:_id/edit", element: <Edit /> },
         { path: "users/signup", element: <Signup /> },
-        // { path: "users/login", element: <Login /> },
+        { path: "users/login", element: <Login /> },
         { path: "users/mypage", element: <MyPage /> },
         // { path: "users/userpage", element: <UserPage /> },
       ],
