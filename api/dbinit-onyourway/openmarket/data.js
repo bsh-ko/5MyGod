@@ -719,7 +719,7 @@ export const initData = async (clientId, nextSeq) => {
       //   },
       // },
     ],
-    // 주문
+    // 주문 (심부름 지원)
     order: [
       {
         _id: await nextSeq("order"),
@@ -727,193 +727,40 @@ export const initData = async (clientId, nextSeq) => {
         state: "OS020",
         products: [
           {
-            _id: 2,
+            _id: 1,
             seller_id: 2,
-            state: "OS020",
-            name: "헬로카봇 스톰다이버",
-            image: {
-              path: `/files/${clientId}/sample-diver.jpg`,
-              name: "sample-diver.jpg",
-              originalname: "헬로카봇.jpg",
+            state: "OS010",
+            name: "죽과 상비약 부탁",
+            quantity: 1,
+            price: 15000,
+            content: "죽과 상비약 사다 주세요 제발요",
+            createdAt: "2024.11.26 15:43:04",
+            updatedAt: "2024.11.27 17:28:04",
+            extra: {
+              category: ["PC01"],
+              tags: ["TA01", "TA02"],
+              due: "2025.01.03 18:00:00",
+              pickupLocation: {
+                address: "서울 종로구 세종로 186",
+                detailAddress: "광화문역",
+                coordinates: {
+                  latitude: 37.57166213080161,
+                  longitude: 126.97645483898171,
+                },
+              },
+              arrivalLocation: {
+                address: "서울특별시 중구 한강대로 405",
+                detailAddress: "서울역 2층 대합실",
+                coordinates: {
+                  latitude: 37.554613947854044,
+                  longitude: 126.97052998585586,
+                },
+              },
             },
-            quantity: 2,
-            price: 34520,
-            review_id: 3,
           },
         ],
-        cost: {
-          products: 34520,
-          shippingFees: 2500,
-          discount: {
-            products: 0,
-            shippingFees: 0,
-          },
-          total: 37020,
-        },
-        address: {
-          name: "회사",
-          value: "서울시 강남구 신사동 234",
-        },
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
-      },
-      {
-        _id: await nextSeq("order"),
-        user_id: 4,
-        state: "OS010",
-        products: [
-          {
-            _id: 3,
-            seller_id: 2,
-            state: "OS010",
-            name: "레고 클래식 라지 조립 박스 10698",
-            image: {
-              path: `/files/${clientId}/sample-classic.jpg`,
-              name: "sample-classic.jpg",
-              originalname: "레고 클래식.jpg",
-            },
-            quantity: 1,
-            price: 48870,
-          },
-          {
-            _id: 4,
-            seller_id: 3,
-            state: "OS010",
-            name: "레고 테크닉 42151 부가티 볼리드",
-            image: {
-              path: `/files/${clientId}/sample-bugatti.png`,
-              name: "sample-bugatti.png",
-              originalname: "부가티.png",
-            },
-            quantity: 2,
-            price: 90000,
-            review_id: 2,
-          },
-        ],
-        cost: {
-          products: 138840,
-          shippingFees: 3500,
-          discount: {
-            products: 13880,
-            shippingFees: 3500,
-          },
-          total: 124960,
-        },
-        address: {
-          name: "집",
-          value: "서울시 강남구 역삼동 123",
-        },
-        createdAt: getTime(-4, -60 * 60 * 22),
-        updatedAt: getTime(-2, -60 * 60 * 12),
-      },
-      {
-        _id: await nextSeq("order"),
-        user_id: 4,
-        state: "OS040",
-        products: [
-          {
-            _id: 4,
-            seller_id: 3,
-            state: "OS110",
-            name: "레고 테크닉 42151 부가티 볼리드",
-            image: {
-              path: `/files/${clientId}/sample-bugatti.png`,
-              name: "sample-bugatti.png",
-              originalname: "부가티.png",
-            },
-            quantity: 1,
-            price: 45000,
-            review_id: 1,
-          },
-        ],
-        cost: {
-          products: 45000,
-          shippingFees: 3500,
-          discount: {
-            products: 4500,
-            shippingFees: 0,
-          },
-          total: 44000,
-        },
-        address: {
-          name: "학교",
-          value: "서울시 강남구 역삼동 234",
-        },
-        payment: {
-          success: true,
-          imp_uid: "imp_138601212227",
-          pay_method: "card",
-          merchant_uid: "mid_1702540599641",
-          name: "레고 테크닉 42151 부가티 볼리드",
-          paid_amount: 45000,
-          currency: "KRW",
-          pg_provider: "html5_inicis",
-          pg_type: "payment",
-          pg_tid: "StdpayCARDINIpayTest20231214165706277441",
-          apply_num: "30123157",
-          buyer_name: "제이지",
-          buyer_email: "aceppin@daum.net",
-          buyer_tel: "01044445555",
-          buyer_addr: "",
-          buyer_postcode: "",
-          custom_data: null,
-          status: "paid",
-          paid_at: 1702540626,
-          receipt_url:
-            "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayCARDINIpayTest20231214165706277441&noMethod=1",
-          card_name: "국민KB카드",
-          bank_name: null,
-          card_quota: 0,
-          card_number: "457973*********5",
-        },
-        delivery: {
-          company: "한진 택배",
-          trackingNumber: "364495958003",
-          url: "https://trace.cjlogistics.com/next/tracking.html?wblNo=364495958003",
-        },
-        createdAt: getTime(-3, -60 * 60 * 18),
-        updatedAt: getTime(-1, -60 * 60 * 1),
-      },
-      {
-        _id: await nextSeq("order"),
-        user_id: 2,
-        state: "OS040",
-        products: [
-          {
-            _id: 2,
-            seller_id: 2,
-            state: "OS310",
-            name: "헬로카봇 스톰다이버",
-            image: {
-              path: `/files/${clientId}/sample-diver.jpg`,
-              name: "sample-diver.jpg",
-              originalname: "헬로카봇.jpg",
-            },
-            quantity: 1,
-            price: 17260,
-            review_id: 2,
-          },
-        ],
-        cost: {
-          products: 17260,
-          shippingFees: 2500,
-          discount: {
-            products: 0,
-            shippingFees: 0,
-          },
-          total: 19760,
-        },
-        address: {
-          name: "학교",
-          value: "서울시 강남구 역삼동 234",
-        },
-        delivery: {
-          company: "한진 택배",
-          trackingNumber: "364495958003",
-          url: "https://trace.cjlogistics.com/next/tracking.html?wblNo=364495958003",
-        },
-        createdAt: getTime(-3, -60 * 60 * 18),
-        updatedAt: getTime(-1, -60 * 60 * 1),
       },
     ],
     // 후기
@@ -1067,7 +914,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-1, -60 * 60 * 12),
       },
     ],
-    // QnA, 공지사항 등의 게시판 -> 지원자 목록 게시판
+    // QnA, 공지사항 등의 게시판
     post: [
       {
         _id: await nextSeq("post"),
@@ -1220,20 +1067,6 @@ export const initData = async (clientId, nextSeq) => {
             value: "돌봄",
             depth: 1,
           },
-          // {
-          //   sort: 2,
-          //   code: "PC0103", // 1번 대분류의 3번 중분류
-          //   value: "레고",
-          //   parent: "PC01", // 바로 윗단계의 분류
-          //   depth: 2, // 중분류
-          // },
-          // {
-          //   sort: 2,
-          //   code: "PC010201", // 1번 대분류 - 2번 중분류 - 3번 소분류
-          //   value: "2인용",
-          //   parent: "PC0102", // 바로 윗단계의 분류
-          //   depth: 3, // 소분류
-          // },
         ],
       },
 
@@ -1276,95 +1109,36 @@ export const initData = async (clientId, nextSeq) => {
             value: "어른만",
             depth: 1,
           },
-          // {
-          //   sort: 2,
-          //   code: "PC0103", // 1번 대분류의 3번 중분류
-          //   value: "레고",
-          //   parent: "PC01", // 바로 윗단계의 분류
-          //   depth: 2, // 중분류
-          // },
-          // {
-          //   sort: 2,
-          //   code: "PC010201", // 1번 대분류 - 2번 중분류 - 3번 소분류
-          //   value: "2인용",
-          //   parent: "PC0102", // 바로 윗단계의 분류
-          //   depth: 3, // 소분류
-          // },
         ],
       },
       {
         _id: "orderState",
-        title: "주문 상태",
+        title: "지원 상태",
         codes: [
           {
             sort: 1,
             code: "OS010",
-            value: "주문 완료",
+            value: "지원 완료, 매칭 대기중",
           },
           {
             sort: 2,
             code: "OS020",
-            value: "결제 완료",
+            value: "매칭 완료, 심부름 진행중",
           },
           {
             sort: 3,
             code: "OS030",
-            value: "배송 준비중",
+            value: "심부름 완료",
           },
           {
             sort: 4,
-            code: "OS035",
-            value: "배송중",
+            code: "OS040",
+            value: "심부름 기간 지남",
           },
           {
             sort: 5,
-            code: "OS040",
-            value: "배송 완료",
-          },
-          {
-            sort: 6,
-            code: "OS110",
-            value: "반품 요청",
-          },
-          {
-            sort: 7,
-            code: "OS120",
-            value: "반품 처리중",
-          },
-          {
-            sort: 8,
-            code: "OS130",
-            value: "반품 완료",
-          },
-          {
-            sort: 9,
-            code: "OS210",
-            value: "교환 요청",
-          },
-          {
-            sort: 10,
-            code: "OS220",
-            value: "교환 처리중",
-          },
-          {
-            sort: 11,
-            code: "OS230",
-            value: "교환 완료",
-          },
-          {
-            sort: 12,
-            code: "OS310",
-            value: "환불 요청",
-          },
-          {
-            sort: 13,
-            code: "OS320",
-            value: "환불 처리중",
-          },
-          {
-            sort: 14,
-            code: "OS330",
-            value: "환불 완료",
+            coe: "OS050",
+            value: "결제 완료",
           },
         ],
       },
