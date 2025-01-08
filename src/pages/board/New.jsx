@@ -92,6 +92,7 @@ export default function New() {
     setIsDeliveryOpen(false); // 검색창 닫기
   };
 
+  //////////// return ////////////
   return (
     <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
       {/* 카테고리 선택 */}
@@ -216,8 +217,8 @@ export default function New() {
           </label>
         </div>
 
-        {/* 도착 위치 */}
-        <div className="flex flex-col gap-[12px]">
+        {/* 도착 위치 입력 필드들 */}
+        <div className="delivery_fileds flex flex-col gap-[12px]">
           <div className="flex gap-[8px] items-center">
             <img src="../../assets/pin.svg" />
             <p className="font-laundry font-bold">도착 위치</p>
@@ -255,15 +256,15 @@ export default function New() {
               placeholder="상세 주소"
             ></textarea>
           </div>
+        </div>
 
-          {/* 도착 위치가 필요 없어요 */}
-          <div className="checkbox flex items-center gap-[8px]">
-            <img
-              src="../../assets/unchecked.svg"
-              className="w-[24px] h-[24px] rounded-md"
-            />
-            <p className="font-pretendard font-bold">도착 위치가 필요 없어요</p>
-          </div>
+        {/* 도착 위치가 필요 없어요 */}
+        <div className="checkbox flex items-center gap-[8px]">
+          <img
+            src="../../assets/unchecked.svg"
+            className="w-[24px] h-[24px] rounded-md"
+          />
+          <p className="font-pretendard font-bold">도착 위치가 필요 없어요</p>
         </div>
       </div>
 
