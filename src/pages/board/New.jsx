@@ -82,8 +82,6 @@ export default function New() {
       </li>
     ));
 
-  //////////////// 심부름 내용 ////////////////
-
   //////////////// 심부름 위치 ////////////////
   const [pickupAddress, setPickupAddress] = useState(""); // 픽업 주소
   const [deliveryAddress, setDeliveryAddress] = useState(""); // 도착 주소
@@ -103,6 +101,8 @@ export default function New() {
     setDeliveryAddress(data.address);
     setIsDeliveryOpen(false); // 검색창 닫기
   };
+
+  //////////////// 심부름 금액 ////////////////
 
   //////////// return ////////////
   return (
@@ -360,7 +360,7 @@ export default function New() {
             className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
             placeholder="심부름 금액을 입력해 주세요"
             {...register("price", {
-              required: "심부름 제목을 작성해주세요.",
+              required: "심부름 금액을 입력해주세요.",
             })}
           ></input>
           <InputError target={errors.price} />
