@@ -95,11 +95,29 @@ export default function New() {
   //////////// return ////////////
   return (
     <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
+      {/* 심부름 제목 입력 */}
+      <form
+        className="task_name p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
+        onSubmit={handleSubmit()}
+      >
+        <p className="font-laundry text-input-title">심부름 제목</p>
+
+        <div className="min-h-[40px] bg-gray-100 rounded-lg p-[20px]">
+          <textarea
+            className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
+            placeholder="심부름 제목을 작성해 주세요"
+            {...register("name", {
+              required: "심부름 제목을 작성해주세요.",
+            })}
+          ></textarea>
+          <InputError target={errors.name} />
+        </div>
+      </form>
+
       {/* 카테고리 선택 */}
       <div className="task_category p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
         <p className="font-laundry text-input-title">
-          심부름 구분을 선택해주세요{" "}
-          <span className="text-gray-500">(필수)</span>
+          심부름 구분을 선택해주세요
         </p>
         <ul className="category_list flex gap-[12px]">{renderCategories()}</ul>
       </div>
@@ -218,53 +236,81 @@ export default function New() {
         </div>
 
         {/* 도착 위치 입력 필드들 */}
-        <div className="delivery_fileds flex flex-col gap-[12px]">
-          <div className="flex gap-[8px] items-center">
-            <img src="../../assets/pin.svg" />
-            <p className="font-laundry font-bold">도착 위치</p>
-          </div>
-
-          {/* 주소 검색 필드 */}
-          <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
-            <input
-              type="text"
-              className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
-              placeholder="주소 검색"
-              value={deliveryAddress}
-              onClick={() => setIsDeliveryOpen(true)}
-              readOnly
-            ></input>
-          </div>
-
-          {/* Daum Postcode 검색창 */}
-          {isDeliveryOpen && (
-            <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
-              <DaumPostCode onComplete={handleCompleteDelivery} />
-              <button
-                className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
-                onClick={() => setIsDeliveryOpen(false)}
-              >
-                닫기
-              </button>
+        {!isdeliveryDisabled ? (
+          <div className="delivery_fileds flex flex-col gap-[12px]">
+            <div className="flex gap-[8px] items-center">
+              <img src="../../assets/pin.svg" />
+              <p className="font-laundry font-bold">도착 위치</p>
             </div>
-          )}
 
-          {/* 상세 주소 입력 필드 */}
-          <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
-            <textarea
-              className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
-              placeholder="상세 주소"
-            ></textarea>
+            {/* 주소 검색 필드 */}
+            <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+              <input
+                type="text"
+                className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+                placeholder="주소 검색"
+                value={deliveryAddress}
+                onClick={() => setIsDeliveryOpen(true)}
+                readOnly
+              ></input>
+            </div>
+
+            {/* Daum Postcode 검색창 */}
+            {isDeliveryOpen && (
+              <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
+                <DaumPostCode onComplete={handleCompleteDelivery} />
+                <button
+                  className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
+                  onClick={() => setIsDeliveryOpen(false)}
+                >
+                  닫기
+                </button>
+              </div>
+            )}
+
+            {/* 상세 주소 입력 필드 */}
+            <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+              <textarea
+                className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+                placeholder="상세 주소"
+              ></textarea>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="no_pickup_message p-[20px] bg-gray-100 rounded-lg">
+            <p className="font-pretendard font-extrabold flex justify-center text-lg text-gray-400">
+              도착 위치가 필요 없어요
+            </p>
+          </div>
+        )}
 
         {/* 도착 위치가 필요 없어요 */}
         <div className="checkbox flex items-center gap-[8px]">
-          <img
-            src="../../assets/unchecked.svg"
-            className="w-[24px] h-[24px] rounded-md"
+          <input
+            type="checkbox"
+            id="no-arrival"
+            className="hidden"
+            onChange={(e) => {
+              const isChecked = e.target.checked;
+              setIsDeliveryDisabled(isChecked);
+              setIsDeliveryOpen(false);
+              setDeliveryAddress("");
+            }}
           />
-          <p className="font-pretendard font-bold">도착 위치가 필요 없어요</p>
+          <label
+            htmlFor="no-arrival"
+            className="flex items-center cursor-pointer gap-[8px]"
+          >
+            <img
+              src={
+                isdeliveryDisabled
+                  ? "/assets/checked.png"
+                  : "/assets/unchecked.png"
+              }
+              className="w-[24px] h-[24px] rounded-md"
+            />
+            <p className="font-pretendard font-bold">도착 위치가 필요 없어요</p>
+          </label>
         </div>
       </div>
 
