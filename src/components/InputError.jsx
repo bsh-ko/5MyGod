@@ -7,5 +7,5 @@ InputError.propTypes = {
 export default function InputError({ target }) {
   if (!target) return;
 
-  return <p>{target.message}</p>;
+  return <p className="ml-2 mt-1 text-red-500 dark:text-red-400 text-[12px]">{target.message}</p>;
 }
