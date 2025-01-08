@@ -77,7 +77,7 @@ export default function UserPage() {
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
       <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color overflow-scroll">
         {/* 프로필 */}
-        <Profile nickname="종로구뽀또그래퍼" earnings={1000} hearts={10} isMyPage={false}></Profile>
+        <Profile nickname="종로구뽀또그래퍼" earnings={1000} hearts={"999+"} isMyPage={false}></Profile>
 
         {/* 탭 섹션 */}
         <section className="mt-5 font-pretendard">
