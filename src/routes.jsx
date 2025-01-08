@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
+import MyErrand from "@pages/user/MyErrand";
 
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
         { path: "users/signup", element: <Signup /> },
         { path: "users/login", element: <Login /> },
         { path: "users/mypage", element: <MyPage /> },
+        { path: "users/myerrand", element: <MyErrand /> },
         // { path: "users/userpage", element: <UserPage /> },
       ],
     },
