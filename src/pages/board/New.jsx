@@ -4,6 +4,23 @@ import { useForm } from "react-hook-form";
 import DaumPostCode from "react-daum-postcode";
 
 export default function New() {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  //////////////// 제목 ////////////////
+  // 제목 입력 상태 관리 및 실시간 반영
+  const title = watch("name", "");
+  const maxTitleLength = 50;
+  const handleTitleChange = (e) => {
+    const input = e.target.value.slice(0, maxTitleLength - 1); // 50자 넘어가면 자름
+    setValue("name", input, { shouldValidate: true });
+  };
+
   //////////////// 카테고리, 태그 ////////////////
   const [selectedCategory, setSelectedCategory] = useState(""); // 카테고리 선택 상태 관리
   const [selectedTags, setSelectedTags] = useState([]); // 태그 선택 상태 관리
@@ -66,11 +83,6 @@ export default function New() {
     ));
 
   //////////////// 심부름 내용 ////////////////
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
   //////////////// 심부름 위치 ////////////////
   const [pickupAddress, setPickupAddress] = useState(""); // 픽업 주소
@@ -102,16 +114,26 @@ export default function New() {
       >
         <p className="font-laundry text-input-title">심부름 제목</p>
 
-        <div className="min-h-[40px] bg-gray-100 rounded-lg p-[20px]">
-          <textarea
+        <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px] items-center">
+          <input
+            type="text"
+            value={watch("name", "").slice(0, maxTitleLength - 1)}
+            onChange={handleTitleChange}
             className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
             placeholder="심부름 제목을 작성해 주세요"
             {...register("name", {
               required: "심부름 제목을 작성해주세요.",
+              maxLength: {
+                value: maxTitleLength,
+                message: `제목은 최대 ${maxTitleLength}자입니다.`,
+              },
             })}
-          ></textarea>
-          <InputError target={errors.name} />
+          ></input>
+          <span className="text-xs text-gray-500 shrink-0">
+            {title.length} / {maxTitleLength}
+          </span>
         </div>
+        <InputError target={errors?.name} />
       </form>
 
       {/* 카테고리 선택 */}
@@ -324,6 +346,28 @@ export default function New() {
           날짜 / 시간 선택 툴 추가 예정
         </div>
       </div>
+
+      {/* 심부름 금액 */}
+      <form
+        className="task_price p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
+        onSubmit={handleSubmit()}
+      >
+        <p className="font-laundry text-input-title">심부름 금액</p>
+
+        <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px]">
+          <input
+            type="number"
+            className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
+            placeholder="심부름 금액을 입력해 주세요"
+            {...register("price", {
+              required: "심부름 제목을 작성해주세요.",
+            })}
+          ></input>
+          <InputError target={errors.price} />
+
+          <div>원</div>
+        </div>
+      </form>
     </main>
   );
 }
