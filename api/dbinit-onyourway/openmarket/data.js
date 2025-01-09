@@ -11,23 +11,7 @@ export const initData = async (clientId, nextSeq) => {
   return {
     // 회원
     user: [
-      {
-        _id: await nextSeq("user"),
-        email: "test@market.com",
-        password: "12345678",
-        name: "테스트",
-        phone: "01012345678",
-        address: "서울시 강남구 역삼동 456",
-        type: "admin",
-        loginType: "email",
-        image: `/files/${clientId}/user-muzi.webp`,
-        createdAt: getTime(-100, -60 * 60 * 3),
-        updatedAt: getTime(-100, -60 * 60 * 3),
-        extra: {
-          gender: "male",
-          likes: 999,
-        },
-      },
+      // 1번 회원
       {
         _id: await nextSeq("user"),
         email: "admin@market.com",
@@ -46,6 +30,7 @@ export const initData = async (clientId, nextSeq) => {
           likes: 120,
         },
       },
+      // 2번 회원
       {
         _id: await nextSeq("user"),
         email: "s1@market.com",
@@ -64,6 +49,7 @@ export const initData = async (clientId, nextSeq) => {
           likes: 54,
         },
       },
+      // 3번 회원
       {
         _id: await nextSeq("user"),
         email: "s2@market.com",
@@ -82,6 +68,7 @@ export const initData = async (clientId, nextSeq) => {
           likes: 200,
         },
       },
+      // 4번 회원
       {
         _id: await nextSeq("user"),
         email: "u1@market.com",
@@ -101,11 +88,14 @@ export const initData = async (clientId, nextSeq) => {
         },
       },
     ],
+
     // 상품 (심부름 요청 글)
     product: [
+      // 4번 유저가 올린 심부름
+      // 4-1: 구인 중 (PS010)
       {
         _id: await nextSeq("product"),
-        seller_id: 2,
+        seller_id: 4,
         price: 15000,
 
         show: true,
@@ -121,6 +111,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           category: ["PC01"],
           tags: ["TA01", "TA02"],
+          productState: ["PS010"], // 구인 중
           due: "2025.01.03 18:00:00",
           pickupLocation: {
             address: "서울 종로구 세종로 186",
@@ -140,38 +131,10 @@ export const initData = async (clientId, nextSeq) => {
           },
         },
       },
+      // 4-2: 매칭 완료, 진행 중 (PS020)
       {
         _id: await nextSeq("product"),
-        seller_id: 2,
-        price: 30000,
-
-        show: true,
-        active: true,
-        name: "문서 작성해주세요",
-        quantity: 1,
-        buyQuantity: 0,
-
-        content: "전문 문서 작성 도와주세요",
-        createdAt: getTime(-41, -60 * 60 * 2),
-        updatedAt: getTime(-40, -60 * 15),
-        extra: {
-          category: ["PC02"],
-          tags: ["TA03", "TA04"],
-          due: "2025.01.02 18:00:00",
-          pickupLocation: {},
-          arrivalLocation: {
-            address: "서울특별시 마포구 마포대로 195",
-            detailAddress: "마포래미안 1동 1호",
-            coordinates: {
-              latitude: 37.553491092579186, // 위도
-              longitude: 126.95314745548572, // 경도
-            },
-          },
-        },
-      },
-      {
-        _id: await nextSeq("product"),
-        seller_id: 2,
+        seller_id: 4,
         price: 20000,
 
         show: true,
@@ -186,9 +149,66 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           category: ["PC03"],
           tags: ["TA03"],
+          productState: ["PS020"], // 진행 중
           due: "2025.01.02 18:00:00",
         },
       },
+      // 4-3: 완료 (PS030)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 4,
+        price: 30000,
+
+        show: true,
+        active: true,
+        name: "문서 작성해주세요",
+        quantity: 1,
+        buyQuantity: 0,
+
+        content: "전문 문서 작성 도와주세요",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC02"],
+          tags: ["TA03", "TA04"],
+          productState: ["PS030"], // 완료
+          due: "2025.01.02 18:00:00",
+          pickupLocation: {},
+          arrivalLocation: {
+            address: "서울특별시 마포구 마포대로 195",
+            detailAddress: "마포래미안 1동 1호",
+            coordinates: {
+              latitude: 37.553491092579186, // 위도
+              longitude: 126.95314745548572, // 경도
+            },
+          },
+        },
+      },
+      // 4-4: 기간 만료 (PS040)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 4,
+        price: 20000,
+
+        show: true,
+        active: true,
+        name: "강아지 돌봄 해주세요",
+        quantity: 1,
+        buyQuantity: 0,
+
+        content: "저희 집 멍멍이 두 시간만 봐주세요",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC05"],
+          tags: ["TA05", "TA07"],
+          productState: ["PS040"], // 기간 만료
+          due: "2025.01.05 18:00:00",
+        },
+      },
+
+      // 2번 유저가 올린 심부름
+      // 2-1: 구인 중 (PS010)
       {
         _id: await nextSeq("product"),
         seller_id: 2,
@@ -206,9 +226,11 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           category: ["PC04"],
           tags: ["TA02", "TA04"],
-          due: "2025.01.02 20:00:00",
+          productState: ["PS010"], // 구인 중
+          due: "2025.12.31 20:00:00",
         },
       },
+      // 2-2: 매칭 완료, 진행 중 (PS020)
       {
         _id: await nextSeq("product"),
         seller_id: 2,
@@ -226,13 +248,15 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           category: ["PC05"],
           tags: ["TA06", "TA07"],
-          due: "2025.01.04 18:00:00",
+          productState: ["PS020"], // 진행 중
+          due: "2025.01.25 18:00:00",
         },
       },
+      // 2-3: 완료 (PS030)
       {
         _id: await nextSeq("product"),
         seller_id: 2,
-        price: 20000,
+        price: 40000,
 
         show: true,
         active: true,
@@ -245,515 +269,79 @@ export const initData = async (clientId, nextSeq) => {
         updatedAt: getTime(-40, -60 * 15),
         extra: {
           category: ["PC05"],
-          tags: ["TA05", "TA07"],
-          due: "2025.01.05 18:00:00",
+          tags: ["TA06", "TA07"],
+          productState: ["PS030"], // 완료
+          due: "2025.01.04 18:00:00",
         },
       },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 2,
-      //   price: 30000,
-      //   show: true,
-      //   active: true,
-      //   name: "문서 작성해주세요",
-      //   quantity: 200,
-      //   buyQuantity: 198,
+      // 2-4: 기간 만료 (PS040)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 2,
+        price: 50000,
 
-      //   content: `
-      //     <div class="product-detail">
-      //       <p>계약서 작성 도와주세요</p>
-      //     </div>`,
-      //   createdAt: getTime(-38, -60 * 60 * 6),
-      //   updatedAt: getTime(-33, -60 * 55),
-      //   extra: {
-      //     isNew: false,
-      //     isBest: true,
-      //     category: ["PC01", "PC0103"],
-      //     sort: 4,
-      //   },
-      // },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 2,
-      //   price: 48870,
-      //   shippingFees: 0,
-      //   show: true,
-      //   active: true,
-      //   name: "레고 클래식 라지 조립 박스 10698",
-      //   quantity: 100,
-      //   buyQuantity: 99,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-classic.jpg`,
-      //       name: "sample-classic.jpg",
-      //       originalname: "레고 클래식.jpg",
-      //     },
-      //   ],
-      //   content: `
-      //     <div class="product-detail">
-      //       <p>레고 클래식 라지 조립 박스 10698 상세 설명</p>
-      //     </div>`,
-      //   createdAt: getTime(-35, -60 * 60 * 6),
-      //   updatedAt: getTime(-10, -60 * 19),
-      //   extra: {
-      //     isNew: true,
-      //     isBest: true,
-      //     category: ["PC01", "PC0103"],
-      //     sort: 3,
-      //   },
-      // },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 3,
-      //   price: 45000,
-      //   shippingFees: 3500,
-      //   show: true,
-      //   active: true,
-      //   name: "레고 테크닉 42151 부가티 볼리드",
-      //   quantity: 100,
-      //   buyQuantity: 89,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-bugatti.png`,
-      //       name: "sample-bugatti.png",
-      //       originalname: "부가티.png",
-      //     },
-      //   ],
-      //   content: `
-      //     <div class="product-detail">
-      //       <p>레고 테크닉 42151 부가티 볼리드 상세 설명</p>
-      //     </div>`,
-      //   createdAt: getTime(-33, -60 * 60 * 7),
-      //   updatedAt: getTime(-22, -60 * 60 * 3),
-      //   extra: {
-      //     isNew: false,
-      //     isBest: true,
-      //     category: ["PC03", "PC0303"],
-      //     sort: 1,
-      //   },
-      // },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 2,
-      //   price: 45000,
-      //   shippingFees: 3500,
-      //   show: true,
-      //   active: true,
-      //   name: "레고 마인크래프트 21246 깊고 어두운 전장",
-      //   quantity: 100,
-      //   buyQuantity: 98,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-minecraft.png`,
-      //       name: "sample-minecraft.png",
-      //       originalname: "마인크래프트.png",
-      //     },
-      //   ],
-      //   content: `
-      //     <div class="product-detail">
-      //       <p>레고 마인크래프트 21246 깊고 어두운 전장 상세 설명</p>
-      //     </div>`,
-      //   createdAt: getTime(-30, -60 * 60 * 10),
-      //   updatedAt: getTime(-10, -60 * 56),
-      //   extra: {
-      //     isNew: true,
-      //     isBest: false,
-      //     today: true,
-      //     category: ["PC03", "PC0303"],
-      //     sort: 2,
-      //   },
-      // },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 2,
-      //   price: 54790,
-      //   shippingFees: 4000,
-      //   show: false,
-      //   active: true,
-      //   name: "레고 마블 76247 헐크버스터: 와칸다의 전투",
-      //   quantity: 100,
-      //   buyQuantity: 99,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-hulk.png`,
-      //       name: "sample-hulk.png",
-      //       originalname: "헐크.png",
-      //     },
-      //   ],
-      //   content: `
-      //     <div class="product-detail">
-      //       <p>레고 마블 76247 헐크버스터: 와칸다의 전투 상세 설명</p>
-      //     </div>`,
-      //   createdAt: getTime(-30, -60 * 60 * 21),
-      //   updatedAt: getTime(-20, -60 * 10),
-      //   extra: {
-      //     isNew: false,
-      //     isBest: false,
-      //     category: ["PC03", "PC0303"],
-      //     sort: 1,
-      //   },
-      // },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 3,
-      //   price: 13000,
-      //   shippingFees: 3500,
-      //   show: true,
-      //   active: true,
-      //   name: "할리갈리 보드게임",
-      //   quantity: 100,
-      //   buyQuantity: 98,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-halligalli.jpg`,
-      //       name: "sample-halligalli.jpg",
-      //       originalname: "할리갈리.jpg",
-      //     },
-      //   ],
-      //   content: `
-      //     <div class="product-detail">
-      //       <p>할리갈리 보드게임 상세 설명</p>
-      //     </div>`,
-      //   createdAt: getTime(-25, -60 * 60 * 12),
-      //   updatedAt: getTime(-24, -60 * 23),
-      //   extra: {
-      //     isNew: false,
-      //     isBest: true,
-      //     category: ["PC01", "PC0102", "PC010201"],
-      //     sort: 3,
-      //   },
-      // },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 2,
-      //   price: 26000,
-      //   shippingFees: 3000,
-      //   show: true,
-      //   active: true,
-      //   name: "루미큐브 클래식",
-      //   quantity: 100,
-      //   buyQuantity: 97,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-rummikub.png`,
-      //       name: "sample-rummikub.png",
-      //       originalname: "루미큐브.png",
-      //     },
-      //   ],
-      //   content: `
-      //     <div class="product-detail">
-      //       <p>루미큐브 클래식 상세 설명</p>
-      //     </div>`,
-      //   createdAt: getTime(-22, -60 * 60 * 22),
-      //   updatedAt: getTime(-20, -60 * 33),
-      //   extra: {
-      //     isNew: true,
-      //     isBest: true,
-      //     category: ["PC01", "PC0102", "PC010202"],
-      //     sort: 8,
-      //   },
-      // },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 3,
-      //   price: 12000,
-      //   shippingFees: 3000,
-      //   show: true,
-      //   active: true,
-      //   name: "짱구는 못말려 숲속 산책 직소퍼즐",
-      //   quantity: 100,
-      //   buyQuantity: 96,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-jjangu.jpg`,
-      //       name: "sample-jjangu.jpg",
-      //       originalname: "짱구.jpg",
-      //     },
-      //   ],
-      //   content: `
-      //     <div class="product-detail">
-      //       <p>짱구는 못말려 숲속 산책 직소퍼즐 상세 설명</p>
-      //     </div>`,
-      //   createdAt: getTime(-21, -60 * 60 * 4),
-      //   updatedAt: getTime(-16, -60 * 15),
-      //   extra: {
-      //     isNew: true,
-      //     isBest: false,
-      //     today: true,
-      //     category: ["PC03", "PC0302"],
-      //     sort: 2,
-      //   },
-      // },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 3,
-      //   price: 24000,
-      //   shippingFees: 0,
-      //   show: true,
-      //   active: true,
-      //   name: "라푼젤 그녀의 꿈 직소퍼즐 KD-1000-001 + 그림 엽서(랜덤) + 품질보증서",
-      //   quantity: 100,
-      //   buyQuantity: 95,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-rapunzel.jpg`,
-      //       name: "sample-rapunzel.jpg",
-      //       originalname: "라푼젤.jpg",
-      //     },
-      //   ],
-      //   content: `
-      //     <div class="product-detail">
-      //       <p>라푼젤 그녀의 꿈 직소퍼즐 KD-1000-001 + 그림 엽서(랜덤) + 품질보증서 상세 설명</p>
-      //     </div>`,
-      //   createdAt: getTime(-18, -60 * 60 * 7),
-      //   updatedAt: getTime(-12, -60 * 33),
-      //   extra: {
-      //     isNew: false,
-      //     isBest: true,
-      //     category: ["PC01", "PC0101"],
-      //     sort: 4,
-      //   },
-      // },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 2,
-      //   price: 14400,
-      //   shippingFees: 3000,
-      //   show: true,
-      //   active: true,
-      //   name: "KC인증 스키비디 토일렛 피규어 블럭 8종 중국 호환 레고 블록 장난감 어린이 선물",
-      //   quantity: 100,
-      //   buyQuantity: 94,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-skibidi01.jpg`,
-      //       name: "sample-skibidi01.jpg",
-      //       originalname: "피규어1.jpg",
-      //     },
-      //     {
-      //       path: `/files/${clientId}/sample-skibidi02.jpg`,
-      //       name: "sample-skibidi02.jpg",
-      //       originalname: "피규어2.jpg",
-      //     },
-      //   ],
-      //   content: `
-      //     <div align="center"><p>*크리스마스 배송 안내</p></div>
-      //     <div align="center"><p>택배사 물량 증가로 평소보다 2~3일 더 걸립니다.</p></div>
-      //     <div align="center"><br></div>
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-skibidi03.jpg"></div>
-      //     <div align="center"><br></div>
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-skibidi04.jpg"></div>
-      //     <div align="center"><br></div>
-      //     <div align="center"><p>*반품 안내</p></div>`,
-      //   createdAt: getTime(-16, -60 * 60 * 3),
-      //   updatedAt: getTime(-15, -60 * 45),
-      //   extra: {
-      //     isNew: false,
-      //     isBest: false,
-      //     today: true,
-      //     category: ["PC01", "PC0103"], // 어린이 > 레고
-      //     sort: 6,
-      //   },
-      // },
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 2,
-      //   price: 9000,
-      //   shippingFees: 3000,
-      //   show: true,
-      //   active: true,
-      //   name: "스키비디 토일렛 봉제 인형 (25cm-30cm) 시리즈 크리스마스 선물",
-      //   quantity: 999,
-      //   buyQuantity: 800,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-skibidi11.jpg`,
-      //       name: "sample-skibidi11.jpg",
-      //       originalname: "토일렛.jpg",
-      //     },
-      //   ],
-      //   content: `
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-skibidi12.jpg"></div>
-      //     <div align="center"><br></div>
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-skibidi13.jpg"></div>
-      //     <div align="center"><br></div>
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-skibidi14.jpg"></div>
-      //     <div align="center"><br></div>
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-skibidi15.jpg"></div>`,
-      //   createdAt: getTime(-11, -60 * 60 * 12),
-      //   updatedAt: getTime(-5, -60 * 60 * 6),
-      //   extra: {
-      //     isNew: true,
-      //     isBest: true,
-      //     category: ["PC01", "PC0103"], // 어린이 > 레고
-      //     sort: 7,
-      //   },
-      // },
-      // // 13번 상품
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 3,
-      //   price: 21600,
-      //   shippingFees: 5500,
-      //   show: true,
-      //   active: true,
-      //   name: "KC인증 스키비디 토일렛 피규어 블럭 4종 중국 호환 레고 블록 장난감 어린이 선물",
-      //   quantity: 99,
-      //   buyQuantity: 94,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-skibidi21.jpg`,
-      //       name: "sample-skibidi21.jpg",
-      //       originalname: "스키비디.jpg",
-      //     },
-      //   ],
-      //   content: `
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-skibidi22.jpg"></div>
-      //     <div align="center"><br></div>
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-skibidi23.jpg"></div>
-      //     <div align="center"><br></div>
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-skibidi24.jpg"></div>`,
-      //   createdAt: getTime(-10, -60 * 60 * 12),
-      //   updatedAt: getTime(-5, -60 * 60 * 6),
-      //   extra: {
-      //     isNew: true,
-      //     isBest: false,
-      //     category: ["PC01", "PC0103"], // 어린이 > 레고
-      //     sort: 6,
-      //   },
-      // },
-      // // 14번 상품. shippingFees가 없을 경우 config.shippingFees 사용
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 3,
-      //   price: 12900,
-      //   // shippingFees: 3500,
-      //   show: true,
-      //   active: true,
-      //   name: "푸쉬팝게임기 팝잇 푸시팝 게임기 두더지게임 핑거 뽁뽁이 애니멀 1+1",
-      //   quantity: 300,
-      //   buyQuantity: 298,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-pushpop01.jpg`,
-      //       name: "sample-pushpop01.jpg",
-      //       originalname: "푸쉬팝1.jpg",
-      //     },
-      //     {
-      //       path: `/files/${clientId}/sample-pushpop02.jpg`,
-      //       name: "sample-pushpop02.jpg",
-      //       originalname: "푸쉬팝2.jpg",
-      //     },
-      //     {
-      //       path: `/files/${clientId}/sample-pushpop03.jpg`,
-      //       name: "sample-pushpop03.jpg",
-      //       originalname: "푸쉬팝3.jpg",
-      //     },
-      //   ],
-      //   content: `
-      //     <div align="center"><p>푸쉬팝게임기 팝잇 푸시팝 게임기 두더지게임 핑거 뽁뽁이 애니멀을 구매하시는 모든 분께 사은품(무작위)으로 하나 더 드립니다.</p></div>
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-pushpop04.gif"></div>
-      //     <div align="center"><br></div>
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-pushpop05.jpg"></div>
-      //     <div align="center"><br></div>
-      //     <div align="center"><img src="${process.env.API_HOST}/files/${clientId}/sample-pushpop06.jpg"></div>`,
-      //   createdAt: getTime(-3, -60 * 60 * 12),
-      //   updatedAt: getTime(-3, -60 * 60 * 12),
-      //   extra: {
-      //     isNew: false,
-      //     isBest: true,
-      //     category: ["PC01", "PC0102"], // 어린이 > 보드게임
-      //     sort: 5,
-      //   },
-      // },
-      // // 15번 상품. 옵션이 있는 경우 메인 상품 정보
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 3,
-      //   price: 12900,
-      //   shippingFees: 3500,
-      //   show: true,
-      //   active: true,
-      //   name: "샤넬 NO.5",
-      //   quantity: 999999,
-      //   buyQuantity: 0,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-pushpop01.jpg`,
-      //       name: "sample-pushpop01.jpg",
-      //       originalname: "샤넬.jpg",
-      //     },
-      //   ],
-      //   content: `샤넬 향수`,
-      //   createdAt: getTime(-3, -60 * 60 * 12),
-      //   updatedAt: getTime(-3, -60 * 60 * 12),
-      //   extra: {
-      //     depth: 1,
-      //   },
-      // },
-      // // 16번 상품. 옵션이 있는 경우 옵션 상품 정보. 15번 상품의 하위 상품(옵션)
-      // {
-      //   _id: await nextSeq("product"),
-      //   seller_id: 3,
-      //   price: 6900,
-      //   shippingFees: 3500,
-      //   name: "샤넬 NO.5",
-      //   quantity: 1,
-      //   buyQuantity: 0,
-      //   show: true,
-      //   active: true,
-      //   mainImages: [
-      //     {
-      //       path: `/files/${clientId}/sample-pushpop03.jpg`,
-      //       name: "sample-pushpop03.jpg",
-      //       originalname: "샤넬.jpg",
-      //     },
-      //   ],
-      //   content: `3달 쓴 향수입니다.`,
-      //   createdAt: getTime(-3, -60 * 60 * 12),
-      //   updatedAt: getTime(-3, -60 * 60 * 12),
-      //   extra: {
-      //     depth: 2,
-      //     parent: 15,
-      //     size: "200mm",
-      //   },
-      // },
+        show: true,
+        active: true,
+        name: "강원도 여행 가이드 해주실 분",
+        quantity: 1,
+        buyQuantity: 0,
+
+        content:
+          "이번에 강원도 여행을 가는데요, 가이드해 주실 분을 모십니다. 전문 가이드보다는 현지 주민이시면 좋겠어요.",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC03"],
+          tags: ["TA04", "TA07"],
+          productState: ["PS040"], // 기간 만료
+          due: "2025.01.04 18:00:00",
+        },
+      },
     ],
+
     // 주문 (심부름 지원)
     order: [
+      // 2번 유저의 지원 (4번 유저의 심부름에 대해)
+      // 2-1: 지원 완료, 매칭 대기 중 (OS010)
       {
         _id: await nextSeq("order"),
-        user_id: 4,
-        state: "OS020",
+        user_id: 2,
+        state: "OS010", // 지원 완료, 매칭 대기 중
         products: [
           {
-            _id: 1,
-            seller_id: 2,
-            state: "OS010",
+            _id: await nextSeq("product"),
+            seller_id: 4,
+            price: 15000,
+
+            show: true,
+            active: true,
             name: "죽과 상비약 부탁",
             quantity: 1,
-            price: 15000,
-            content: "죽과 상비약 사다 주세요 제발요",
-            createdAt: "2024.11.26 15:43:04",
-            updatedAt: "2024.11.27 17:28:04",
+            buyQuantity: 0,
+
+            content: `죽과 상비약 사다 주세요
+            제발요`,
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
             extra: {
               category: ["PC01"],
               tags: ["TA01", "TA02"],
+              productState: ["PS010"], // 구인 중
               due: "2025.01.03 18:00:00",
               pickupLocation: {
                 address: "서울 종로구 세종로 186",
                 detailAddress: "광화문역",
                 coordinates: {
-                  latitude: 37.57166213080161,
-                  longitude: 126.97645483898171,
+                  latitude: 37.57166213080161, // 위도
+                  longitude: 126.97645483898171, // 경도
                 },
               },
               arrivalLocation: {
                 address: "서울특별시 중구 한강대로 405",
                 detailAddress: "서울역 2층 대합실",
                 coordinates: {
-                  latitude: 37.554613947854044,
-                  longitude: 126.97052998585586,
+                  latitude: 37.554613947854044, // 위도
+                  longitude: 126.97052998585586, // 경도
                 },
               },
             },
@@ -762,7 +350,237 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
+      // 2-2: 매칭 완료, 진행 중 (OS020)
+      {
+        _id: await nextSeq("order"),
+        user_id: 2,
+        state: "OS020", // 매칭 완료, 심부름 진행 중
+        products: [
+          {
+            _id: await nextSeq("product"),
+            seller_id: 4,
+            price: 20000,
+
+            show: true,
+            active: true,
+            name: "SNS 프로필 사진 찍어주세요",
+            quantity: 1,
+            buyQuantity: 0,
+
+            content: "프로필 사진 바꾸고 싶은데 가볍게 찍어주세요",
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
+            extra: {
+              category: ["PC03"],
+              tags: ["TA03"],
+              productState: ["PS020"], // 진행 중
+              due: "2025.01.02 18:00:00",
+            },
+          },
+        ],
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
+      // 2-3: 완료 (OS030)
+      {
+        _id: await nextSeq("order"),
+        user_id: 2,
+        state: "OS030", // 심부름 완료
+        products: [
+          {
+            _id: await nextSeq("product"),
+            seller_id: 4,
+            price: 30000,
+
+            show: true,
+            active: true,
+            name: "문서 작성해주세요",
+            quantity: 1,
+            buyQuantity: 0,
+
+            content: "전문 문서 작성 도와주세요",
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
+            extra: {
+              category: ["PC02"],
+              tags: ["TA03", "TA04"],
+              productState: ["PS030"], // 심부름 완료
+              due: "2025.01.02 18:00:00",
+              pickupLocation: {},
+              arrivalLocation: {
+                address: "서울특별시 마포구 마포대로 195",
+                detailAddress: "마포래미안 1동 1호",
+                coordinates: {
+                  latitude: 37.553491092579186, // 위도
+                  longitude: 126.95314745548572, // 경도
+                },
+              },
+            },
+          },
+        ],
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
+      // 2-4: 기간 만료 (OS040)
+      {
+        _id: await nextSeq("order"),
+        user_id: 2,
+        state: "OS040", // 기간 만료
+        products: [
+          {
+            _id: await nextSeq("product"),
+            seller_id: 4,
+            price: 20000,
+
+            show: true,
+            active: true,
+            name: "강아지 돌봄 해주세요",
+            quantity: 1,
+            buyQuantity: 0,
+
+            content: "저희 집 멍멍이 두 시간만 봐주세요",
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
+            extra: {
+              category: ["PC05"],
+              tags: ["TA05", "TA07"],
+              productState: ["PS040"], // 기간 만료
+              due: "2025.01.05 18:00:00",
+            },
+          },
+        ],
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
+
+      // 4번 유저의 지원 (2번 유저의 심부름에 대해)
+      // 4-1: 지원 안료, 매칭 대기 중 (OS010)
+      {
+        _id: await nextSeq("order"),
+        user_id: 4,
+        state: "OS010", // 지원 완료, 매칭 대기 중
+        products: [
+          {
+            _id: await nextSeq("product"),
+            seller_id: 2,
+            price: 20000,
+
+            show: true,
+            active: true,
+            name: "티켓팅 대신 해주세요",
+            quantity: 1,
+            buyQuantity: 0,
+
+            content: "오굿굿 콘서트 꼭 가고 싶은데 티켓팅 대신 해주세요",
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
+            extra: {
+              category: ["PC04"],
+              tags: ["TA02", "TA04"],
+              productState: ["PS010"], // 구인 중
+              due: "2025.12.31 20:00:00",
+            },
+          },
+        ],
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
+      // 4-2: 매칭 완료, 심부름 진행 중 (OS020)
+      {
+        _id: await nextSeq("order"),
+        user_id: 4,
+        state: "OS020", // 매칭 완료, 심부름 진행 중
+        products: [
+          {
+            _id: await nextSeq("product"),
+            seller_id: 2,
+            price: 20000,
+
+            show: true,
+            active: true,
+            name: "아이 돌봄 해주세요",
+            quantity: 1,
+            buyQuantity: 0,
+
+            content: "저희 집 꼬맹이 두 시간만 봐주세요",
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
+            extra: {
+              category: ["PC05"],
+              tags: ["TA06", "TA07"],
+              productState: ["PS020"], // 진행 중
+              due: "2025.01.25 18:00:00",
+            },
+          },
+        ],
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
+      // 4-3: 완료 (OS030)
+      {
+        _id: await nextSeq("order"),
+        user_id: 4,
+        state: "OS030", // 심부름 완료
+        products: [
+          {
+            _id: await nextSeq("product"),
+            seller_id: 2,
+            price: 40000,
+
+            show: true,
+            active: true,
+            name: "강아지 돌봄 해주세요",
+            quantity: 1,
+            buyQuantity: 0,
+
+            content: "저희 집 멍멍이 두 시간만 봐주세요",
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
+            extra: {
+              category: ["PC05"],
+              tags: ["TA06", "TA07"],
+              productState: ["PS030"], // 완료
+              due: "2025.01.04 18:00:00",
+            },
+          },
+        ],
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
+      // 4-4: 기간 만료 (OS040)
+      {
+        _id: await nextSeq("order"),
+        user_id: 4,
+        state: "OS040", // 기간 만료
+        products: [
+          {
+            _id: await nextSeq("product"),
+            seller_id: 2,
+            price: 50000,
+
+            show: true,
+            active: true,
+            name: "강원도 여행 가이드 해주실 분",
+            quantity: 1,
+            buyQuantity: 0,
+
+            content:
+              "이번에 강원도 여행을 가는데요, 가이드해 주실 분을 모십니다. 전문 가이드보다는 현지 주민이시면 좋겠어요.",
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
+            extra: {
+              category: ["PC03"],
+              tags: ["TA04", "TA07"],
+              productState: ["PS040"], // 기간 만료
+              due: "2025.01.04 18:00:00",
+            },
+          },
+        ],
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
     ],
+
     // 후기
     review: [
       {
@@ -811,109 +629,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-2, -60 * 60 * 10),
       },
     ],
-    // 장바구니
-    cart: [
-      {
-        _id: await nextSeq("cart"),
-        user_id: 4,
-        product_id: 1,
-        quantity: 2,
-        createdAt: getTime(-7, -60 * 30),
-        updatedAt: getTime(-7, -60 * 30),
-      },
-      {
-        _id: await nextSeq("cart"),
-        user_id: 4,
-        product_id: 2,
-        quantity: 1,
-        createdAt: getTime(-4, -60 * 30),
-        updatedAt: getTime(-3, -60 * 60 * 12),
-      },
-      {
-        _id: await nextSeq("cart"),
-        user_id: 2,
-        product_id: 3,
-        quantity: 2,
-        createdAt: getTime(-3, -60 * 60 * 4),
-        updatedAt: getTime(-3, -60 * 60 * 4),
-      },
-      {
-        _id: await nextSeq("cart"),
-        user_id: 2,
-        product_id: 4,
-        quantity: 3,
-        createdAt: getTime(-2, -60 * 60 * 12),
-        updatedAt: getTime(-1, -60 * 60 * 20),
-      },
-    ],
-    // 즐겨찾기/북마크
-    bookmark: [
-      {
-        _id: await nextSeq("bookmark"),
-        user_id: 4,
-        user: {
-          _id: 4,
-          name: "제이지",
-          image: `/files/${clientId}/user-jayg.webp`,
-        },
-        type: "product",
-        target_id: 2,
-        memo: "첫째 크리스마스 선물.",
-        createdAt: getTime(-3, -60 * 60 * 2),
-      },
-      {
-        _id: await nextSeq("bookmark"),
-        user_id: 4,
-        user: {
-          _id: 4,
-          name: "제이지",
-          image: `/files/${clientId}/user-jayg.webp`,
-        },
-        type: "product",
-        target_id: 4,
-        memo: "둘째 생일 선물",
-        createdAt: getTime(-1, -60 * 60 * 12),
-      },
-      {
-        _id: await nextSeq("bookmark"),
-        user_id: 4,
-        user: {
-          _id: 4,
-          name: "제이지",
-          image: `/files/${clientId}/user-jayg.webp`,
-        },
-        type: "user",
-        target_id: 2,
-        memo: "단골 셀러",
-        createdAt: getTime(-2, -60 * 60 * 20),
-      },
-      {
-        _id: await nextSeq("bookmark"),
-        user_id: 4,
-        user: {
-          _id: 4,
-          name: "제이지",
-          image: `/files/${clientId}/user-jayg.webp`,
-        },
-        type: "post",
-        target_id: 1,
-        memo: "크기 문의글 북마크",
-        createdAt: getTime(-1, -60 * 60 * 12),
-      },
-      {
-        _id: await nextSeq("bookmark"),
-        user_id: 2,
-        user: {
-          _id: 2,
-          name: "네오",
-          image: `/files/${clientId}/user-neo.webp`,
-        },
-        type: "product",
-        target_id: 4,
-        memo: "1순위로 살것!",
-        createdAt: getTime(-1, -60 * 60 * 12),
-      },
-    ],
+
     // QnA, 공지사항 등의 게시판
     post: [
       {
@@ -1036,8 +752,10 @@ export const initData = async (clientId, nextSeq) => {
         updatedAt: getTime(-4, -60 * 60 * 13),
       },
     ],
+
     // 코드
     code: [
+      // 심부름 카테고리
       {
         _id: "Category",
         title: "심부름 카테고리",
@@ -1070,6 +788,7 @@ export const initData = async (clientId, nextSeq) => {
         ],
       },
 
+      //심부름 태그
       {
         _id: "Tag",
         title: "심부름 태그",
@@ -1111,6 +830,36 @@ export const initData = async (clientId, nextSeq) => {
           },
         ],
       },
+
+      // 상품(심부름) 상태
+      {
+        _id: "productState",
+        title: "심부름 상태",
+        codes: [
+          {
+            sort: 1,
+            code: "PS010",
+            value: "구인 중",
+          },
+          {
+            sort: 2,
+            code: "PS020",
+            value: "매칭 완료, 심부름 진행 중",
+          },
+          {
+            sort: 3,
+            code: "PS030",
+            value: "심부름 완료",
+          },
+          {
+            sort: 4,
+            code: "PS040",
+            value: "심부름 기간 만료",
+          },
+        ],
+      },
+
+      // 주문(지원) 상태
       {
         _id: "orderState",
         title: "지원 상태",
@@ -1118,12 +867,12 @@ export const initData = async (clientId, nextSeq) => {
           {
             sort: 1,
             code: "OS010",
-            value: "지원 완료, 매칭 대기중",
+            value: "지원 완료, 매칭 대기 중",
           },
           {
             sort: 2,
             code: "OS020",
-            value: "매칭 완료, 심부름 진행중",
+            value: "매칭 완료, 심부름 진행 중",
           },
           {
             sort: 3,
@@ -1133,36 +882,7 @@ export const initData = async (clientId, nextSeq) => {
           {
             sort: 4,
             code: "OS040",
-            value: "심부름 기간 지남",
-          },
-          {
-            sort: 5,
-            coe: "OS050",
-            value: "결제 완료",
-          },
-        ],
-      },
-      {
-        _id: "membershipClass",
-        title: "회원 등급",
-        codes: [
-          {
-            sort: 1,
-            code: "MC01",
-            value: "일반",
-            discountRate: 0, // 할인율
-          },
-          {
-            sort: 2,
-            code: "MC02",
-            value: "프리미엄",
-            discountRate: 10,
-          },
-          {
-            sort: 3,
-            code: "MC03",
-            value: "VIP",
-            discountRate: 20,
+            value: "심부름 기간 만료",
           },
         ],
       },
