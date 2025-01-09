@@ -39,6 +39,9 @@ export default function Login() {
         accessToken: user.token.accessToken,
         refreshToken: user.token.refreshToken,
       });
+      // 로그인 성공 시 토큰 콘솔 로그 추가
+      console.log("Access Token:", user.token.accessToken);
+      console.log("Refresh Token:", user.token.refreshToken);
 
       alert(`${user.name}님, 로그인 되었습니다.`);
       navigate(location.state?.from || `/`);
