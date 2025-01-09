@@ -6,6 +6,15 @@ export default function NavigationHeader() {
   const navigate = useNavigate();
 
   const getPageConfig = () => {
+    if (location.pathname.match(/^\/products\/[^/]+$/)) {
+      return {
+        title: "심부름 상세",
+        showBackButton: true,
+        showHeaderButton: false,
+        bgColor: "bg-background-color",
+      };
+    }
+
     switch (location.pathname) {
       case "/":
         return {
@@ -20,13 +29,6 @@ export default function NavigationHeader() {
           showBackButton: false,
           showHeaderButton: false,
           bgColor: "bg-white",
-        };
-      case matchPath("/products/:_id", location.pathname) !== null:
-        return {
-          title: "심부름 상세",
-          showBackButton: true,
-          showHeaderButton: false,
-          bgColor: "bg-background-color",
         };
       case "/users/mypage":
         return {
