@@ -211,7 +211,7 @@ export const initData = async (clientId, nextSeq) => {
       // 2-1: 구인 중 (PS010)
       {
         _id: await nextSeq("product"),
-        seller_id: 5,
+        seller_id: 2,
         price: 20000,
 
         show: true,
@@ -226,14 +226,14 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           category: ["PC04"],
           tags: ["TA02", "TA04"],
-          productState: ["PS040"], // 심부름 기간 만료
-          due: "2025.01.02 20:00:00",
+          productState: ["PS010"], // 구인 중
+          due: "2025.12.31 20:00:00",
         },
       },
       // 2-2: 매칭 완료, 진행 중 (PS020)
       {
         _id: await nextSeq("product"),
-        seller_id: 6,
+        seller_id: 2,
         price: 20000,
 
         show: true,
@@ -248,13 +248,55 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           category: ["PC05"],
           tags: ["TA06", "TA07"],
-          productState: ["PS010"], // 구인 중
-          due: "2025.01.04 18:00:00",
+          productState: ["PS020"], // 진행 중
+          due: "2025.01.25 18:00:00",
         },
       },
       // 2-3: 완료 (PS030)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 2,
+        price: 40000,
 
+        show: true,
+        active: true,
+        name: "강아지 돌봄 해주세요",
+        quantity: 1,
+        buyQuantity: 0,
+
+        content: "저희 집 멍멍이 두 시간만 봐주세요",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC05"],
+          tags: ["TA06", "TA07"],
+          productState: ["PS030"], // 완료
+          due: "2025.01.04 18:00:00",
+        },
+      },
       // 2-4: 기간 만료 (PS040)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 2,
+        price: 50000,
+
+        show: true,
+        active: true,
+        name: "강원도 여행 가이드 해주실 분",
+        quantity: 1,
+        buyQuantity: 0,
+
+        content:
+          "이번에 강원도 여행을 가는데요, 가이드해 주실 분을 모십니다. 전문 가이드보다는 현지 주민이시면 좋겠어요.",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC03"],
+          tags: ["TA04", "TA07"],
+          productState: ["PS040"], // 기간 만료
+          due: "2025.01.04 18:00:00",
+        },
+      },
     ],
 
     // 주문 (심부름 지원)
