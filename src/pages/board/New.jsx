@@ -2,6 +2,7 @@ import InputError from "@components/InputError";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import DaumPostCode from "react-daum-postcode";
+import DateAndTimePicker from "@components/DateAndTimePicker";
 
 export default function New() {
   const {
@@ -125,6 +126,7 @@ export default function New() {
     setDeliveryAddress(data.address);
     setIsDeliveryOpen(false); // 검색창 닫기
   };
+  ////////////////////////////////////////////////////////////// 일시 //////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////// 금액 //////////////////////////////////////////////////////////////
   const price = watch("price", ""); // react-hook-form에서 price값을 실시간으로 감시
@@ -378,13 +380,12 @@ export default function New() {
 
       {/* 심부름 일시 */}
       <div className="task_dateandtime p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-        <p className="font-laundry text-input-title">
+        {/* <p className="text-lg font-semibold text-gray-700">
           심부름의 날짜와 시간을 선택해주세요
-        </p>
-
-        <div className="w-full h-[40px] bg-gray-100 p-[12px] rounded-lg font-pretendard text-gray-500 flex items-center">
-          날짜 / 시간 선택 툴 추가 예정
-        </div>
+        </p> */}
+        <DateAndTimePicker
+          onDateChange={(date) => console.log("Selected Date:", date)}
+        />
       </div>
 
       {/* 심부름 금액 */}
