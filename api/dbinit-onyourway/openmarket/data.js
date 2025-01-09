@@ -131,7 +131,7 @@ export const initData = async (clientId, nextSeq) => {
           },
         },
       },
-      // 4-2: 진행 중 (PS020)
+      // 4-2: 매칭 완료, 진행 중 (PS020)
       {
         _id: await nextSeq("product"),
         seller_id: 4,
