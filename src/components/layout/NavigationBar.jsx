@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 
 import homeDefault from "/assets/home-default.png";
@@ -40,37 +40,38 @@ const navItems = [
 ];
 
 export default function NavigationBar() {
-  const [visible, setVisible] = useState(true); // 네비게이션 바 표시 상태를 관리하는 state
-  const [prevScrollPos, setPrevScrollPos] = useState(0); // 마지막 스크롤 위치를 저장하는 state
+  const [visible, setVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+
+    // 스크롤 방향에 따른 즉각적인 상태 업데이트
+    if (currentScrollY < prevScrollPos) {
+      setVisible(true);
+    } else if (currentScrollY > prevScrollPos) {
+      setVisible(false);
+    }
+    setPrevScrollPos(currentScrollY);
+  }, [prevScrollPos]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.scrollY;
+    // 스크롤 이벤트 리스너 등록
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
-      // 스크롤 방향 감지
-      const isScrollingDown = currentScrollPos > prevScrollPos;
-
-      // 스크롤 위치가 30px 미만일 때는 항상 표시
-      if (currentScrollPos < 30) {
-        setVisible(true);
-      } else {
-        setVisible(!isScrollingDown);
-      }
-
-      // 마지막 스크롤 위치 업데이트
-      setPrevScrollPos(currentScrollPos);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
+    // 컴포넌트 언마운트 시 클린업
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [prevScrollPos]); // prevScrollPos가 변경될때마다 useEffect 실행
+  }, [handleScroll]); // handleScroll을 의존성 배열에 추가
+
+  if (!visible) {
+    return null;
+  }
 
   return (
     <nav
-      className={`bg-white flex items-center justify-around shadow-card-shadow min-h-[83px] max-w-[393px] mx-auto fixed bottom-0 left-0 right-0 transition-transform duration-300 ${
+      className={`bg-white flex items-center justify-around shadow-card-shadow min-h-[83px] max-w-[393px] mx-auto fixed bottom-0 left-0 right-0 transition-transform duration-100 ${
         visible ? "translate-y-0" : "translate-y-full"
       }`}
     >
