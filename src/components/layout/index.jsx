@@ -6,9 +6,9 @@ export default function Layout() {
   return (
     <div className="l_container max-w-[393px] h-screen mx-auto flex flex-col">
       <NavigationHeader />
-
-      <Outlet />
-
+      <div className="pb-[83px] bg-background-color">
+        <Outlet />
+      </div>
       <NavigationBar />
     </div>
   );

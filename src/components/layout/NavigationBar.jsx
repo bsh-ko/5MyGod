@@ -19,7 +19,7 @@ const navItems = [
   },
   {
     // 다른 페이지 완성되는대로 추후 경로 수정 예정
-    path: "/users/signup",
+    path: "/user/myerrands",
     text: "내 심부름",
     defaultIcon: myerrandsDefault,
     activeIcon: myerrandsActive,
