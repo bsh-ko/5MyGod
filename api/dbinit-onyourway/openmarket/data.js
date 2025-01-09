@@ -457,12 +457,12 @@ export const initData = async (clientId, nextSeq) => {
       // 4-1: 지원 안료, 매칭 대기 중 (OS010)
       {
         _id: await nextSeq("order"),
-        user_id: 1,
-        state: "OS040", // 심부름 기간 만료
+        user_id: 4,
+        state: "OS010", // 지원 완료, 매칭 대기 중
         products: [
           {
-            _id: 5,
-            seller_id: 5,
+            _id: await nextSeq("product"),
+            seller_id: 2,
             price: 20000,
 
             show: true,
@@ -477,19 +477,108 @@ export const initData = async (clientId, nextSeq) => {
             extra: {
               category: ["PC04"],
               tags: ["TA02", "TA04"],
-              productState: ["PS040"], // 심부름 기간 만료
-              due: "2025.01.02 20:00:00",
+              productState: ["PS010"], // 구인 중
+              due: "2025.12.31 20:00:00",
             },
           },
         ],
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 4-2: 매칭 완료, 진행 중 (OS020)
+      // 4-2: 매칭 완료, 심부름 진행 중 (OS020)
+      {
+        _id: await nextSeq("order"),
+        user_id: 4,
+        state: "OS020", // 매칭 완료, 심부름 진행 중
+        products: [
+          {
+            _id: await nextSeq("product"),
+            seller_id: 2,
+            price: 20000,
 
+            show: true,
+            active: true,
+            name: "아이 돌봄 해주세요",
+            quantity: 1,
+            buyQuantity: 0,
+
+            content: "저희 집 꼬맹이 두 시간만 봐주세요",
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
+            extra: {
+              category: ["PC05"],
+              tags: ["TA06", "TA07"],
+              productState: ["PS020"], // 진행 중
+              due: "2025.01.25 18:00:00",
+            },
+          },
+        ],
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
       // 4-3: 완료 (OS030)
+      {
+        _id: await nextSeq("order"),
+        user_id: 4,
+        state: "OS030", // 심부름 완료
+        products: [
+          {
+            _id: await nextSeq("product"),
+            seller_id: 2,
+            price: 40000,
 
+            show: true,
+            active: true,
+            name: "강아지 돌봄 해주세요",
+            quantity: 1,
+            buyQuantity: 0,
+
+            content: "저희 집 멍멍이 두 시간만 봐주세요",
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
+            extra: {
+              category: ["PC05"],
+              tags: ["TA06", "TA07"],
+              productState: ["PS030"], // 완료
+              due: "2025.01.04 18:00:00",
+            },
+          },
+        ],
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
       // 4-4: 기간 만료 (OS040)
+      {
+        _id: await nextSeq("order"),
+        user_id: 4,
+        state: "OS040", // 기간 만료
+        products: [
+          {
+            _id: await nextSeq("product"),
+            seller_id: 2,
+            price: 50000,
+
+            show: true,
+            active: true,
+            name: "강원도 여행 가이드 해주실 분",
+            quantity: 1,
+            buyQuantity: 0,
+
+            content:
+              "이번에 강원도 여행을 가는데요, 가이드해 주실 분을 모십니다. 전문 가이드보다는 현지 주민이시면 좋겠어요.",
+            createdAt: getTime(-41, -60 * 60 * 2),
+            updatedAt: getTime(-40, -60 * 15),
+            extra: {
+              category: ["PC03"],
+              tags: ["TA04", "TA07"],
+              productState: ["PS040"], // 기간 만료
+              due: "2025.01.04 18:00:00",
+            },
+          },
+        ],
+        createdAt: getTime(-6, -60 * 60 * 3),
+        updatedAt: getTime(-6, -60 * 60 * 3),
+      },
     ],
 
     // 후기
