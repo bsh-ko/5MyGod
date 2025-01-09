@@ -9,7 +9,7 @@ export default function Layout() {
 
       <Outlet />
 
-      <NavigationBar />
+      {/* <NavigationBar /> */}
     </div>
   );
 }
