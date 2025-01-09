@@ -129,7 +129,7 @@ export default function MyPage() {
   const tabs = [
     { id: "intro", label: "소개" },
     { id: "requests", label: "나의 요청" },
-    { id: "activity", label: "활동 내역" },
+    { id: "activity", label: "나의 지원" },
   ];
 
   const handleTabClick = (tab) => {
@@ -185,26 +185,26 @@ export default function MyPage() {
                     <p className="bg-gray-100 px-2 py-1 rounded-md">대중 교통</p>
                   </li>
                 </ul>
-                <h3 class="text-lg font-bold mt-6 text-gray-700">심부름 상세 (선택)</h3>
-                <p class="text-gray-700 text-sm mb-3">가격이나 자주 하는 질문 또는 안내사항을 작성할 수 있어요</p>
-                <select name="" id="" class="w-full h-14 bg-gray-100 rounded-[10px] px-4">
+                <h3 className="text-lg font-bold mt-6 text-gray-700">심부름 상세 (선택)</h3>
+                <p className="text-gray-700 text-sm mb-3">가격이나 자주 하는 질문 또는 안내사항을 작성할 수 있어요</p>
+                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
                   <option value="예시1">예시1</option>
                   <option value="예시2">예시2</option>
                 </select>
               </div>
-              <div class="intro bg-white p-5 my-3">
-                <h3 class="text-lg font-bold text-gray-700 pb-3">경력 (선택)</h3>
-                <select name="" id="" class="w-full h-14 bg-gray-100 rounded-[10px] px-4">
+              <div className="intro bg-white p-5 my-3">
+                <h3 className="text-lg font-bold text-gray-700 pb-3">경력 (선택)</h3>
+                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
                   <option value="예시1">예시1</option>
                   <option value="예시2">예시2</option>
                 </select>
-                <h3 class="text-lg font-bold mt-6 text-gray-700 pb-3">자격증 (선택)</h3>
-                <select name="" id="" class="w-full h-14 bg-gray-100 rounded-[10px] px-4">
+                <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">자격증 (선택)</h3>
+                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
                   <option value="예시1">예시1</option>
                   <option value="예시2">예시2</option>
                 </select>
-                <h3 class="text-lg font-bold mt-6 text-gray-700 pb-3">사업자 (선택)</h3>
-                <select name="" id="" class="w-full h-14 bg-gray-100 rounded-[10px] px-4">
+                <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">사업자 (선택)</h3>
+                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
                   <option value="예시1">예시1</option>
                   <option value="예시2">예시2</option>
                 </select>
