@@ -309,7 +309,7 @@ export const initData = async (clientId, nextSeq) => {
         state: "OS010", // 지원 완료, 매칭 대기 중
         products: [
           {
-            _id: 1,
+            _id: await nextSeq("product"),
             seller_id: 4,
             price: 15000,
 
@@ -357,7 +357,7 @@ export const initData = async (clientId, nextSeq) => {
         state: "OS020", // 매칭 완료, 심부름 진행 중
         products: [
           {
-            _id: 2,
+            _id: await nextSeq("product"),
             seller_id: 4,
             price: 20000,
 
@@ -388,7 +388,7 @@ export const initData = async (clientId, nextSeq) => {
         state: "OS030", // 심부름 완료
         products: [
           {
-            _id: 3,
+            _id: await nextSeq("product"),
             seller_id: 4,
             price: 30000,
 
@@ -428,7 +428,7 @@ export const initData = async (clientId, nextSeq) => {
         state: "OS040", // 기간 만료
         products: [
           {
-            _id: 4,
+            _id: await nextSeq("product"),
             seller_id: 4,
             price: 20000,
 
