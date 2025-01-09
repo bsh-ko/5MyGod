@@ -103,6 +103,20 @@ export default function New() {
   };
 
   //////////////// 심부름 금액 ////////////////
+  const price = watch("price", ""); // react-hook-form에서 price값을 실시간으로 감시
+
+  // 세 자리마다 쉼표 찍는 함수
+  const formatPrice = (value) => {
+    if (!value) return "";
+    const numberValue = value.replace(/[^0-9]/g, ""); // 숫자가 아닌 값 제거
+    return Number(numberValue).toLocaleString(); // 세 자리마다 쉼표 추가
+  };
+
+  // 입력값 변경 핸들러
+  const handlePriceChange = (e) => {
+    const inputValue = e.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 값 제거
+    setValue("price", inputValue, { shouldValidate: true }); // 숫자로만 이루어진 값을 react-hook-form 값으로 저장
+  };
 
   //////////// return ////////////
   return (
@@ -112,7 +126,9 @@ export default function New() {
         className="task_name p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
         onSubmit={handleSubmit()}
       >
-        <p className="font-laundry text-input-title">심부름 제목</p>
+        <p className="font-laundry text-input-title">
+          심부름 제목을 입력해주세요
+        </p>
 
         <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px] items-center">
           <input
@@ -352,19 +368,20 @@ export default function New() {
         className="task_price p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
         onSubmit={handleSubmit()}
       >
-        <p className="font-laundry text-input-title">심부름 금액</p>
+        <p className="font-laundry text-input-title">심부름비를 제시해주세요</p>
 
         <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px]">
           <input
-            type="number"
+            type="text"
             className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
             placeholder="심부름 금액을 입력해 주세요"
+            value={formatPrice(price)} // watch로 감지된 값에 쉼표를 적용하여 표시
+            onChange={handlePriceChange} // 핸들러로 숫자만 react-hook-form 값에 저장
             {...register("price", {
               required: "심부름 금액을 입력해주세요.",
             })}
           ></input>
           <InputError target={errors.price} />
-
           <div>원</div>
         </div>
       </form>
