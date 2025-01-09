@@ -23,7 +23,7 @@ function Picker({ options, selectedValue, onChange }) {
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="w-20 h-40 overflow-y-scroll snap-y snap-mandatory border border-gray-300 rounded-lg text-center"
+      className="w-12 h-40 overflow-y-scroll snap-y snap-mandatory border border-gray-300 rounded-lg text-center"
     >
       <div className="h-10" />
       {options.map((option) => (
@@ -76,43 +76,101 @@ export default function DateAndTimePicker({ onDateChange }) {
     String(i).padStart(2, "0")
   );
 
-  return (
-    <div className="p-5 bg-white rounded-lg shadow-md flex flex-col gap-6">
-      <p className="text-lg font-semibold text-gray-700">
-        심부름의 날짜와 시간을 선택해주세요
-      </p>
+  // return (
+  //   <div className="p-5 bg-white rounded-lg shadow-md flex flex-col gap-6">
+  //     <div className="flex gap-4">
+  //       <Picker
+  //         options={years}
+  //         selectedValue={selectedYear}
+  //         onChange={setSelectedYear}
+  //       />
 
-      <div className="flex gap-4 justify-center">
-        <Picker
-          options={years}
-          selectedValue={selectedYear}
-          onChange={setSelectedYear}
-        />
-        <Picker
-          options={months}
-          selectedValue={selectedMonth}
-          onChange={setSelectedMonth}
-        />
-        <Picker
-          options={days}
-          selectedValue={selectedDay}
-          onChange={setSelectedDay}
-        />
-        <Picker
-          options={hours}
-          selectedValue={selectedHour}
-          onChange={setSelectedHour}
-        />
-        <Picker
-          options={minutes}
-          selectedValue={selectedMinute}
-          onChange={setSelectedMinute}
-        />
+  //       <Picker
+  //         options={months}
+  //         selectedValue={selectedMonth}
+  //         onChange={setSelectedMonth}
+  //       />
+  //       <Picker
+  //         options={days}
+  //         selectedValue={selectedDay}
+  //         onChange={setSelectedDay}
+  //       />
+  //       <Picker
+  //         options={hours}
+  //         selectedValue={selectedHour}
+  //         onChange={setSelectedHour}
+  //       />
+  //       <Picker
+  //         options={minutes}
+  //         selectedValue={selectedMinute}
+  //         onChange={setSelectedMinute}
+  //       />
+  //     </div>
+
+  //     <div className="font-pretendard text-xl font-bold text-center mt-4">
+  //       {`${selectedYear}년 ${selectedMonth}월 ${selectedDay}일, ${selectedHour}시 ${selectedMinute}분`}
+  //     </div>
+  //   </div>
+  // );
+
+  return (
+    <div className="p-[12px] bg-white rounded-lg  flex flex-col gap-[8px]">
+      {/* 라벨과 Picker를 묶는 컨테이너 */}
+      <div className="flex gap-4 justify-center items-start">
+        <div className="flex flex-col items-center gap-[8px]">
+          <Picker
+            options={years}
+            selectedValue={selectedYear}
+            onChange={setSelectedYear}
+          />
+          <span className="font-laundry text-sm font-bold text-gray-700 mb-2">
+            년
+          </span>
+        </div>
+        <div className="flex flex-col items-center gap-[8px]">
+          <Picker
+            options={months}
+            selectedValue={selectedMonth}
+            onChange={setSelectedMonth}
+          />
+          <span className="font-laundry text-sm font-bold text-gray-700 mb-2">
+            월
+          </span>
+        </div>
+        <div className="flex flex-col items-center gap-[8px]">
+          <Picker
+            options={days}
+            selectedValue={selectedDay}
+            onChange={setSelectedDay}
+          />
+          <span className="font-laundry text-sm font-bold text-gray-700 mb-2">
+            일
+          </span>
+        </div>
+        <div className="flex flex-col items-center gap-[8px]">
+          <Picker
+            options={hours}
+            selectedValue={selectedHour}
+            onChange={setSelectedHour}
+          />
+          <span className="font-laundry text-sm font-bold text-gray-700 mb-2">
+            시
+          </span>
+        </div>
+        <div className="flex flex-col items-center gap-[8px]">
+          <Picker
+            options={minutes}
+            selectedValue={selectedMinute}
+            onChange={setSelectedMinute}
+          />
+          <span className="font-laundry text-sm font-bold text-gray-700 mb-2">
+            분
+          </span>
+        </div>
       </div>
 
-      <div className="text-gray-500 text-center mt-4">
-        선택된 날짜 및 시간:{" "}
-        {`${selectedYear}.${selectedMonth}.${selectedDay} ${selectedHour}:${selectedMinute}:00`}
+      <div className="font-pretendard text-xl font-bold text-center mt-4">
+        {`${selectedYear}년 ${selectedMonth}월 ${selectedDay}일, ${selectedHour}시 ${selectedMinute}분`}
       </div>
     </div>
   );

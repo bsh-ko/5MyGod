@@ -127,6 +127,7 @@ export default function New() {
     setIsDeliveryOpen(false); // 검색창 닫기
   };
   ////////////////////////////////////////////////////////////// 일시 //////////////////////////////////////////////////////////////
+  const [dateAndTime, setDateAndTime] = useState("");
 
   ////////////////////////////////////////////////////////////// 금액 //////////////////////////////////////////////////////////////
   const price = watch("price", ""); // react-hook-form에서 price값을 실시간으로 감시
@@ -380,12 +381,10 @@ export default function New() {
 
       {/* 심부름 일시 */}
       <div className="task_dateandtime p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-        {/* <p className="text-lg font-semibold text-gray-700">
-          심부름의 날짜와 시간을 선택해주세요
-        </p> */}
-        <DateAndTimePicker
-          onDateChange={(date) => console.log("Selected Date:", date)}
-        />
+        <p className="font-laundry text-card-title">
+          심부름의 마감 일시를 선택해주세요
+        </p>
+        <DateAndTimePicker onDateChange={(date) => setDateAndTime(date)} />
       </div>
 
       {/* 심부름 금액 */}
