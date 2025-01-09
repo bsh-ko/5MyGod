@@ -11,7 +11,7 @@ const MyErrand = () => {
       try {
         const response = await axiosInstance.get("/orders", {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjQsInR5cGUiOiJzZWxsZXIiLCJuYW1lIjoi7Ja07ZS87LmYIiwiZW1haWwiOiJzMkBtYXJrZXQuY29tIiwiaW1hZ2UiOiIvZmlsZXMvZmluYWwwNS91c2VyLWFwZWFjaC53ZWJwIiwibG9naW5UeXBlIjoiZW1haWwiLCJpYXQiOjE3MzYzMjE0OTcsImV4cCI6MTczNjQwNzg5NywiaXNzIjoiRkVTUCJ9.BGSfM8yq53-ibnBRjRZ4E2I9zb57vyRiNybYWp6ee7g`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjMsInR5cGUiOiJzZWxsZXIiLCJuYW1lIjoi7Ja07ZS87LmYIiwiZW1haWwiOiJzMkBtYXJrZXQuY29tIiwiaW1hZ2UiOiIvZmlsZXMvZmluYWwwNS91c2VyLWFwZWFjaC53ZWJwIiwibG9naW5UeXBlIjoiZW1haWwiLCJpYXQiOjE3MzY0MDgwMDQsImV4cCI6MTczNjQ5NDQwNCwiaXNzIjoiRkVTUCJ9.Xq33CL6L0GJ9HH7DJ4Qzj3HuZzOpKX332oAnRsh5cLM`,
           },
         });
         console.log("API 응답 데이터:", response.data);
@@ -37,19 +37,6 @@ const MyErrand = () => {
             </button>
             <button className="font-laundry w-1/2 text-center py-2 text-gray-500">
               부탁한 심부름
-            </button>
-          </div>
-        </nav>
-      </div>
-
-      <div className="px-4 py-2">
-        <nav className="max-w-full bg-gray-100 border border-gray-200 rounded-lg">
-          <div className="flex justify-between items-center gap-2">
-            <button className="font-laundry w-1/2 text-center py-2 rounded-lg font-medium bg-white shadow-md">
-              매칭 전이에요
-            </button>
-            <button className="font-laundry w-1/2 text-center py-2 text-gray-500">
-              매칭 되었어요
             </button>
           </div>
         </nav>

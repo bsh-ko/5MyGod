@@ -8,7 +8,7 @@ const Detail = lazy(() => import("@pages/board/Detail"));
 const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
 const MyPage = lazy(() => import("@pages/user/Mypage"));
-// const UserPage = lazy(() => import("@pages/user/Userpage"));
+const UserPage = lazy(() => import("@pages/user/Userpage"));
 
 const router = createBrowserRouter(
   [
