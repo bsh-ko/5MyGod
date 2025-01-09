@@ -163,7 +163,7 @@ export default function New() {
             value={watch("name", "").slice(0, maxTitleLength - 1)}
             onChange={handleTitleChange}
             className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
-            placeholder="심부름 제목을 작성해 주세요"
+            placeholder="심부름 제목을 작성해주세요"
             {...register("name", {
               required: "심부름 제목을 작성해주세요.",
               maxLength: {
@@ -398,11 +398,11 @@ export default function New() {
           <input
             type="text"
             className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
-            placeholder="심부름 금액을 입력해 주세요"
+            placeholder="금액을 입력해주세요"
             value={formatPrice(price)} // watch로 감지된 값에 쉼표를 적용하여 표시
             onChange={handlePriceChange} // 핸들러로 숫자만 react-hook-form 값에 저장
             {...register("price", {
-              required: "심부름 금액을 입력해주세요.",
+              required: "심부름비 금액을 입력해주세요.",
             })}
           ></input>
           <InputError target={errors.price} />
