@@ -12,7 +12,7 @@ export default function New() {
     formState: { errors },
   } = useForm();
 
-  //////////////// 제목 ////////////////
+  ////////////////////////////////////////////////////////////// 제목 //////////////////////////////////////////////////////////////
   // 제목 입력 상태 관리 및 실시간 반영
   const title = watch("name", "");
   const maxTitleLength = 50;
@@ -21,11 +21,12 @@ export default function New() {
     setValue("name", input, { shouldValidate: true });
   };
 
-  //////////////// 카테고리, 태그 ////////////////
+  ////////////////////////////////////////////////////////////// 카테고리, 태그 //////////////////////////////////////////////////////////////
   const [selectedCategory, setSelectedCategory] = useState(""); // 카테고리 선택 상태 관리
   const [selectedTags, setSelectedTags] = useState([]); // 태그 선택 상태 관리
 
   const categories = ["배달", "전문가", "재능판매", "대행", "돌봄"];
+
   const tags = [
     "시간이 생명",
     "도와주세요",
@@ -36,17 +37,40 @@ export default function New() {
     "어른만",
   ];
 
-  // 카테고리 선택 / 해제 처리
-  const handleCategoryClick = (category) => {
-    // 이미 선택된 카테고리를 또 누르면 선택 해제, 선택 안되어 있던 카테고리를 누르면 선택
-    setSelectedCategory((prev) => (prev === category ? "" : category));
+  // 카테고리와 태그를 코드와 매핑
+  const categoryCodes = {
+    배달: "PC01",
+    전문가: "PC02",
+    재능판매: "PC03",
+    대행: "PC04",
+    돌봄: "PC05",
   };
 
-  // 태그 선택 / 해제 처리
+  const tagCodes = {
+    "시간이 생명": "CA01",
+    도와주세요: "CA02",
+    "일정 조정 가능": "CA03",
+    "금액 협의 가능": "CA04",
+    남자만: "CA05",
+    여자만: "CA06",
+    어른만: "CA07",
+  };
+
+  // 카테고리 선택 / 해제 함수
+  const handleCategoryClick = (category) => {
+    // 이미 선택된 카테고리를 또 누르면 선택 해제, 선택 안되어 있던 카테고리를 누르면 선택
+    setSelectedCategory((prev) =>
+      prev === categoryCodes[category] ? "" : categoryCodes[category]
+    );
+  };
+
+  // 태그 선택 / 해제 함수
   const handleTagClick = (tag) => {
     setSelectedTags((prev) =>
       // 이미 선택된 태그를 또 누르면 배열에서 제거(선택해제), 선택 안되어 있던 태그를 누르면 배열에 추가
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+      prev.includes(tagCodes[tag])
+        ? prev.filter((t) => t !== tagCodes[tag])
+        : [...prev, tagCodes[tag]]
     );
   };
 
@@ -56,7 +80,7 @@ export default function New() {
       <li
         key={category}
         className={`category flex items-center gap-[4px] px-[6px] rounded  border-[1px] border-gray-500 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0 select-none cursor-pointer ${
-          selectedCategory === category
+          selectedCategory === categoryCodes[category]
             ? "bg-primary-500 text-white"
             : "bg-gray-100 text-black"
         }`}
@@ -72,7 +96,7 @@ export default function New() {
       <li
         key={tag}
         className={`tag flex items-center gap-[4px] px-[6px] rounded border-[1px] border-gray-500 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0 select-none cursor-pointer ${
-          selectedTags.includes(tag)
+          selectedTags.includes(tagCodes[tag])
             ? "bg-primary-500 text-white"
             : "bg-gray-100 text-black"
         }`}
@@ -82,7 +106,7 @@ export default function New() {
       </li>
     ));
 
-  //////////////// 심부름 위치 ////////////////
+  ////////////////////////////////////////////////////////////// 위치 //////////////////////////////////////////////////////////////
   const [pickupAddress, setPickupAddress] = useState(""); // 픽업 주소
   const [deliveryAddress, setDeliveryAddress] = useState(""); // 도착 주소
   const [isPickupOpen, setIsPickupOpen] = useState(false); // 픽업 주소 검색창 열기/닫기
@@ -102,7 +126,7 @@ export default function New() {
     setIsDeliveryOpen(false); // 검색창 닫기
   };
 
-  //////////////// 심부름 금액 ////////////////
+  ////////////////////////////////////////////////////////////// 금액 //////////////////////////////////////////////////////////////
   const price = watch("price", ""); // react-hook-form에서 price값을 실시간으로 감시
 
   // 세 자리마다 쉼표 찍는 함수
@@ -118,7 +142,7 @@ export default function New() {
     setValue("price", inputValue, { shouldValidate: true }); // 숫자로만 이루어진 값을 react-hook-form 값으로 저장
   };
 
-  //////////// return ////////////
+  ////////////////////////////////////////////////////////////// return //////////////////////////////////////////////////////////////
   return (
     <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
       {/* 심부름 제목 입력 */}
