@@ -24,8 +24,10 @@ export default function New() {
   ////////////////////////////////////////////////////////////// 제목 //////////////////////////////////////////////////////////////
   // 제목 입력 상태 관리 및 실시간 반영
   const title = watch("name", "");
+
   const maxTitleLength = 50;
-  const handleTitleChange = (e) => {
+
+  const handleContentChange = (e) => {
     const input = e.target.value.slice(0, maxTitleLength - 1); // 50자 넘어가면 자름
     setValue("name", input, { shouldValidate: true });
   };
@@ -118,6 +120,11 @@ export default function New() {
   ////////////////////////////////////////////////////////////// 내용 //////////////////////////////////////////////////////////////
   const content = watch("content", "");
 
+  const handleTitleChange = (e) => {
+    const input = e.target.value;
+    setValue("content", input, { shouldValidate: true });
+  };
+
   ////////////////////////////////////////////////////////////// 위치 //////////////////////////////////////////////////////////////
   const [pickupAddress, setPickupAddress] = useState(""); // 픽업 주소
   const [pickupCoordinates, setPickupCoordinates] = useState(null); // 픽업 좌표
@@ -154,7 +161,9 @@ export default function New() {
 
   ////////////////////////////////////////////////////////////// 마감 일시 //////////////////////////////////////////////////////////////
   const selectedDue = watch("selectedDue", "");
-  console.log("selectedDue: ", selectedDue);
+
+  const handleDueChange = (date) =>
+    setValue("selectedDue", date, { shouldValidate: true });
 
   ////////////////////////////////////////////////////////////// 금액 //////////////////////////////////////////////////////////////
   const price = watch("price", ""); // react-hook-form에서 price값을 실시간으로 감시
@@ -305,11 +314,8 @@ export default function New() {
           <div className="min-h-[200px] bg-gray-100 rounded-lg p-[20px]">
             <textarea
               className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
-              placeholder="심부름 내용을 설명해주세요"
-              onChange={(e) => {
-                const input = e.target.value;
-                setValue("content", input, { shouldValidate: true });
-              }}
+              placeholder="심부름 내용을 설명해주세요 (10자 이상)"
+              onChange={handleContentChange}
               {...register("content", {
                 required: "심부름 내용을 작성해주세요.",
                 minLength: {
@@ -524,11 +530,7 @@ export default function New() {
             <InputError target={errors?.selectedDue} />
           </div>
 
-          <DateAndTimePicker
-            onDateChange={(date) =>
-              setValue("selectedDue", date, { shouldValidate: true })
-            }
-          />
+          <DateAndTimePicker onDueChange={handleDueChange} />
         </div>
 
         {/* 심부름 금액 */}

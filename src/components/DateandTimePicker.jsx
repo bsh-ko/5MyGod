@@ -8,7 +8,7 @@ Picker.propTypes = {
 };
 
 DateAndTimePicker.propTypes = {
-  onDateChange: PropTypes.func.isRequired,
+  onDueChange: PropTypes.func.isRequired,
 };
 
 function Picker({ options, selectedValue, onChange }) {
@@ -41,37 +41,23 @@ function Picker({ options, selectedValue, onChange }) {
   );
 }
 
-export default function DateAndTimePicker({ onDateChange }) {
+export default function DateAndTimePicker({ onDueChange }) {
   const [selectedYear, setSelectedYear] = useState("2025");
   const [selectedMonth, setSelectedMonth] = useState("01");
   const [selectedDay, setSelectedDay] = useState("01");
   const [selectedHour, setSelectedHour] = useState("12");
   const [selectedMinute, setSelectedMinute] = useState("00");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [confirmedDue, setConfirmedDue] = useState("");
 
   const handleConfirm = () => {
-    const date = `${selectedYear}년 ${selectedMonth}월 ${selectedDay}일, ${selectedHour}시 ${selectedMinute}분`;
-    setSelectedDate(date); // 선택된 일시로 업데이트
+    const dueString = `${selectedYear}년 ${selectedMonth}월 ${selectedDay}일, ${selectedHour}시 ${selectedMinute}분`;
+    setConfirmedDue(dueString); // 선택된 일시로 업데이트
 
     // New.jsx 로 전달
-    onDateChange(
+    onDueChange(
       `${selectedYear}.${selectedMonth}.${selectedDay} ${selectedHour}:${selectedMinute}:00`
     );
   };
-
-  // 날짜가 변경될 때마다 상위 컴포넌트에 전달
-  // useEffect(() => {
-  //   onDateChange(
-  //     `${selectedYear}.${selectedMonth}.${selectedDay} ${selectedHour}:${selectedMinute}:00`
-  //   );
-  // }, [
-  //   selectedYear,
-  //   selectedMonth,
-  //   selectedDay,
-  //   selectedHour,
-  //   selectedMinute,
-  //   onDateChange,
-  // ]);
 
   const years = Array.from({ length: 10 }, (_, i) => (2025 + i).toString());
   const months = Array.from({ length: 12 }, (_, i) =>
@@ -142,9 +128,9 @@ export default function DateAndTimePicker({ onDateChange }) {
         </div>
       </div>
 
-      {selectedDate && (
+      {confirmedDue && (
         <div className="font-pretendard font-bold text-xl text-center">
-          {selectedDate}
+          {confirmedDue}
         </div>
       )}
 
