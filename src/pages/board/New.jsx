@@ -193,9 +193,14 @@ export default function New() {
     setTimeout(() => {
       trigger("pickup");
     }, 0);
-
-    console.log("픽업 좌표: ", pickupCoordinates);
   };
+
+  // 픽업 주소가 좌표로 잘 변환되었는지 확인
+  useEffect(() => {
+    if (pickupCoordinates) {
+      console.log("픽업 좌표: ", pickupCoordinates);
+    }
+  }, [pickupCoordinates]);
 
   // 도착 주소 선택 완료 시 처리하는 함수
   const handleCompleteArrival = (data) => {
@@ -210,9 +215,14 @@ export default function New() {
     setTimeout(() => {
       trigger("arrival");
     }, 0);
-
-    console.log("도착 좌표: ", arrivalCoordinates);
   };
+
+  // 도착 주소가 좌표로 잘 변환되었는지 확인
+  useEffect(() => {
+    if (arrivalCoordinates) {
+      console.log("도착 좌표: ", arrivalCoordinates);
+    }
+  }, [arrivalCoordinates]);
 
   ////////////////////////////////////////////////////////////// 마감 일시 //////////////////////////////////////////////////////////////
   const selectedDue = watch("selectedDue", "");
@@ -268,10 +278,10 @@ export default function New() {
       console.log("전송 데이터: ", body);
       return axios.post("/seller/products/", body);
     },
-    onSuccess: (data) => {
+    onSuccess: ({ data }) => {
       alert("심부름 요청이 등록되었습니다.");
       console.log("서버 응답 데이터: ", data);
-      navigate(`//products/${data?.item?._id}`);
+      navigate(`/products/${data.item._id}`);
     },
     onError: (err) => {
       console.error(err);
@@ -281,7 +291,7 @@ export default function New() {
   ////////////////////////////////////////////////////////////// return //////////////////////////////////////////////////////////////
   return (
     <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px]">
-      {/* 전체 폼. 제출함수 추가해야 함 */}
+      {/* 전체 폼 + 제출함수 */}
       <form
         className="flex flex-col gap-[20px]"
         onSubmit={handleSubmit((data) => {
