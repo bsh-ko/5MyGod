@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import TagList from "@pages/board/TagList";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
@@ -99,7 +100,12 @@ export default function ListItem({ item }) {
 
       <div className="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]">
         <h2 className="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis">
-          {item.name}
+          <Link
+            to={`/products/${item._id}`}
+            state={{ back: "/products", title: "심부름 상세" }} // 업데이트 된 방식 props 추가
+          >
+            {item.name}
+          </Link>
         </h2>
 
         {/* <ul className="li_tags flex gap-[8px] min-w-0 w-full overflow-scroll">
