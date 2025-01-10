@@ -211,7 +211,7 @@ export default function New() {
 
   ////////////////////////////////////////////////////////////// return //////////////////////////////////////////////////////////////
   return (
-    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
+    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px]">
       {/* 전체 폼. 제출함수 추가해야 함 */}
       <form
         className="flex flex-col gap-[20px]"
