@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, matchPath } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import HeaderButton from "@components/HeaderButton";
 
 export default function NavigationHeader() {
@@ -11,7 +11,6 @@ export default function NavigationHeader() {
     //   return {
     //     title: "심부름 상세",
     //     showBackButton: true,
-    //     showHeaderButton: false,
     //     bgColor: "bg-background-color",
     //   };
     // }
@@ -22,14 +21,12 @@ export default function NavigationHeader() {
         return {
           title: "오는길에",
           showBackButton: false,
-          showHeaderButton: true,
           bgColor: "bg-background-color",
         };
       case "/users/mypage":
         return {
           title: "나의 정보",
           showBackButton: false,
-          showHeaderButton: false,
           bgColor: "bg-background-color",
         };
       default:
@@ -37,7 +34,6 @@ export default function NavigationHeader() {
         return {
           title: location.state.title,
           showBackButton: true,
-          showHeaderButton: true,
           bgColor: "bg-background-color",
         };
     }
@@ -72,13 +68,8 @@ export default function NavigationHeader() {
           )}
           <h1 className={`${getTitleStyle(config.title)}`}>{config.title}</h1>
         </div>
-
-        {/* 오른쪽: 위치 버튼 (메인 페이지일 때만) */}
-        {config.showHeaderButton && (
-          <div className="flex items-center text-sm text-gray-600">
-            {config.showHeaderButton && <HeaderButton />}
-          </div>
-        )}
+        {/* 오른쪽: 로그인시 알람, 로그아웃시 "시작하기" */}
+        <HeaderButton />
       </div>
     </header>
   );
