@@ -290,10 +290,10 @@ export default function New() {
 
   ////////////////////////////////////////////////////////////// return //////////////////////////////////////////////////////////////
   return (
-    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px]">
+    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] relative">
       {/* 전체 폼 + 제출함수 */}
       <form
-        className="flex flex-col gap-[20px]"
+        className="flex flex-col gap-[20px] pb-[70px]"
         onSubmit={handleSubmit((data) => {
           console.log("폼 데이터: ", data);
           addItem.mutate();
@@ -634,7 +634,7 @@ export default function New() {
         {/* 제출 버튼 */}
         <button
           type="submit"
-          className="bg-primary-500 font-laundry text-card-title text-white p-[20px] rounded-t-lg "
+          className="bg-primary-500 font-laundry text-card-title text-white p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full"
         >
           심부름 요청하기
         </button>
