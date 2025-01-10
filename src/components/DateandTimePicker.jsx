@@ -36,7 +36,7 @@ function Picker({ options, selectedValue, onChange }) {
           {option}
         </div>
       ))}
-      <div className="h-10" />
+      <div className="h-20" />
     </div>
   );
 }
