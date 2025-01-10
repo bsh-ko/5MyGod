@@ -75,12 +75,11 @@ export default function New() {
 
   // 태그 선택 / 해제 함수
   const handleTagClick = (tag) => {
-    setSelectedTags((prev) =>
-      // 이미 선택된 태그를 또 누르면 배열에서 제거(선택해제), 선택 안되어 있던 태그를 누르면 배열에 추가
-      prev.includes(tagCodes[tag])
-        ? prev.filter((t) => t !== tagCodes[tag])
-        : [...prev, tagCodes[tag]]
-    );
+    const updatedTags = selectedTags.includes(tagCodes[tag])
+      ? selectedTags.filter((t) => t !== tagCodes[tag])
+      : [...selectedTags, tagCodes[tag]];
+    setSelectedTags(updatedTags);
+    setValue("tags", updatedTags, { shouldValidate: true }); // useForm에 반영
   };
 
   // 카테고리 목록 렌더링 함수 (선택 / 비선택 구분됨)
@@ -254,11 +253,25 @@ export default function New() {
 
         {/* 태그 선택 */}
         <div className="task_tag p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-          <p className="font-laundry text-input-title">
-            태그를 선택해주세요{" "}
-            <span className="text-gray-500">(중복 선택 가능)</span>
-          </p>
-          <ul className="tag_list flex gap-[12px] flex-wrap">{renderTags()}</ul>
+          <div className="flex flex-col">
+            <p className="font-laundry text-input-title">
+              태그를 선택해주세요{" "}
+              <span className="text-gray-500">(중복 선택 가능)</span>
+            </p>
+            <InputError target={errors?.tags} />
+          </div>
+
+          <ul
+            className="tag_list flex gap-[12px] flex-wrap"
+            {...register("tags", {
+              validate: (value) =>
+                value && value.length > 0
+                  ? true
+                  : "최소 하나 이상의 태그를 선택해주세요.",
+            })}
+          >
+            {renderTags()}
+          </ul>
         </div>
 
         {/* 심부름 내용 */}
