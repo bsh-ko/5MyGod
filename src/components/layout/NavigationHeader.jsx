@@ -6,33 +6,34 @@ export default function NavigationHeader() {
   const navigate = useNavigate();
 
   const getPageConfig = () => {
+    // 기존 방식: 패턴 정의
+    // if (location.pathname.match(/^\/products\/[^/]+$/)) {
+    //   return {
+    //     title: "심부름 상세",
+    //     showBackButton: true,
+    //     bgColor: "bg-background-color",
+    //   };
+    // }
+
+    // 네비게이션 바의 최상단 뎁스에선 BackButton을 숨겨야하므로 개별 처리
     switch (location.pathname) {
       case "/":
         return {
           title: "오는길에",
           showBackButton: false,
-          showHeaderButton: true,
           bgColor: "bg-background-color",
-        };
-      case "/users/signup":
-        return {
-          title: "회원가입",
-          showBackButton: false,
-          showHeaderButton: false,
-          bgColor: "bg-white",
         };
       case "/users/mypage":
         return {
           title: "나의 정보",
           showBackButton: false,
-          showHeaderButton: false,
           bgColor: "bg-background-color",
         };
       default:
+        // 업데이트된 방식
         return {
-          title: "오는길에",
+          title: location.state.title,
           showBackButton: true,
-          showHeaderButton: true,
           bgColor: "bg-background-color",
         };
     }
@@ -46,28 +47,30 @@ export default function NavigationHeader() {
 
   const getTitleStyle = (title) => {
     if (title === "오는길에") {
-      return "font-laundry font-bold text-primary-500 text-[28px]";
+      return "font-laundry align-baseline flex font-bold text-primary-500 text-[28px]";
     }
-    return "font-laundry text-[20px] text-gray-900";
+    return "font-laundry align-baseline grid place-items-center text-[20px] text-gray-900";
   };
   const commonHeaderStyle =
     "w-full min-h-[49px] flex justify-between items-center tracking-tighter sticky top-0";
-  const backButtonStyle = "p-2 hover:bg-gray-50 rounded-full transition-colors";
 
   return (
-    <nav className={`${commonHeaderStyle} ${config.bgColor}`}>
-      <div className="flex items-center mx-4">
-        {config.showBackButton && (
-          <button onClick={handleBack} className={backButtonStyle}>
-            <img src="../../assets/back-icon.svg" className="hidden" />
-          </button>
-        )}
-        <h1 className={getTitleStyle(config.title)}>{config.title}</h1>
+    <header
+      className={`fixed top-0 left-0 right-0 ${commonHeaderStyle} ${config.bgColor} h-14 border-b border-gray-100 flex items-center max-w-[393px] mx-auto z-50`}
+    >
+      <div className="flex items-center justify-between w-full px-4">
+        {/* 왼쪽: 타이틀 또는 앱 이름 */}
+        <div className="flex items-center">
+          {config.showBackButton && (
+            <button onClick={handleBack}>
+              <img src="/assets/back-icon.png" />
+            </button>
+          )}
+          <h1 className={`${getTitleStyle(config.title)}`}>{config.title}</h1>
+        </div>
+        {/* 오른쪽: 로그인시 알람, 로그아웃시 "시작하기" */}
+        <HeaderButton />
       </div>
-
-      <div className="gap-x-1 mx-4 flex items-center">
-        {config.showHeaderButton && <HeaderButton />}
-      </div>
-    </nav>
+    </header>
   );
 }
