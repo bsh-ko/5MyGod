@@ -36,6 +36,7 @@ export default function MainPage() {
 
         <ul className="list flex flex-col items-center gap-[24px]">{list}</ul>
       </main>
+      <div className="pb-40 bg-background-color"></div>
     </div>
   );
 }
