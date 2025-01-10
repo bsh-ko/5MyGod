@@ -256,7 +256,7 @@ export default function New() {
         content: content, // 상품 설명(필수)
         extra: {
           category: [selectedCategory],
-          tags: [selectedTags],
+          tags: selectedTags,
           productState: ["PS010"],
           pickupLocation: isPickupDisabled
             ? null

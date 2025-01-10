@@ -108,28 +108,6 @@ export default function ListItem({ item }) {
           </Link>
         </h2>
 
-        {/* <ul className="li_tags flex gap-[8px] min-w-0 w-full overflow-scroll">
-          <li className="tag flex items-center gap-[4px] px-[6px] rounded bg-[#FCFFD8] font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0">
-            <img
-              src="../../assets/watch.svg"
-              alt="태그 이미지"
-              className="tag_image w-[18px] h-[18px]"
-            />
-            시간이 생명
-          </li>
-
-          <li className="tag flex items-center gap-[4px] px-[6px] rounded bg-[#FFD8E0] font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0">
-            <img
-              src="../../assets/siren.svg"
-              alt="태그 이미지"
-              className="tag_image w-[18px] h-[18px]"
-            />
-            <p className="tag_text font-pretendard text-[16px] max-w-full">
-              도와주세요
-            </p>
-          </li>
-        </ul> */}
-
         <TagList tags={item.extra?.tags} />
 
         <div className="li_info flex flex-grow justify-between">
