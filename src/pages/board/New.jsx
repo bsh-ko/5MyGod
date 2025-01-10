@@ -1,11 +1,12 @@
 import InputError from "@components/InputError";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import DaumPostCode from "react-daum-postcode";
 import DateAndTimePicker from "@components/DateAndTimePicker";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import LocationMap from "@components/LocationMap";
 
 export default function New() {
   const {
@@ -18,8 +19,8 @@ export default function New() {
   } = useForm();
 
   const { _id } = useParams();
-
   const navigate = useNavigate();
+  const axios = useAxiosInstance();
 
   ////////////////////////////////////////////////////////////// 제목 //////////////////////////////////////////////////////////////
   // 제목 입력 상태 관리 및 실시간 반영
@@ -120,34 +121,33 @@ export default function New() {
 
   ////////////////////////////////////////////////////////////// 위치 //////////////////////////////////////////////////////////////
   const [pickupAddress, setPickupAddress] = useState(""); // 픽업 주소
+  const [pickupCoordinates, setPickupCoordinates] = useState(null); // 픽업 좌표
   const [pickupDetailAddress, setPickupDetailAddress] = useState(""); // 픽업 상세주소
   const [deliveryAddress, setDeliveryAddress] = useState(""); // 도착 주소
+  const [deliveryCoordinates, setDeliveryCoordinates] = useState(null); // 도착 좌표
   const [deliveryDetailAddress, setDeliveryDetailAddress] = useState(""); // 도착 상세주소
   const [isPickupOpen, setIsPickupOpen] = useState(false); // 픽업 주소 검색창 열기/닫기
   const [isDeliveryOpen, setIsDeliveryOpen] = useState(false); // 도착 주소 검색창 열기/닫기
   const [isPickupDisabled, setIsPickupDisabled] = useState(false); // 픽업이 필요 없어요 상태
   const [isDeliveryDisabled, setIsDeliveryDisabled] = useState(false); // 도착 위치가 필요 없어요 상태
 
-  const pickupValue = watch("pickup", ""); // 실시간으로 픽업 필드 값 감시
-  const deliveryValue = watch("delivery", ""); // 실시간으로 도착 필드 값 감시
-
-  // 주소 선택 완료 핸들러 (픽업)
+  // 픽업 주소 선택 시 처리하는 함수
   const handleCompletePickup = (data) => {
     const newAddress = data.address;
     setPickupAddress(newAddress);
-    setIsPickupOpen(false); // 검색창 닫기
-    setValue("pickup", newAddress, { shouldValidate: true }); // 폼 상태 업데이트
+    setIsPickupOpen(false);
+    setValue("pickup", newAddress, { shouldValidate: true });
     setTimeout(() => {
       trigger("pickup");
     }, 0);
   };
 
-  // 주소 선택 완료 핸들러 (도착)
+  // 도착 주소 선택 시 처리하는 함수
   const handleCompleteDelivery = (data) => {
     const newAddress = data.address;
     setDeliveryAddress(newAddress);
-    setIsDeliveryOpen(false); // 검색창 닫기
-    setValue("delivery", newAddress, { shouldValidate: true }); // 폼 상태 업데이트
+    setIsDeliveryOpen(false);
+    setValue("delivery", newAddress, { shouldValidate: true });
     setTimeout(() => {
       trigger("delivery");
     }, 0);
@@ -174,8 +174,6 @@ export default function New() {
   };
 
   ////////////////////////////////////////////////////////////// 제출 //////////////////////////////////////////////////////////////
-  const axios = useAxiosInstance();
-
   const addItem = useMutation({
     mutationFn: (formData) => {
       const body = {
@@ -187,16 +185,18 @@ export default function New() {
           category: [selectedCategory],
           tags: [selectedTags],
           productState: ["PS010"],
-          pickupLocation: isPickupDisabled ? null : pickupAddress,
-          // {
-          //   address: isPickupDisabled ? null : pickupAddress,
-          //   detailAddress: pickupDetailAddress || null,
-          // },
-          arrivalLocation: isDeliveryDisabled ? null : deliveryAddress,
-          // {
-          //   address: isDeliveryDisabled ? null : deliveryAddress,
-          //   detailAddress: deliveryAddress || null,
-          // },
+          pickupLocation: isPickupDisabled
+            ? null
+            : {
+                address: pickupAddress,
+                coordinates: pickupCoordinates,
+              },
+          arrivalLocation: isDeliveryDisabled
+            ? null
+            : {
+                address: deliveryAddress,
+                coordinates: deliveryCoordinates,
+              },
           due: selectedDue,
         },
       };
