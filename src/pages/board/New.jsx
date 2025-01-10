@@ -116,7 +116,7 @@ export default function New() {
     ));
 
   ////////////////////////////////////////////////////////////// 내용 //////////////////////////////////////////////////////////////
-  const [content, setContent] = useState(""); // 심부름 내용
+  const content = watch("content", "");
 
   ////////////////////////////////////////////////////////////// 위치 //////////////////////////////////////////////////////////////
   const [pickupAddress, setPickupAddress] = useState(""); // 픽업 주소
@@ -181,28 +181,32 @@ export default function New() {
       const body = {
         price: price, // 가격(필수)
         quantity: 1, // 수량(필수)
-        name: formData.name, // 상품명(필수)
+        name: title, // 상품명(필수)
         content: content, // 상품 설명(필수)
         extra: {
           category: [selectedCategory],
           tags: [selectedTags],
           productState: ["PS010"],
-          pickupLocation: {
-            address: isPickupDisabled ? null : pickupAddress,
-            detailAddress: pickupDetailAddress || null,
-          },
-          arrivalLocation: {
-            address: isDeliveryDisabled ? null : deliveryAddress,
-            detailAddress: deliveryAddress || null,
-          },
+          pickupLocation: isPickupDisabled ? null : pickupAddress,
+          // {
+          //   address: isPickupDisabled ? null : pickupAddress,
+          //   detailAddress: pickupDetailAddress || null,
+          // },
+          arrivalLocation: isDeliveryDisabled ? null : deliveryAddress,
+          // {
+          //   address: isDeliveryDisabled ? null : deliveryAddress,
+          //   detailAddress: deliveryAddress || null,
+          // },
           due: selectedDue,
         },
       };
+      console.log("전송 데이터: ", body);
       return axios.post("/seller/products/", body);
     },
     onSuccess: (data) => {
+      alert("심부름 요청이 등록되었습니다.");
       console.log("서버 응답 데이터: ", data);
-      navigate(`//products/${_id}`);
+      navigate(`//products/${data?.item?._id}`);
     },
     onError: (err) => {
       console.error(err);
@@ -215,7 +219,10 @@ export default function New() {
       {/* 전체 폼. 제출함수 추가해야 함 */}
       <form
         className="flex flex-col gap-[20px]"
-        onSubmit={handleSubmit(addItem.mutate)}
+        onSubmit={handleSubmit((data) => {
+          console.log("폼 데이터: ", data);
+          addItem.mutate();
+        })}
       >
         {/* 심부름 제목 입력 */}
         <div className="task_name p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
@@ -302,10 +309,14 @@ export default function New() {
               placeholder="심부름 내용을 설명해주세요"
               onChange={(e) => {
                 const input = e.target.value;
-                setContent(input);
+                setValue("content", input, { shouldValidate: true });
               }}
               {...register("content", {
                 required: "심부름 내용을 작성해주세요.",
+                minLength: {
+                  value: 10,
+                  message: "심부름 내용은 최소 10자 이상 작성해주세요.",
+                },
               })}
             ></textarea>
           </div>
@@ -524,7 +535,10 @@ export default function New() {
         {/* 심부름 금액 */}
         <div
           className="task_price p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
-          onSubmit={handleSubmit()}
+          onSubmit={handleSubmit(() => {
+            trigger("content");
+            addItem.mutate();
+          })}
         >
           <div className="flex flex-col">
             <p className="font-laundry text-input-title">
@@ -549,6 +563,7 @@ export default function New() {
           </div>
         </div>
 
+        {/* 제출 버튼 */}
         <button
           type="submit"
           className="bg-primary-500 font-laundry text-card-title text-white p-[20px] rounded-t-lg "
