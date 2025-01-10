@@ -6,7 +6,7 @@ export default function NavigationHeader() {
   const navigate = useNavigate();
 
   const getPageConfig = () => {
-    // 기존 방식
+    // 기존 방식: 패턴 정의
     // if (location.pathname.match(/^\/products\/[^/]+$/)) {
     //   return {
     //     title: "심부름 상세",
@@ -16,6 +16,7 @@ export default function NavigationHeader() {
     //   };
     // }
 
+    // 네비게이션 바의 최상단 뎁스에선 BackButton을 숨겨야하므로 개별 처리
     switch (location.pathname) {
       case "/":
         return {
@@ -24,13 +25,6 @@ export default function NavigationHeader() {
           showHeaderButton: true,
           bgColor: "bg-background-color",
         };
-      case "/users/signup":
-        return {
-          title: "회원가입",
-          showBackButton: false,
-          showHeaderButton: false,
-          bgColor: "bg-white",
-        };
       case "/users/mypage":
         return {
           title: "나의 정보",
@@ -38,17 +32,10 @@ export default function NavigationHeader() {
           showHeaderButton: false,
           bgColor: "bg-background-color",
         };
-      case "/users/userpage":
-        return {
-          title: "프로필",
-          showBackButton: true,
-          showHeaderButton: false,
-          bgColor: "bg-background-color",
-        };
       default:
         // 업데이트된 방식
         return {
-          title: `${location.state.title}`,
+          title: location.state.title,
           showBackButton: true,
           showHeaderButton: true,
           bgColor: "bg-background-color",

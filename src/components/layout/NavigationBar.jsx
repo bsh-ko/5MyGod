@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import homeDefault from "/assets/home-default.png";
 import homeActive from "/assets/home-actived.png";
@@ -13,6 +13,7 @@ import myinfoActive from "/assets/myinfo-actived.png";
 const navItems = [
   {
     path: "/",
+    patterns: [/^\/products/, /^\/$/],
     text: "홈",
     defaultIcon: homeDefault,
     activeIcon: homeActive,
@@ -20,12 +21,14 @@ const navItems = [
   {
     // 다른 페이지 완성되는대로 추후 경로 수정 예정
     path: "/user/myerrands",
+    patterns: [/^\/user\/myerrands/],
     text: "내 심부름",
     defaultIcon: myerrandsDefault,
     activeIcon: myerrandsActive,
   },
   {
     path: "/chat",
+    patterns: [/^\/chat/],
     text: "채팅",
     defaultIcon: chatingDefault,
     activeIcon: chatingActive,
@@ -33,6 +36,7 @@ const navItems = [
   },
   {
     path: "/users/mypage",
+    patterns: [/^\/users\/mypage/],
     text: "내 정보",
     defaultIcon: myinfoDefault,
     activeIcon: myinfoActive,
@@ -42,6 +46,7 @@ const navItems = [
 export default function NavigationBar() {
   const [visible, setVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const location = useLocation();
 
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
@@ -65,6 +70,10 @@ export default function NavigationBar() {
     };
   }, [handleScroll]); // handleScroll을 의존성 배열에 추가
 
+  const isPathActive = (patterns) => {
+    return patterns.some((pattern) => pattern.test(location.pathname));
+  };
+
   if (!visible) {
     return null;
   }
@@ -81,26 +90,26 @@ export default function NavigationBar() {
             <NavLink //state 추가 가능
               to={item.path}
               title={item.text}
-              // state={{ title: item.text }}
-              className={({ isActive }) =>
-                `flex flex-col items-center text-gray-700 ${
-                  isActive ? "text-primary-500" : ""
-                }`
-              }
+              state={{ title: item.text }}
+              className={`flex flex-col items-center text-gray-700 ${
+                isPathActive(item.patterns) ? "text-primary-500" : ""
+              }`}
             >
-              {({ isActive }) => (
-                <div
-                  className={`flex flex-col items-center size-11 ${
-                    item.gapClass || "gap-y-[5px]"
-                  }`}
-                >
-                  <img
-                    src={isActive ? item.activeIcon : item.defaultIcon}
-                    alt={item.text}
-                  />
-                  <span>{item.text}</span>
-                </div>
-              )}
+              <div
+                className={`flex flex-col items-center size-11 ${
+                  item.gapClass || "gap-y-[5px]"
+                }`}
+              >
+                <img
+                  src={
+                    isPathActive(item.patterns)
+                      ? item.activeIcon
+                      : item.defaultIcon
+                  }
+                  alt={item.text}
+                />
+                <span>{item.text}</span>
+              </div>
             </NavLink>
           </li>
         ))}
