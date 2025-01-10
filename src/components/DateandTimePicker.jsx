@@ -47,20 +47,31 @@ export default function DateAndTimePicker({ onDateChange }) {
   const [selectedDay, setSelectedDay] = useState("01");
   const [selectedHour, setSelectedHour] = useState("12");
   const [selectedMinute, setSelectedMinute] = useState("00");
+  const [selectedDate, setSelectedDate] = useState("");
 
-  // 날짜가 변경될 때마다 상위 컴포넌트에 전달
-  useEffect(() => {
+  const handleConfirm = () => {
+    const date = `${selectedYear}년 ${selectedMonth}월 ${selectedDay}일, ${selectedHour}시 ${selectedMinute}분`;
+    setSelectedDate(date); // 선택된 일시로 업데이트
+
+    // New.jsx 로 전달
     onDateChange(
       `${selectedYear}.${selectedMonth}.${selectedDay} ${selectedHour}:${selectedMinute}:00`
     );
-  }, [
-    selectedYear,
-    selectedMonth,
-    selectedDay,
-    selectedHour,
-    selectedMinute,
-    onDateChange,
-  ]);
+  };
+
+  // 날짜가 변경될 때마다 상위 컴포넌트에 전달
+  // useEffect(() => {
+  //   onDateChange(
+  //     `${selectedYear}.${selectedMonth}.${selectedDay} ${selectedHour}:${selectedMinute}:00`
+  //   );
+  // }, [
+  //   selectedYear,
+  //   selectedMonth,
+  //   selectedDay,
+  //   selectedHour,
+  //   selectedMinute,
+  //   onDateChange,
+  // ]);
 
   const years = Array.from({ length: 10 }, (_, i) => (2025 + i).toString());
   const months = Array.from({ length: 12 }, (_, i) =>
@@ -76,46 +87,8 @@ export default function DateAndTimePicker({ onDateChange }) {
     String(i).padStart(2, "0")
   );
 
-  // return (
-  //   <div className="p-5 bg-white rounded-lg shadow-md flex flex-col gap-6">
-  //     <div className="flex gap-4">
-  //       <Picker
-  //         options={years}
-  //         selectedValue={selectedYear}
-  //         onChange={setSelectedYear}
-  //       />
-
-  //       <Picker
-  //         options={months}
-  //         selectedValue={selectedMonth}
-  //         onChange={setSelectedMonth}
-  //       />
-  //       <Picker
-  //         options={days}
-  //         selectedValue={selectedDay}
-  //         onChange={setSelectedDay}
-  //       />
-  //       <Picker
-  //         options={hours}
-  //         selectedValue={selectedHour}
-  //         onChange={setSelectedHour}
-  //       />
-  //       <Picker
-  //         options={minutes}
-  //         selectedValue={selectedMinute}
-  //         onChange={setSelectedMinute}
-  //       />
-  //     </div>
-
-  //     <div className="font-pretendard text-xl font-bold text-center mt-4">
-  //       {`${selectedYear}년 ${selectedMonth}월 ${selectedDay}일, ${selectedHour}시 ${selectedMinute}분`}
-  //     </div>
-  //   </div>
-  // );
-
   return (
-    <div className="p-[12px] bg-white rounded-lg  flex flex-col gap-[8px]">
-      {/* 라벨과 Picker를 묶는 컨테이너 */}
+    <div className="p-[12px] bg-white rounded-lg  flex flex-col gap-[16px]">
       <div className="flex gap-4 justify-center items-start">
         <div className="flex flex-col items-center gap-[8px]">
           <Picker
@@ -169,9 +142,19 @@ export default function DateAndTimePicker({ onDateChange }) {
         </div>
       </div>
 
-      <div className="font-pretendard text-xl font-bold text-center mt-4">
-        {`${selectedYear}년 ${selectedMonth}월 ${selectedDay}일, ${selectedHour}시 ${selectedMinute}분`}
-      </div>
+      {selectedDate && (
+        <div className="font-pretendard font-bold text-xl text-center">
+          {selectedDate}
+        </div>
+      )}
+
+      <button
+        type="button"
+        onClick={handleConfirm}
+        className="p-2 bg-primary-400 font-laundry text-[20px] text-white rounded-lg"
+      >
+        결정
+      </button>
     </div>
   );
 }
