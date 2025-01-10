@@ -78,6 +78,11 @@ export default function NavigationBar() {
     return null;
   }
 
+  // 로그인 페이지에서는 버튼을 숨김
+  if (location.pathname === "/users/login") {
+    return null;
+  }
+
   return (
     <nav
       className={`bg-white flex items-center justify-around shadow-card-shadow min-h-[83px] max-w-[393px] mx-auto fixed bottom-0 left-0 right-0 transition-transform duration-100 ${
