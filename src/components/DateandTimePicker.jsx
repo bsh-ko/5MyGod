@@ -23,7 +23,7 @@ function Picker({ options, selectedValue, onChange }) {
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="w-12 h-40 overflow-y-scroll snap-y snap-mandatory border border-gray-300 rounded-lg text-center"
+      className="w-12 h-40 overflow-y-scroll scrollbar-hide snap-y snap-mandatory border border-gray-300 rounded-lg text-center"
     >
       <div className="h-10" />
       {options.map((option) => (
