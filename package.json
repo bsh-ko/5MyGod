@@ -23,6 +23,7 @@
     "react-mobile-picker": "^1.0.1",
     "react-router-dom": "^7.1.1",
     "react-scroll-picker": "^0.1.0",
+    "tailwind-scrollbar-hide": "^2.0.0",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
