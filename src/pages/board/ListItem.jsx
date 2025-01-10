@@ -6,15 +6,15 @@ import dayjs from "dayjs";
 ListItem.propTypes = {
   item: PropTypes.shape({
     _id: PropTypes.number.isRequired,
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     user: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }),
     createdAt: PropTypes.string.isRequired,
     extra: PropTypes.shape({
-      category: PropTypes.arrayOf(PropTypes.string).isRequired, // category는 문자열 배열로 전달되어야 함
-      tags: PropTypes.arrayOf(PropTypes.string), // tag도 문자열 배열로 전달되어야 함
+      category: PropTypes.array.isRequired,
+      tags: PropTypes.array.isRequired,
       due: PropTypes.string.isRequired,
     }),
   }),
