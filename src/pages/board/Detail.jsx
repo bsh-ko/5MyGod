@@ -55,7 +55,7 @@ export default function Detail() {
   }
 
   return (
-    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
+    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px]">
       <div className="post bg-[#fff] p-[22px] rounded-lg shadow-card-shadow grow">
         <div className="post_header border-b-[1px] border-gray-400 pb-[20px] flex flex-col gap-[20px]">
           <div className="post_title font-laundry text-detail-title break-all flex gap-[12px] items-center">
@@ -200,6 +200,7 @@ export default function Detail() {
       </div>
 
       <CommentList />
+      <div className="pb-40 bg-background-color"></div>
     </main>
   );
 }
