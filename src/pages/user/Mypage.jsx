@@ -6,8 +6,8 @@ import useUserStore from "@zustand/userStore";
 
 import Profile from "@pages/user/Profile";
 import Tabs from "@pages/user/Tabs";
-import ListItem from "@pages/board/ListItem";
 import RequestList from "@pages/user/RequestList";
+import ApplyList from "@pages/user/ApplyList";
 
 export default function MyPage() {
   const [activeTab, setActiveTab] = useState("intro");
@@ -50,6 +50,15 @@ export default function MyPage() {
   });
 
   console.log("requestdata: ", requestData);
+
+  // 나의 지원탭
+  const { data: applyData } = useQuery({
+    queryKey: ["apply"],
+    queryFn: () => axios.get("/orders/"),
+    select: (res) => res.data,
+  });
+
+  console.log("apply data: ", applyData);
 
   const {
     register,
@@ -236,11 +245,7 @@ export default function MyPage() {
 
           {activeTab === "apply" && (
             <div id="apply" className="tab-content p-4">
-              <ul className="space-y-3">
-                {/* {apply.map((apply) => (
-                  <ListItem key={apply._id} item={apply} />
-                ))} */}
-              </ul>
+              <ApplyList applyData={applyData} />
             </div>
           )}
         </section>
