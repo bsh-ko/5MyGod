@@ -3,7 +3,7 @@ import ListItem from "@pages/board/ListItem";
 
 const ApplyList = ({ applyData }) => {
   if (!applyData?.item || applyData.item.length === 0) {
-    return <div className="pt-5 items-center text-center text-gray-500">요청한 심부름이 없습니다.</div>;
+    return <div className="pt-5 items-center text-center text-gray-500">지원한 심부름이 없습니다.</div>;
   }
 
   // 데이터 변환 함수
