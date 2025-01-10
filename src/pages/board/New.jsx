@@ -1,5 +1,5 @@
 import InputError from "@components/InputError";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import DaumPostCode from "react-daum-postcode";
 import DateAndTimePicker from "@components/DateAndTimePicker";
@@ -129,34 +129,89 @@ export default function New() {
   const [pickupAddress, setPickupAddress] = useState(""); // 픽업 주소
   const [pickupCoordinates, setPickupCoordinates] = useState(null); // 픽업 좌표
   const [pickupDetailAddress, setPickupDetailAddress] = useState(""); // 픽업 상세주소
-  const [deliveryAddress, setDeliveryAddress] = useState(""); // 도착 주소
-  const [deliveryCoordinates, setDeliveryCoordinates] = useState(null); // 도착 좌표
-  const [deliveryDetailAddress, setDeliveryDetailAddress] = useState(""); // 도착 상세주소
+  const [arrivalAddress, setArrivalAddress] = useState(""); // 도착 주소
+  const [arrivalCoordinates, setArrivalCoordinates] = useState(null); // 도착 좌표
+  const [arrivalDetailAddress, setArrivalDetailAddress] = useState(""); // 도착 상세주소
   const [isPickupOpen, setIsPickupOpen] = useState(false); // 픽업 주소 검색창 열기/닫기
-  const [isDeliveryOpen, setIsDeliveryOpen] = useState(false); // 도착 주소 검색창 열기/닫기
+  const [isArrivalOpen, setIsArrivalOpen] = useState(false); // 도착 주소 검색창 열기/닫기
   const [isPickupDisabled, setIsPickupDisabled] = useState(false); // 픽업이 필요 없어요 상태
-  const [isDeliveryDisabled, setIsDeliveryDisabled] = useState(false); // 도착 위치가 필요 없어요 상태
+  const [isArrivalDisabled, setIsArrivalDisabled] = useState(false); // 도착 위치가 필요 없어요 상태
 
-  // 픽업 주소 선택 시 처리하는 함수
+  const [isKakaoReady, setIsKakaoReady] = useState(false); // 카카오맵 api 로드 상태
+
+  // 카카오맵 API 로드 상태 확인
+  useEffect(() => {
+    const checkKakaoAPI = () => {
+      if (window.kakao && window.kakao.maps && window.kakao.maps.services) {
+        setIsKakaoReady(true);
+        console.log("Kakao Maps API 로드 완료");
+      } else {
+        console.log("Kakao Maps API 로드 대기 중...");
+      }
+    };
+
+    // 로드 상태 체크
+    if (document.readyState === "complete") {
+      checkKakaoAPI();
+    } else {
+      window.addEventListener("DOMContentLoaded", checkKakaoAPI);
+    }
+
+    return () => window.removeEventListener("DOMContentLoaded", checkKakaoAPI);
+  }, []);
+
+  // 주소를 좌표로 변환하는 함수
+  const convertAddressToCoordinates = (address, setCoordinates) => {
+    if (!isKakaoReady) {
+      console.error("Kakao Maps API가 아직 준비되지 않았습니다.");
+      return;
+    }
+
+    const geocoder = new window.kakao.maps.services.Geocoder();
+    geocoder.addressSearch(address, (result, status) => {
+      if (status === window.kakao.maps.services.Status.OK) {
+        setCoordinates({
+          latitude: parseFloat(result[0].y),
+          longitude: parseFloat(result[0].x),
+        });
+      } else {
+        console.error("주소를 좌표로 변환하는 데 실패했습니다: ", status);
+      }
+    });
+  };
+
+  // 픽업 주소 선택 완료 시 처리하는 함수
   const handleCompletePickup = (data) => {
     const newAddress = data.address;
     setPickupAddress(newAddress);
     setIsPickupOpen(false);
     setValue("pickup", newAddress, { shouldValidate: true });
+
+    // Kakao API를 통한 좌표 변환
+    convertAddressToCoordinates(newAddress, setPickupCoordinates);
+
     setTimeout(() => {
       trigger("pickup");
     }, 0);
+
+    console.log("픽업 좌표: ", pickupCoordinates);
   };
 
-  // 도착 주소 선택 시 처리하는 함수
-  const handleCompleteDelivery = (data) => {
+  // 도착 주소 선택 완료 시 처리하는 함수
+  const handleCompleteArrival = (data) => {
     const newAddress = data.address;
-    setDeliveryAddress(newAddress);
-    setIsDeliveryOpen(false);
-    setValue("delivery", newAddress, { shouldValidate: true });
+    setArrivalAddress(newAddress);
+    setIsArrivalOpen(false);
+    setValue("arrival", newAddress, { shouldValidate: true });
+
+    // Kakao API를 통한 좌표 변환
+    convertAddressToCoordinates(newAddress, setArrivalCoordinates);
+
     setTimeout(() => {
-      trigger("delivery");
+      trigger("arrival");
     }, 0);
+
+    console.log("도착 좌표: ", arrivalCoordinates);
   };
 
   ////////////////////////////////////////////////////////////// 마감 일시 //////////////////////////////////////////////////////////////
@@ -197,25 +252,15 @@ export default function New() {
             ? null
             : {
                 address: pickupAddress,
-                detailAddress: pickupDetailAddress || "",
-                coordinates: pickupCoordinates
-                  ? {
-                      latitude: "",
-                      longitude: "",
-                    }
-                  : null,
+                detailAddress: pickupDetailAddress || null,
+                coordinates: pickupCoordinates || null,
               },
-          arrivalLocation: isDeliveryDisabled
+          arrivalLocation: isArrivalDisabled
             ? null
             : {
-                address: deliveryAddress,
-                detailAddress: deliveryDetailAddress || "",
-                coordinates: deliveryCoordinates
-                  ? {
-                      latitude: "",
-                      longitude: "",
-                    }
-                  : null,
+                address: arrivalAddress,
+                detailAddress: arrivalDetailAddress || "",
+                coordinates: arrivalCoordinates || null,
               },
           due: selectedDue,
         },
@@ -437,13 +482,13 @@ export default function New() {
           </div>
 
           {/* 도착 위치 입력 필드들 */}
-          {!isDeliveryDisabled ? (
-            <div className="delivery_fileds flex flex-col gap-[12px]">
+          {!isArrivalDisabled ? (
+            <div className="arrival_fileds flex flex-col gap-[12px]">
               <div className="flex gap-[8px] items-center">
                 <img src="../../assets/pin.svg" />
                 <p className="font-laundry font-bold">도착 위치</p>
               </div>
-              <InputError target={errors?.delivery} />
+              <InputError target={errors?.arrival} />
 
               {/* 주소 검색 필드 */}
               <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
@@ -451,12 +496,12 @@ export default function New() {
                   type="text"
                   className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
                   placeholder="주소 검색"
-                  value={deliveryAddress}
-                  onClick={() => setIsDeliveryOpen(true)}
+                  value={arrivalAddress}
+                  onClick={() => setIsArrivalOpen(true)}
                   readOnly
-                  {...register("delivery", {
+                  {...register("arrival", {
                     validate: () =>
-                      isDeliveryDisabled || deliveryAddress
+                      isArrivalDisabled || arrivalAddress
                         ? true
                         : "주소를 입력하거나 '도착 위치가 필요 없어요'를 선택해주세요.",
                   })}
@@ -464,12 +509,12 @@ export default function New() {
               </div>
 
               {/* Daum Postcode 검색창 */}
-              {isDeliveryOpen && (
+              {isArrivalOpen && (
                 <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
-                  <DaumPostCode onComplete={handleCompleteDelivery} />
+                  <DaumPostCode onComplete={handleCompleteArrival} />
                   <button
                     className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
-                    onClick={() => setIsDeliveryOpen(false)}
+                    onClick={() => setIsArrivalOpen(false)}
                   >
                     닫기
                   </button>
@@ -483,7 +528,7 @@ export default function New() {
                   placeholder="상세 주소"
                   onChange={(e) => {
                     const input = e.target.value;
-                    setDeliveryDetailAddress(input);
+                    setArrivalDetailAddress(input);
                   }}
                 ></textarea>
               </div>
@@ -504,9 +549,9 @@ export default function New() {
               className="hidden"
               onChange={(e) => {
                 const isChecked = e.target.checked;
-                setIsDeliveryDisabled(isChecked);
-                setIsDeliveryOpen(false);
-                setDeliveryAddress("");
+                setIsArrivalDisabled(isChecked);
+                setIsArrivalOpen(false);
+                setArrivalAddress("");
               }}
             />
             <label
@@ -515,7 +560,7 @@ export default function New() {
             >
               <img
                 src={
-                  isDeliveryDisabled
+                  isArrivalDisabled
                     ? "/assets/checked.png"
                     : "/assets/unchecked.png"
                 }
