@@ -78,9 +78,10 @@ export default function NavigationBar() {
       <ul className="font-laundry text-center text-xs tracking-tight flex justify-between items-center gap-12 mt-3">
         {navItems.map((item) => (
           <li key={item.path}>
-            <NavLink
+            <NavLink //state 추가 가능
               to={item.path}
               title={item.text}
+              // state={{ title: item.text }}
               className={({ isActive }) =>
                 `flex flex-col items-center text-gray-700 ${
                   isActive ? "text-primary-500" : ""
