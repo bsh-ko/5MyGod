@@ -66,10 +66,11 @@ export default function New() {
 
   // 카테고리 선택 / 해제 함수
   const handleCategoryClick = (category) => {
+    const selectedCode = categoryCodes[category];
     // 이미 선택된 카테고리를 또 누르면 선택 해제, 선택 안되어 있던 카테고리를 누르면 선택
-    setSelectedCategory((prev) =>
-      prev === categoryCodes[category] ? "" : categoryCodes[category]
-    );
+    const newValue = selectedCategory === selectedCode ? "" : selectedCode;
+    setSelectedCategory(newValue);
+    setValue("category", newValue, { shouldValidate: true }); // useForm에 반영
   };
 
   // 태그 선택 / 해제 함수
@@ -138,8 +139,9 @@ export default function New() {
     setDeliveryAddress(data.address);
     setIsDeliveryOpen(false); // 검색창 닫기
   };
-  ////////////////////////////////////////////////////////////// 일시 //////////////////////////////////////////////////////////////
-  const [dateAndTime, setDateAndTime] = useState("");
+  ////////////////////////////////////////////////////////////// 마감 일시 //////////////////////////////////////////////////////////////
+  const selectedDue = watch("selectedDue", "");
+  console.log("selectedDue: ", selectedDue);
 
   ////////////////////////////////////////////////////////////// 금액 //////////////////////////////////////////////////////////////
   const price = watch("price", ""); // react-hook-form에서 price값을 실시간으로 감시
@@ -179,7 +181,7 @@ export default function New() {
             address: isDeliveryDisabled ? null : deliveryAddress,
             detailAddress: deliveryAddress || null,
           },
-          due: dateAndTime,
+          due: selectedDue,
         },
       };
       return axios.post("/seller/products/", body);
@@ -192,6 +194,7 @@ export default function New() {
       console.error(err);
     },
   });
+
   ////////////////////////////////////////////////////////////// return //////////////////////////////////////////////////////////////
   return (
     <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
@@ -202,9 +205,12 @@ export default function New() {
       >
         {/* 심부름 제목 입력 */}
         <div className="task_name p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-          <p className="font-laundry text-input-title">
-            심부름 제목을 입력해주세요
-          </p>
+          <div className="flex flex-col">
+            <p className="font-laundry text-input-title">
+              심부름 제목을 입력해주세요
+            </p>
+            <InputError target={errors?.name} />
+          </div>
 
           <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px] items-center">
             <input
@@ -225,15 +231,23 @@ export default function New() {
               {title.length} / {maxTitleLength}
             </span>
           </div>
-          <InputError target={errors?.name} />
         </div>
 
         {/* 카테고리 선택 */}
         <div className="task_category p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-          <p className="font-laundry text-input-title">
-            심부름 구분을 선택해주세요
-          </p>
-          <ul className="category_list flex gap-[12px]">
+          <div className="flex flex-col">
+            <p className="font-laundry text-input-title">
+              심부름 구분을 선택해주세요
+            </p>
+            <InputError target={errors?.category} />
+          </div>
+
+          <ul
+            className="category_list flex gap-[12px]"
+            {...register("category", {
+              required: "심부름 카테고리를 선택해주세요.",
+            })}
+          >
             {renderCategories()}
           </ul>
         </div>
@@ -241,14 +255,18 @@ export default function New() {
         {/* 태그 선택 */}
         <div className="task_tag p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
           <p className="font-laundry text-input-title">
-            태그를 선택해주세요 <span className="text-gray-500">(선택)</span>
+            태그를 선택해주세요{" "}
+            <span className="text-gray-500">(중복 선택 가능)</span>
           </p>
           <ul className="tag_list flex gap-[12px] flex-wrap">{renderTags()}</ul>
         </div>
 
         {/* 심부름 내용 */}
         <div className="task_content p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-          <p className="font-laundry text-input-title">무엇을 요청할까요?</p>
+          <div className="flex flex-col">
+            <p className="font-laundry text-input-title">무엇을 요청할까요?</p>
+            <InputError target={errors.content} />
+          </div>
 
           <div className="min-h-[200px] bg-gray-100 rounded-lg p-[20px]">
             <textarea
@@ -262,7 +280,6 @@ export default function New() {
                 required: "심부름 내용을 작성해주세요.",
               })}
             ></textarea>
-            <InputError target={errors.content} />
           </div>
         </div>
 
@@ -442,11 +459,24 @@ export default function New() {
         </div>
 
         {/* 심부름 일시 */}
-        <div className="task_dateandtime p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-          <p className="font-laundry text-card-title">
-            심부름의 마감 일시를 선택해주세요
-          </p>
-          <DateAndTimePicker onDateChange={(date) => setDateAndTime(date)} />
+        <div
+          className="task_dateandtime p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
+          {...register("selectedDue", {
+            required: "마감 일시를 선택해주세요.",
+          })}
+        >
+          <div className="flex flex-col">
+            <p className="font-laundry text-card-title">
+              심부름의 마감 일시를 선택해주세요
+            </p>
+            <InputError target={errors?.selectedDue} />
+          </div>
+
+          <DateAndTimePicker
+            onDateChange={(date) =>
+              setValue("selectedDue", date, { shouldValidate: true })
+            }
+          />
         </div>
 
         {/* 심부름 금액 */}
@@ -454,9 +484,12 @@ export default function New() {
           className="task_price p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
           onSubmit={handleSubmit()}
         >
-          <p className="font-laundry text-input-title">
-            심부름비를 제시해주세요
-          </p>
+          <div className="flex flex-col">
+            <p className="font-laundry text-input-title">
+              심부름비를 제시해주세요
+            </p>
+            <InputError target={errors.price} />{" "}
+          </div>
 
           <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px]">
             <input
@@ -466,10 +499,10 @@ export default function New() {
               value={formatPrice(price)} // watch로 감지된 값에 쉼표를 적용하여 표시
               onChange={handlePriceChange} // 핸들러로 숫자만 react-hook-form 값에 저장
               {...register("price", {
-                required: "심부름비 금액을 입력해주세요.",
+                required: "심부름 금액을 입력해주세요.",
               })}
             ></input>
-            <InputError target={errors.price} />
+
             <div>원</div>
           </div>
         </div>
