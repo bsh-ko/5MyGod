@@ -148,271 +148,274 @@ export default function New() {
   ////////////////////////////////////////////////////////////// return //////////////////////////////////////////////////////////////
   return (
     <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
-      {/* 심부름 제목 입력 */}
-      <form
-        className="task_name p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
-        onSubmit={handleSubmit()}
-      >
-        <p className="font-laundry text-input-title">
-          심부름 제목을 입력해주세요
-        </p>
+      {/* 전체 폼. 제출함수 추가해야 함 */}
+      <form className="flex flex-col gap-[20px]" onSubmit={handleSubmit()}>
+        {/* 심부름 제목 입력 */}
+        <div className="task_name p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
+          <p className="font-laundry text-input-title">
+            심부름 제목을 입력해주세요
+          </p>
 
-        <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px] items-center">
-          <input
-            type="text"
-            value={watch("name", "").slice(0, maxTitleLength - 1)}
-            onChange={handleTitleChange}
-            className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
-            placeholder="심부름 제목을 작성해주세요"
-            {...register("name", {
-              required: "심부름 제목을 작성해주세요.",
-              maxLength: {
-                value: maxTitleLength,
-                message: `제목은 최대 ${maxTitleLength}자입니다.`,
-              },
-            })}
-          ></input>
-          <span className="text-xs text-gray-500 shrink-0">
-            {title.length} / {maxTitleLength}
-          </span>
+          <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px] items-center">
+            <input
+              type="text"
+              value={watch("name", "").slice(0, maxTitleLength - 1)}
+              onChange={handleTitleChange}
+              className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
+              placeholder="심부름 제목을 작성해주세요"
+              {...register("name", {
+                required: "심부름 제목을 작성해주세요.",
+                maxLength: {
+                  value: maxTitleLength,
+                  message: `제목은 최대 ${maxTitleLength}자입니다.`,
+                },
+              })}
+            ></input>
+            <span className="text-xs text-gray-500 shrink-0">
+              {title.length} / {maxTitleLength}
+            </span>
+          </div>
+          <InputError target={errors?.name} />
         </div>
-        <InputError target={errors?.name} />
-      </form>
 
-      {/* 카테고리 선택 */}
-      <div className="task_category p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-        <p className="font-laundry text-input-title">
-          심부름 구분을 선택해주세요
-        </p>
-        <ul className="category_list flex gap-[12px]">{renderCategories()}</ul>
-      </div>
-
-      {/* 태그 선택 */}
-      <div className="task_tag p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-        <p className="font-laundry text-input-title">
-          태그를 선택해주세요 <span className="text-gray-500">(선택)</span>
-        </p>
-        <ul className="tag_list flex gap-[12px] flex-wrap">{renderTags()}</ul>
-      </div>
-
-      {/* 심부름 내용 */}
-      <form
-        className="task_content p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
-        onSubmit={handleSubmit()}
-      >
-        <p className="font-laundry text-input-title">무엇을 요청할까요?</p>
-
-        <div className="min-h-[200px] bg-gray-100 rounded-lg p-[20px]">
-          <textarea
-            className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
-            placeholder="심부름 내용을 설명해주세요"
-            {...register("content", {
-              required: "심부름 내용을 작성해주세요.",
-            })}
-          ></textarea>
-          <InputError target={errors.content} />
+        {/* 카테고리 선택 */}
+        <div className="task_category p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
+          <p className="font-laundry text-input-title">
+            심부름 구분을 선택해주세요
+          </p>
+          <ul className="category_list flex gap-[12px]">
+            {renderCategories()}
+          </ul>
         </div>
-      </form>
 
-      {/* 심부름 위치 */}
-      <div className="task_location p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-        <p className="font-laundry text-input-title">
-          심부름의 위치를 알려주세요
-        </p>
+        {/* 태그 선택 */}
+        <div className="task_tag p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
+          <p className="font-laundry text-input-title">
+            태그를 선택해주세요 <span className="text-gray-500">(선택)</span>
+          </p>
+          <ul className="tag_list flex gap-[12px] flex-wrap">{renderTags()}</ul>
+        </div>
 
-        {/* 픽업 위치 입력 필드들 */}
-        {!isPickupDisabled ? (
-          <div className="pickup_fields flex flex-col gap-[12px]">
-            <div className="flex gap-[8px] items-center">
-              <img src="../../assets/pin.svg" />
-              <p className="font-laundry font-bold">픽업 위치</p>
-            </div>
+        {/* 심부름 내용 */}
+        <div className="task_content p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
+          <p className="font-laundry text-input-title">무엇을 요청할까요?</p>
 
-            {/* 주소 검색 필드 */}
-            <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
-              <input
-                type="text"
-                className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
-                placeholder="주소 검색"
-                value={pickupAddress}
-                onClick={() => setIsPickupOpen(true)}
-                readOnly
-              ></input>
-            </div>
+          <div className="min-h-[200px] bg-gray-100 rounded-lg p-[20px]">
+            <textarea
+              className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
+              placeholder="심부름 내용을 설명해주세요"
+              {...register("content", {
+                required: "심부름 내용을 작성해주세요.",
+              })}
+            ></textarea>
+            <InputError target={errors.content} />
+          </div>
+        </div>
 
-            {/* Daum Postcode 검색창 */}
-            {isPickupOpen && (
-              <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
-                <DaumPostCode onComplete={handleCompletePickup} />
-                <button
-                  className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
-                  onClick={() => setIsPickupOpen(false)}
-                >
-                  닫기
-                </button>
+        {/* 심부름 위치 */}
+        <div className="task_location p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
+          <p className="font-laundry text-input-title">
+            심부름의 위치를 알려주세요
+          </p>
+
+          {/* 픽업 위치 입력 필드들 */}
+          {!isPickupDisabled ? (
+            <div className="pickup_fields flex flex-col gap-[12px]">
+              <div className="flex gap-[8px] items-center">
+                <img src="../../assets/pin.svg" />
+                <p className="font-laundry font-bold">픽업 위치</p>
               </div>
-            )}
 
-            {/* 상세 주소 입력 필드 */}
-            <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
-              <textarea
-                className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
-                placeholder="상세 주소"
-              ></textarea>
-            </div>
-          </div>
-        ) : (
-          <div className="no_pickup_message p-[20px] bg-gray-100 rounded-lg">
-            <p className="font-pretendard font-extrabold flex justify-center text-lg text-gray-400">
-              픽업이 필요 없어요
-            </p>
-          </div>
-        )}
-
-        {/* 픽업이 필요 없어요 */}
-        <div className="checkbox flex items-center gap-[8px]">
-          <input
-            type="checkbox"
-            id="no-pickup"
-            className="hidden" // 기본 체크박스 숨김
-            onChange={(e) => {
-              const isChecked = e.target.checked;
-              setIsPickupDisabled(isChecked); // 상태 업데이트
-              setIsPickupOpen(false); // 검색창 닫기
-              setPickupAddress(""); // 주소 초기화
-            }}
-          />
-          <label
-            htmlFor="no-pickup"
-            className="flex items-center cursor-pointer gap-[8px]"
-          >
-            <img
-              src={
-                isPickupDisabled
-                  ? "/assets/checked.png"
-                  : "/assets/unchecked.png"
-              }
-              className="w-[24px] h-[24px] rounded-md"
-            />
-            <p className="font-pretendard font-bold select-none">
-              픽업이 필요 없어요
-            </p>
-          </label>
-        </div>
-
-        {/* 도착 위치 입력 필드들 */}
-        {!isdeliveryDisabled ? (
-          <div className="delivery_fileds flex flex-col gap-[12px]">
-            <div className="flex gap-[8px] items-center">
-              <img src="../../assets/pin.svg" />
-              <p className="font-laundry font-bold">도착 위치</p>
-            </div>
-
-            {/* 주소 검색 필드 */}
-            <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
-              <input
-                type="text"
-                className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
-                placeholder="주소 검색"
-                value={deliveryAddress}
-                onClick={() => setIsDeliveryOpen(true)}
-                readOnly
-              ></input>
-            </div>
-
-            {/* Daum Postcode 검색창 */}
-            {isDeliveryOpen && (
-              <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
-                <DaumPostCode onComplete={handleCompleteDelivery} />
-                <button
-                  className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
-                  onClick={() => setIsDeliveryOpen(false)}
-                >
-                  닫기
-                </button>
+              {/* 주소 검색 필드 */}
+              <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+                <input
+                  type="text"
+                  className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+                  placeholder="주소 검색"
+                  value={pickupAddress}
+                  onClick={() => setIsPickupOpen(true)}
+                  readOnly
+                ></input>
               </div>
-            )}
 
-            {/* 상세 주소 입력 필드 */}
-            <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
-              <textarea
-                className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
-                placeholder="상세 주소"
-              ></textarea>
+              {/* Daum Postcode 검색창 */}
+              {isPickupOpen && (
+                <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
+                  <DaumPostCode onComplete={handleCompletePickup} />
+                  <button
+                    className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
+                    onClick={() => setIsPickupOpen(false)}
+                  >
+                    닫기
+                  </button>
+                </div>
+              )}
+
+              {/* 상세 주소 입력 필드 */}
+              <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+                <textarea
+                  className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+                  placeholder="상세 주소"
+                ></textarea>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="no_pickup_message p-[20px] bg-gray-100 rounded-lg">
-            <p className="font-pretendard font-extrabold flex justify-center text-lg text-gray-400">
-              도착 위치가 필요 없어요
-            </p>
-          </div>
-        )}
+          ) : (
+            <div className="no_pickup_message p-[20px] bg-gray-100 rounded-lg">
+              <p className="font-pretendard font-extrabold flex justify-center text-lg text-gray-400">
+                픽업이 필요 없어요
+              </p>
+            </div>
+          )}
 
-        {/* 도착 위치가 필요 없어요 */}
-        <div className="checkbox flex items-center gap-[8px]">
-          <input
-            type="checkbox"
-            id="no-arrival"
-            className="hidden"
-            onChange={(e) => {
-              const isChecked = e.target.checked;
-              setIsDeliveryDisabled(isChecked);
-              setIsDeliveryOpen(false);
-              setDeliveryAddress("");
-            }}
-          />
-          <label
-            htmlFor="no-arrival"
-            className="flex items-center cursor-pointer gap-[8px]"
-          >
-            <img
-              src={
-                isdeliveryDisabled
-                  ? "/assets/checked.png"
-                  : "/assets/unchecked.png"
-              }
-              className="w-[24px] h-[24px] rounded-md"
+          {/* 픽업이 필요 없어요 */}
+          <div className="checkbox flex items-center gap-[8px]">
+            <input
+              type="checkbox"
+              id="no-pickup"
+              className="hidden" // 기본 체크박스 숨김
+              onChange={(e) => {
+                const isChecked = e.target.checked;
+                setIsPickupDisabled(isChecked); // 상태 업데이트
+                setIsPickupOpen(false); // 검색창 닫기
+                setPickupAddress(""); // 주소 초기화
+              }}
             />
-            <p className="font-pretendard font-bold">도착 위치가 필요 없어요</p>
-          </label>
+            <label
+              htmlFor="no-pickup"
+              className="flex items-center cursor-pointer gap-[8px]"
+            >
+              <img
+                src={
+                  isPickupDisabled
+                    ? "/assets/checked.png"
+                    : "/assets/unchecked.png"
+                }
+                className="w-[24px] h-[24px] rounded-md"
+              />
+              <p className="font-pretendard font-bold select-none">
+                픽업이 필요 없어요
+              </p>
+            </label>
+          </div>
+
+          {/* 도착 위치 입력 필드들 */}
+          {!isdeliveryDisabled ? (
+            <div className="delivery_fileds flex flex-col gap-[12px]">
+              <div className="flex gap-[8px] items-center">
+                <img src="../../assets/pin.svg" />
+                <p className="font-laundry font-bold">도착 위치</p>
+              </div>
+
+              {/* 주소 검색 필드 */}
+              <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+                <input
+                  type="text"
+                  className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+                  placeholder="주소 검색"
+                  value={deliveryAddress}
+                  onClick={() => setIsDeliveryOpen(true)}
+                  readOnly
+                ></input>
+              </div>
+
+              {/* Daum Postcode 검색창 */}
+              {isDeliveryOpen && (
+                <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
+                  <DaumPostCode onComplete={handleCompleteDelivery} />
+                  <button
+                    className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
+                    onClick={() => setIsDeliveryOpen(false)}
+                  >
+                    닫기
+                  </button>
+                </div>
+              )}
+
+              {/* 상세 주소 입력 필드 */}
+              <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
+                <textarea
+                  className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
+                  placeholder="상세 주소"
+                ></textarea>
+              </div>
+            </div>
+          ) : (
+            <div className="no_pickup_message p-[20px] bg-gray-100 rounded-lg">
+              <p className="font-pretendard font-extrabold flex justify-center text-lg text-gray-400">
+                도착 위치가 필요 없어요
+              </p>
+            </div>
+          )}
+
+          {/* 도착 위치가 필요 없어요 */}
+          <div className="checkbox flex items-center gap-[8px]">
+            <input
+              type="checkbox"
+              id="no-arrival"
+              className="hidden"
+              onChange={(e) => {
+                const isChecked = e.target.checked;
+                setIsDeliveryDisabled(isChecked);
+                setIsDeliveryOpen(false);
+                setDeliveryAddress("");
+              }}
+            />
+            <label
+              htmlFor="no-arrival"
+              className="flex items-center cursor-pointer gap-[8px]"
+            >
+              <img
+                src={
+                  isdeliveryDisabled
+                    ? "/assets/checked.png"
+                    : "/assets/unchecked.png"
+                }
+                className="w-[24px] h-[24px] rounded-md"
+              />
+              <p className="font-pretendard font-bold">
+                도착 위치가 필요 없어요
+              </p>
+            </label>
+          </div>
         </div>
-      </div>
 
-      {/* 심부름 일시 */}
-      <div className="task_dateandtime p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-        <p className="font-laundry text-card-title">
-          심부름의 마감 일시를 선택해주세요
-        </p>
-        <DateAndTimePicker onDateChange={(date) => setDateAndTime(date)} />
-      </div>
-
-      {/* 심부름 금액 */}
-      <form
-        className="task_price p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
-        onSubmit={handleSubmit()}
-      >
-        <p className="font-laundry text-input-title">심부름비를 제시해주세요</p>
-
-        <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px]">
-          <input
-            type="text"
-            className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
-            placeholder="금액을 입력해주세요"
-            value={formatPrice(price)} // watch로 감지된 값에 쉼표를 적용하여 표시
-            onChange={handlePriceChange} // 핸들러로 숫자만 react-hook-form 값에 저장
-            {...register("price", {
-              required: "심부름비 금액을 입력해주세요.",
-            })}
-          ></input>
-          <InputError target={errors.price} />
-          <div>원</div>
+        {/* 심부름 일시 */}
+        <div className="task_dateandtime p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
+          <p className="font-laundry text-card-title">
+            심부름의 마감 일시를 선택해주세요
+          </p>
+          <DateAndTimePicker onDateChange={(date) => setDateAndTime(date)} />
         </div>
+
+        {/* 심부름 금액 */}
+        <div
+          className="task_price p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
+          onSubmit={handleSubmit()}
+        >
+          <p className="font-laundry text-input-title">
+            심부름비를 제시해주세요
+          </p>
+
+          <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px]">
+            <input
+              type="text"
+              className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
+              placeholder="금액을 입력해주세요"
+              value={formatPrice(price)} // watch로 감지된 값에 쉼표를 적용하여 표시
+              onChange={handlePriceChange} // 핸들러로 숫자만 react-hook-form 값에 저장
+              {...register("price", {
+                required: "심부름비 금액을 입력해주세요.",
+              })}
+            ></input>
+            <InputError target={errors.price} />
+            <div>원</div>
+          </div>
+        </div>
+
+        <button className="bg-primary-500 font-laundry text-card-title text-white p-[20px] rounded-t-lg ">
+          심부름 요청하기
+        </button>
       </form>
-
-      <button className="bg-primary-500 font-laundry text-card-title text-white p-[20px] rounded-t-lg ">
-        심부름 요청하기
-      </button>
     </main>
   );
 }
