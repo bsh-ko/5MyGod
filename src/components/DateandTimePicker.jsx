@@ -137,7 +137,7 @@ export default function DateAndTimePicker({ onDueChange }) {
       <button
         type="button"
         onClick={handleConfirm}
-        className="p-2 bg-primary-400 font-laundry text-[20px] text-white rounded-lg"
+        className="p-2 bg-gray-200 font-pretendard text-card-price text-lg text-gray-800 rounded-lg"
       >
         결정
       </button>

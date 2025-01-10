@@ -432,7 +432,7 @@ export default function New() {
                 <div className="daum-postcode-modal flex flex-col gap-[12px] p-[12px] shadow-card-shadow rounded-lg">
                   <DaumPostCode onComplete={handleCompletePickup} />
                   <button
-                    className="font-laundry bg-primary-400 text-white p-[4px] rounded-lg text-[20px]"
+                    className="font-pretendard bg-gray-200 p-[4px] rounded-lg text-card-price text-lg text-gray-800"
                     onClick={() => setIsPickupOpen(false)}
                   >
                     닫기
@@ -634,7 +634,7 @@ export default function New() {
         {/* 제출 버튼 */}
         <button
           type="submit"
-          className="bg-primary-500 font-laundry text-card-title text-white p-[20px] rounded-lg sticky bottom-[80px] w-full z-10"
+          className="bg-primary-500 font-laundry text-card-title text-2xl text-white p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full"
         >
           심부름 요청하기
         </button>
