@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 TagList.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tags: PropTypes.array.isRequired,
 };
 
 export default function TagList({ tags }) {
