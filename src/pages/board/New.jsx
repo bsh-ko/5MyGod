@@ -1,12 +1,11 @@
 import InputError from "@components/InputError";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import DaumPostCode from "react-daum-postcode";
 import DateAndTimePicker from "@components/DateAndTimePicker";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import LocationMap from "@components/LocationMap";
 
 export default function New() {
   const {
