@@ -409,6 +409,10 @@ export default function New() {
           <div>원</div>
         </div>
       </form>
+
+      <button className="bg-primary-500 font-laundry text-card-title text-white p-[20px] rounded-t-lg ">
+        심부름 요청하기
+      </button>
     </main>
   );
 }
