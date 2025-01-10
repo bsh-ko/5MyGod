@@ -196,7 +196,10 @@ export default function New() {
   return (
     <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
       {/* 전체 폼. 제출함수 추가해야 함 */}
-      <form className="flex flex-col gap-[20px]" onSubmit={handleSubmit()}>
+      <form
+        className="flex flex-col gap-[20px]"
+        onSubmit={handleSubmit(addItem.mutate)}
+      >
         {/* 심부름 제목 입력 */}
         <div className="task_name p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
           <p className="font-laundry text-input-title">
@@ -471,7 +474,10 @@ export default function New() {
           </div>
         </div>
 
-        <button className="bg-primary-500 font-laundry text-card-title text-white p-[20px] rounded-t-lg ">
+        <button
+          type="submit"
+          className="bg-primary-500 font-laundry text-card-title text-white p-[20px] rounded-t-lg "
+        >
           심부름 요청하기
         </button>
       </form>
