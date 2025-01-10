@@ -1,16 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 import useUserStore from "@zustand/userStore";
 
 import Profile from "@pages/user/Profile";
 import Tabs from "@pages/user/Tabs";
 import ListItem from "@pages/board/ListItem";
+import RequestList from "@pages/user/RequestList";
 
 export default function MyPage() {
   const [activeTab, setActiveTab] = useState("intro");
-  const { user } = useUserStore(); // zustand로 사용자 정보 가져오기
+  const {
+    user,
+    isEditingIntroduction, // 자기소개 수정 상태
+    isEditingErrands,
+    isEditingTransportation,
+    newIntroduction, // 수정할 자기소개
+    newErrands,
+    newTransportation,
+    toggleEditIntroduction, // 자기소개 수정 모드 전환
+    toggleEditErrands,
+    toggleEditTransportation,
+    setNewIntroduction, // 자기소개 수정 값 설정
+    setNewErrands,
+    setNewTransportation,
+    saveIntroduction, // 자기소개 저장
+    saveErrands,
+    saveTransportation,
+  } = useUserStore();
   const axios = useAxiosInstance();
+  const queryClient = useQueryClient();
 
   const {
     data: users,
@@ -20,17 +40,58 @@ export default function MyPage() {
     queryKey: ["userProfile"], // Query Key
     queryFn: () => axios.get(`/users/${user._id}`).then((res) => res.data),
   });
+  console.log("유저 정보 : ", users);
 
-  console.log(users);
+  // 나의 요청탭
+  const { data: requestData } = useQuery({
+    queryKey: ["requests"],
+    queryFn: () => axios.get("/seller/products/"),
+    select: (res) => res.data,
+  });
 
-  // 로딩 상태
+  console.log("requestdata: ", requestData);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    defaultValues: {
+      title: users?.item?.extra?.introduction,
+    },
+  });
+
+  useEffect(() => {
+    if (users?.item?.extra?.introduction) {
+      setValue("title", users.item.extra.introduction);
+    }
+  }, [users, setValue]);
+
+  const updateIntroduction = useMutation({
+    mutationFn: (formData) => axios.patch(`/users/${user._id}`, formData),
+    onSuccess: () => {
+      alert("자기소개가 수정되었습니다.");
+      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+      toggleEditIntroduction(); // 수정 모드 종료
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+
   if (isLoading) return <div>로딩 중...</div>;
 
-  // 에러 상태
   if (error) {
     const errorMessage = error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
     return <div>{errorMessage}</div>;
   }
+
+  const handleSaveIntroduction = (data) => {
+    const updatedData = { introduction: data.title }; // 수정된 데이터를 서버에 보낼 형식
+    updateIntroduction.mutate(updatedData);
+  };
+
   const tabs = [
     { id: "intro", label: "소개" },
     { id: "requests", label: "나의 요청" },
@@ -40,7 +101,6 @@ export default function MyPage() {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
-
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100">
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
@@ -62,41 +122,84 @@ export default function MyPage() {
               <div className="intro bg-white p-5">
                 <div className="flex justify-between">
                   <h3 className="text-lg font-bold mb-3 text-gray-700">자기소개</h3>
-                  <a href="#" className="text-primary-500 font-bold text-sm">
-                    수정하기
+                  <a
+                    href="#"
+                    className="text-primary-500 font-bold text-sm"
+                    onClick={handleSaveIntroduction} // 함수 연결
+                  >
+                    {isEditingIntroduction ? "저장" : "수정하기"}
                   </a>
                 </div>
-                <p>{users.item.extra.introduction}</p>
+                {isEditingIntroduction ? (
+                  <textarea
+                    value={newIntroduction}
+                    onChange={(e) => setNewIntroduction(e.target.value)} // 입력된 값 반영
+                    className="w-full h-20 bg-gray-100 rounded-md px-4 py-2"
+                  />
+                ) : (
+                  <p>{users.item.extra.introduction}</p> // 기존 자기소개 보여주기
+                )}
               </div>
               <div className="intro bg-white p-5 my-3">
                 <div className="flex justify-between my-3">
                   <h3 className="text-lg font-bold text-gray-700">심부름</h3>
-                  <a href="#" className="text-primary-500 font-bold text-sm">
-                    수정하기
+                  <a
+                    href="#"
+                    className="text-primary-500 font-bold text-sm"
+                    onClick={() => {
+                      if (isEditingErrands) {
+                        saveErrands(axios, user._id);
+                      }
+                      toggleEditErrands();
+                    }}
+                  >
+                    {isEditingErrands ? "저장" : "수정하기"}
                   </a>
                 </div>
-                {users.item.extra.errands ? (
+                {isEditingErrands ? (
+                  <textarea
+                    value={newErrands.join(", ")}
+                    onChange={(e) => setNewErrands(e.target.value.split(", "))}
+                    className="w-full h-20 bg-gray-100 rounded-md px-4 py-2"
+                  />
+                ) : (
                   <ul className="flex space-x-3">
-                    {users.item.extra.errands.map((task, index) => (
+                    {users.item.extra.errands?.map((task, index) => (
                       <li key={index} className="flex items-center">
                         <p className="bg-gray-100 px-2 py-1 rounded-md">{task}</p>
                       </li>
                     ))}
                   </ul>
-                ) : (
-                  <p>선호하는 심부름을 설정해보세요.</p>
                 )}
-                <h3 className="text-lg font-bold mt-6 mb-4 text-gray-700">이동 수단</h3>
-                {users.item.extra.transportation ? (
+                <div className="flex justify-between my-3">
+                  <h3 className="text-lg font-bold text-gray-700">이동 수단</h3>
+                  <a
+                    href="#"
+                    className="text-primary-500 font-bold text-sm"
+                    onClick={() => {
+                      if (isEditingTransportation) {
+                        saveTransportation(axios, user._id);
+                      }
+                      toggleEditTransportation();
+                    }}
+                  >
+                    {isEditingTransportation ? "저장" : "수정하기"}
+                  </a>
+                </div>
+                {isEditingTransportation ? (
+                  <textarea
+                    value={newTransportation.join(", ")}
+                    onChange={(e) => setNewTransportation(e.target.value.split(", "))}
+                    className="w-full h-20 bg-gray-100 rounded-md px-4 py-2"
+                  />
+                ) : (
                   <ul className="flex space-x-3">
-                    {users.item.extra.transportation.map((transportation, index) => (
+                    {users.item.extra.transportation?.map((transport, index) => (
                       <li key={index} className="flex items-center">
-                        <p className="bg-gray-100 px-2 py-1 rounded-md">{transportation}</p>
+                        <p className="bg-gray-100 px-2 py-1 rounded-md">{transport}</p>
                       </li>
                     ))}
                   </ul>
-                ) : (
-                  <p>이동수단을 설정해보세요.</p>
                 )}
                 <h3 className="text-lg font-bold mt-6 text-gray-700">심부름 상세 (선택)</h3>
                 <p className="text-gray-700 text-sm mb-3">가격이나 자주 하는 질문 또는 안내사항을 작성할 수 있어요</p>
@@ -127,11 +230,7 @@ export default function MyPage() {
 
           {activeTab === "requests" && (
             <div id="requests" className="tab-content p-4">
-              <ul className="space-y-3">
-                {/* {requests.map((request) => (
-                  <ListItem key={request._id} item={request} />
-                ))} */}
-              </ul>
+              <RequestList requestData={requestData} />
             </div>
           )}
 
