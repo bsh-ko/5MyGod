@@ -13,6 +13,7 @@ export default function New() {
     handleSubmit,
     setValue,
     watch,
+    trigger,
     formState: { errors },
   } = useForm();
 
@@ -127,17 +128,31 @@ export default function New() {
   const [isPickupDisabled, setIsPickupDisabled] = useState(false); // 픽업이 필요 없어요 상태
   const [isDeliveryDisabled, setIsDeliveryDisabled] = useState(false); // 도착 위치가 필요 없어요 상태
 
-  // 주소 선택 핸들러 (픽업)
+  const pickupValue = watch("pickup", ""); // 실시간으로 픽업 필드 값 감시
+  const deliveryValue = watch("delivery", ""); // 실시간으로 도착 필드 값 감시
+
+  // 주소 선택 완료 핸들러 (픽업)
   const handleCompletePickup = (data) => {
-    setPickupAddress(data.address);
+    const newAddress = data.address;
+    setPickupAddress(newAddress);
     setIsPickupOpen(false); // 검색창 닫기
+    setValue("pickup", newAddress, { shouldValidate: true }); // 폼 상태 업데이트
+    setTimeout(() => {
+      trigger("pickup");
+    }, 0);
   };
 
-  // 주소 선택 핸들러 (도착)
+  // 주소 선택 완료 핸들러 (도착)
   const handleCompleteDelivery = (data) => {
-    setDeliveryAddress(data.address);
+    const newAddress = data.address;
+    setDeliveryAddress(newAddress);
     setIsDeliveryOpen(false); // 검색창 닫기
+    setValue("delivery", newAddress, { shouldValidate: true }); // 폼 상태 업데이트
+    setTimeout(() => {
+      trigger("delivery");
+    }, 0);
   };
+
   ////////////////////////////////////////////////////////////// 마감 일시 //////////////////////////////////////////////////////////////
   const selectedDue = watch("selectedDue", "");
   console.log("selectedDue: ", selectedDue);
@@ -309,6 +324,7 @@ export default function New() {
                 <img src="../../assets/pin.svg" />
                 <p className="font-laundry font-bold">픽업 위치</p>
               </div>
+              <InputError target={errors?.pickup} />
 
               {/* 주소 검색 필드 */}
               <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
@@ -319,7 +335,13 @@ export default function New() {
                   value={pickupAddress}
                   onClick={() => setIsPickupOpen(true)}
                   readOnly
-                ></input>
+                  {...register("pickup", {
+                    validate: () =>
+                      isPickupDisabled || pickupAddress
+                        ? true
+                        : "주소를 입력하거나 '픽업이 필요 없어요'를 선택해주세요.",
+                  })}
+                />
               </div>
 
               {/* Daum Postcode 검색창 */}
@@ -393,6 +415,7 @@ export default function New() {
                 <img src="../../assets/pin.svg" />
                 <p className="font-laundry font-bold">도착 위치</p>
               </div>
+              <InputError target={errors?.delivery} />
 
               {/* 주소 검색 필드 */}
               <div className="h-[40px] bg-gray-100 rounded-lg p-[10px] flex items-center">
@@ -403,7 +426,13 @@ export default function New() {
                   value={deliveryAddress}
                   onClick={() => setIsDeliveryOpen(true)}
                   readOnly
-                ></input>
+                  {...register("delivery", {
+                    validate: () =>
+                      isDeliveryDisabled || deliveryAddress
+                        ? true
+                        : "주소를 입력하거나 '도착 위치가 필요 없어요'를 선택해주세요.",
+                  })}
+                />
               </div>
 
               {/* Daum Postcode 검색창 */}
