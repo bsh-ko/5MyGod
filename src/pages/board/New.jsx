@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import DaumPostCode from "react-daum-postcode";
 import DateAndTimePicker from "@components/DateAndTimePicker";
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function New() {
   const {
@@ -12,6 +15,10 @@ export default function New() {
     watch,
     formState: { errors },
   } = useForm();
+
+  const { _id } = useParams();
+
+  const navigate = useNavigate();
 
   ////////////////////////////////////////////////////////////// 제목 //////////////////////////////////////////////////////////////
   // 제목 입력 상태 관리 및 실시간 반영
@@ -107,13 +114,18 @@ export default function New() {
       </li>
     ));
 
+  ////////////////////////////////////////////////////////////// 내용 //////////////////////////////////////////////////////////////
+  const [content, setContent] = useState(""); // 심부름 내용
+
   ////////////////////////////////////////////////////////////// 위치 //////////////////////////////////////////////////////////////
   const [pickupAddress, setPickupAddress] = useState(""); // 픽업 주소
+  const [pickupDetailAddress, setPickupDetailAddress] = useState(""); // 픽업 상세주소
   const [deliveryAddress, setDeliveryAddress] = useState(""); // 도착 주소
+  const [deliveryDetailAddress, setDeliveryDetailAddress] = useState(""); // 도착 상세주소
   const [isPickupOpen, setIsPickupOpen] = useState(false); // 픽업 주소 검색창 열기/닫기
   const [isDeliveryOpen, setIsDeliveryOpen] = useState(false); // 도착 주소 검색창 열기/닫기
   const [isPickupDisabled, setIsPickupDisabled] = useState(false); // 픽업이 필요 없어요 상태
-  const [isdeliveryDisabled, setIsDeliveryDisabled] = useState(false); // 도착 위치가 필요 없어요 상태
+  const [isDeliveryDisabled, setIsDeliveryDisabled] = useState(false); // 도착 위치가 필요 없어요 상태
 
   // 주소 선택 핸들러 (픽업)
   const handleCompletePickup = (data) => {
@@ -145,6 +157,41 @@ export default function New() {
     setValue("price", inputValue, { shouldValidate: true }); // 숫자로만 이루어진 값을 react-hook-form 값으로 저장
   };
 
+  ////////////////////////////////////////////////////////////// 제출 //////////////////////////////////////////////////////////////
+  const axios = useAxiosInstance();
+
+  const addItem = useMutation({
+    mutationFn: (formData) => {
+      const body = {
+        price: price, // 가격(필수)
+        quantity: 1, // 수량(필수)
+        name: formData.name, // 상품명(필수)
+        content: content, // 상품 설명(필수)
+        extra: {
+          category: [selectedCategory],
+          tags: [selectedTags],
+          productState: ["PS010"],
+          pickupLocation: {
+            address: isPickupDisabled ? null : pickupAddress,
+            detailAddress: pickupDetailAddress || null,
+          },
+          arrivalLocation: {
+            address: isDeliveryDisabled ? null : deliveryAddress,
+            detailAddress: deliveryAddress || null,
+          },
+          due: dateAndTime,
+        },
+      };
+      return axios.post("/seller/products/", body);
+    },
+    onSuccess: (data) => {
+      console.log("서버 응답 데이터: ", data);
+      navigate(`//products/${_id}`);
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
   ////////////////////////////////////////////////////////////// return //////////////////////////////////////////////////////////////
   return (
     <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-scroll">
@@ -204,6 +251,10 @@ export default function New() {
             <textarea
               className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
               placeholder="심부름 내용을 설명해주세요"
+              onChange={(e) => {
+                const input = e.target.value;
+                setContent(input);
+              }}
               {...register("content", {
                 required: "심부름 내용을 작성해주세요.",
               })}
@@ -256,6 +307,10 @@ export default function New() {
                 <textarea
                   className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
                   placeholder="상세 주소"
+                  onChange={(e) => {
+                    const input = e.target.value;
+                    setPickupDetailAddress(input);
+                  }}
                 ></textarea>
               </div>
             </div>
@@ -299,7 +354,7 @@ export default function New() {
           </div>
 
           {/* 도착 위치 입력 필드들 */}
-          {!isdeliveryDisabled ? (
+          {!isDeliveryDisabled ? (
             <div className="delivery_fileds flex flex-col gap-[12px]">
               <div className="flex gap-[8px] items-center">
                 <img src="../../assets/pin.svg" />
@@ -336,6 +391,10 @@ export default function New() {
                 <textarea
                   className="w-full h-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none font-pretendard leading-[20px] whitespace-nowrap overflow-x-auto"
                   placeholder="상세 주소"
+                  onChange={(e) => {
+                    const input = e.target.value;
+                    setDeliveryDetailAddress(input);
+                  }}
                 ></textarea>
               </div>
             </div>
@@ -366,7 +425,7 @@ export default function New() {
             >
               <img
                 src={
-                  isdeliveryDisabled
+                  isDeliveryDisabled
                     ? "/assets/checked.png"
                     : "/assets/unchecked.png"
                 }
