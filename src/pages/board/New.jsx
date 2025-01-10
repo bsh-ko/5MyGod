@@ -371,7 +371,7 @@ export default function New() {
           </ul>
         </div>
 
-        {/* 심부름 내용 */}
+        {/* 심부름 내용 입력 */}
         <div className="task_content p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
           <div className="flex flex-col">
             <p className="font-laundry text-input-title">무엇을 요청할까요?</p>
@@ -394,7 +394,7 @@ export default function New() {
           </div>
         </div>
 
-        {/* 심부름 위치 */}
+        {/* 심부름 위치 선택 */}
         <div className="task_location p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
           <p className="font-laundry text-input-title">
             심부름의 위치를 알려주세요
@@ -583,7 +583,7 @@ export default function New() {
           </div>
         </div>
 
-        {/* 심부름 일시 */}
+        {/* 심부름 일시 선택 */}
         <div
           className="task_dateandtime p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
           {...register("selectedDue", {
@@ -600,7 +600,7 @@ export default function New() {
           <DateAndTimePicker onDueChange={handleDueChange} />
         </div>
 
-        {/* 심부름 금액 */}
+        {/* 심부름 금액 입력 */}
         <div
           className="task_price p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]"
           onSubmit={handleSubmit(() => {
