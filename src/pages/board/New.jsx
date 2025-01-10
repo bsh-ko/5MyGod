@@ -178,14 +178,14 @@ export default function New() {
   // 입력값 변경 핸들러
   const handlePriceChange = (e) => {
     const inputValue = e.target.value.replace(/[^0-9]/g, ""); // 숫자가 아닌 값 제거
-    setValue("price", Number(inputValue), { shouldValidate: true }); // 숫자로만 이루어진 값을 react-hook-form 값으로 저장
+    setValue("price", inputValue, { shouldValidate: true }); // 숫자로만 이루어진 값을 react-hook-form 값으로 저장
   };
 
   ////////////////////////////////////////////////////////////// 제출 //////////////////////////////////////////////////////////////
   const addItem = useMutation({
     mutationFn: (formData) => {
       const body = {
-        price: Number(price), // 가격(필수)
+        price: Number(price.replace(/,/g, "")), // 가격(필수) - 쉼표 제거한 뒤 숫자값으로 변환해서 전송
         quantity: 1, // 수량(필수)
         name: title, // 상품명(필수)
         content: content, // 상품 설명(필수)
@@ -550,7 +550,7 @@ export default function New() {
 
           <div className="min-h-[16px] bg-gray-100 rounded-lg p-[20px] flex gap-[8px]">
             <input
-              type="number"
+              type="tet"
               className="w-full bg-transparent placeholder-gray-500 placeholder:font-pretendard placeholder:font-bold resize-none"
               placeholder="금액을 입력해주세요"
               value={formatPrice(price)} // watch로 감지된 값에 쉼표를 적용하여 표시
