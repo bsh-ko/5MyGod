@@ -197,13 +197,25 @@ export default function New() {
             ? null
             : {
                 address: pickupAddress,
-                coordinates: pickupCoordinates,
+                detailAddress: pickupDetailAddress || "",
+                coordinates: pickupCoordinates
+                  ? {
+                      latitude: "",
+                      longitude: "",
+                    }
+                  : null,
               },
           arrivalLocation: isDeliveryDisabled
             ? null
             : {
                 address: deliveryAddress,
-                coordinates: deliveryCoordinates,
+                detailAddress: deliveryDetailAddress || "",
+                coordinates: deliveryCoordinates
+                  ? {
+                      latitude: "",
+                      longitude: "",
+                    }
+                  : null,
               },
           due: selectedDue,
         },
