@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import scrollbarHide from "tailwind-scrollbar-hide";
+
 export default {
   content: ["./src/**/*.{js,jsx,html}"],
   theme: {
@@ -151,6 +153,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [scrollbarHide],
 };
-

@@ -6,48 +6,22 @@ import dayjs from "dayjs";
 ListItem.propTypes = {
   item: PropTypes.shape({
     _id: PropTypes.number.isRequired,
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     user: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }),
     createdAt: PropTypes.string.isRequired,
     extra: PropTypes.shape({
-      category: PropTypes.arrayOf(PropTypes.string).isRequired, // category는 문자열 배열로 전달되어야 함
-      tags: PropTypes.arrayOf(PropTypes.string), // tag도 문자열 배열로 전달되어야 함
+      category: PropTypes.array.isRequired,
+      tags: PropTypes.array.isRequired,
       due: PropTypes.string.isRequired,
+      productState: PropTypes.array.isRequired,
     }),
   }),
 };
 
 // 남은 시간 계산하는 헬퍼 함수
-// function calculateRemainingTime(due) {
-//   const now = moment(); // 현재 시각
-//   const dueTime = moment(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 moment 객체로 변환
-//   const diff = dueTime.diff(now); // 남은 시간 (밀리초 단위)
-
-//   if (diff <= 0) {
-//     return "마감";
-//   }
-
-//   // 남은 시간 계산
-//   const duration = moment.duration(diff); // moment의 duration 사용
-//   const days = Math.floor(duration.asDays()); // 남은 일수
-//   const hours = duration.hours(); // 남은 시간
-//   const minutes = duration.minutes(); // 남은 분
-
-//   // 남은 시간에 따라 다른 텍스트 반환
-//   if (days > 0) {
-//     // 1일 이상 남았을 때
-//     return `${days}일 남음`;
-//   } else if (hours > 0) {
-//     // 1일 미만, 시간 단위로 남았을 때
-//     return `${hours}시간 남음`;
-//   } else if (minutes > 0) {
-//     // 1시간 미만으로 남았을 때
-//     return "곧 마감";
-//   }
-// }
 function calculateRemainingTime(due) {
   const now = dayjs(); // 현재 시각
   const dueTime = dayjs(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 dayjs 객체로 변환
@@ -65,15 +39,37 @@ function calculateRemainingTime(due) {
   };
 
   if (duration.days > 0) {
+    // 하루 이상 남은 경우
     return `${duration.days}일 남음`;
   } else if (duration.hours > 0) {
+    // 하루 미만, 1시간 이상 남은 경우
     return `${duration.hours}시간 남음`;
   } else if (duration.minutes > 0) {
+    // 1시간 미만으로 남은 경우
     return "곧 마감";
   }
 }
 
 export default function ListItem({ item }) {
+  // 심부름 상태 변수
+  const isCompleted = item.extra?.productState[0] === "PS030";
+  const isExpired = item.extra?.productState[0] === "PS040";
+  // const listItemColor = isCompleted || isExpired ? "bg-gray-300" : "bg-white";
+
+  // 완료 또는 만료된 심부름에 덮을 반투명 레이어
+  const overlayClass =
+    isCompleted || isExpired
+      ? "absolute inset-0 bg-gray-400 bg-opacity-50 rounded-[10px]"
+      : "";
+
+  // 반투명 레이어에 띄울 메시지
+  let overlayMessage;
+  if (isCompleted) {
+    overlayMessage = "완료된 심부름";
+  } else if (isExpired) {
+    overlayMessage = "기한이 지난 심부름";
+  }
+
   // category에 따라 이미지 경로 매핑
   const categoryImages = {
     PC01: "/assets/bike.svg",
@@ -91,7 +87,17 @@ export default function ListItem({ item }) {
   const remainingTime = calculateRemainingTime(item.extra?.due);
 
   return (
-    <li className="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center">
+    <Link
+      to={`/errand/${item._id}`}
+      className={`list_item w-full h-[116px] rounded-[10px] bg-white shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center relative`}
+    >
+      <div
+        className={`overlay ${overlayClass} flex items-center justify-center`}
+      >
+        <p className="w-1/2 h-1/2 bg-white bg-opacity-70 flex items-center justify-center rounded-lg font-laundry text-[20px] text-gray-500">
+          {overlayMessage}
+        </p>
+      </div>
       <img
         src={categoryImage}
         alt="게시글 대표이미지"
@@ -100,45 +106,20 @@ export default function ListItem({ item }) {
 
       <div className="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]">
         <h2 className="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis">
-          <Link
-            to={`/products/${item._id}`}
-            state={{ back: "/products", title: "심부름 상세" }} // 업데이트 된 방식 props 추가
-          >
-            {item.name}
-          </Link>
+          {item.name}
         </h2>
 
-        {/* <ul className="li_tags flex gap-[8px] min-w-0 w-full overflow-scroll">
-          <li className="tag flex items-center gap-[4px] px-[6px] rounded bg-[#FCFFD8] font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0">
-            <img
-              src="../../assets/watch.svg"
-              alt="태그 이미지"
-              className="tag_image w-[18px] h-[18px]"
-            />
-            시간이 생명
-          </li>
-
-          <li className="tag flex items-center gap-[4px] px-[6px] rounded bg-[#FFD8E0] font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0">
-            <img
-              src="../../assets/siren.svg"
-              alt="태그 이미지"
-              className="tag_image w-[18px] h-[18px]"
-            />
-            <p className="tag_text font-pretendard text-[16px] max-w-full">
-              도와주세요
-            </p>
-          </li>
-        </ul> */}
-
-        <TagList tags={item.extra?.tags} />
+        <TagList item={item} />
 
         <div className="li_info flex flex-grow justify-between">
           <div className="font-pretendard text-card-timelimit">
             {remainingTime}
           </div>
-          <div className="font-pretendard text-card-price">{item.price} 원</div>
+          <div className="font-pretendard text-card-price">
+            {new Intl.NumberFormat("ko-KR").format(item.price)} 원
+          </div>
         </div>
       </div>
-    </li>
+    </Link>
   );
 }
