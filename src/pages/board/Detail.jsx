@@ -2,12 +2,13 @@ import LocationMap from "@components/LocationMap";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import CommentList from "@pages/board/CommentList";
 import { useQuery } from "@tanstack/react-query";
+import useUserStore from "@zustand/userStore";
 import { useParams } from "react-router-dom";
 
 export default function Detail() {
   const axios = useAxiosInstance();
   const { _id } = useParams();
-  // const queryClient = useQueryClient();
+  const user = useUserStore();
 
   // 상품(심부름) 데이터 가져오기
   const { data } = useQuery({
@@ -50,12 +51,41 @@ export default function Detail() {
   const pickupLocation = data?.item?.extra?.pickupLocation;
   const arrivalLocation = data?.item?.extra?.arrivalLocation;
 
+  // 내가 올린 심부름인지 아닌지 여부
+  const isMyErrand = data?.item.seller_id === user._id;
+
+  // 심부름 구분에 따라 달라지는 버튼
+
+  // isMyErrand && data?.item?.extra?.productState[0] === PS010 (내가 요청한 && 구인 중)
+  // 버튼 문구: '지원자 n명 확인하기'
+  // 버튼 동작: 지원자 목록 페이지로 이동
+
+  // isMyErrand && data?.item?.extra?.productState[0] === PS020 (내가 요청한 && 진행 중)
+  // 버튼 문구: '심부름이 완료되었어요'
+  // 버튼 동작: 심부름 상태를 PS030으로 변경, 결제 페이지로 이동
+
+  // !isMyErrand && data?.item?.extra?.productState[0] === PS010 (남이 요청한 && 구인 중)
+  // 버튼 문구: '지원하기'
+  // 버튼 동작: 지원자 게시판에 글 작성 (api 통신 기능 차후 추가 예정)
+
+  // !isMyErrand && data?.item?.extra?.productState[0] === PS020 (남이 요청한 && 진행 중)
+  // 버튼 문구: '이미 진행 중이에요'
+  // 버튼 동작: 직전 페이지로 이동
+
+  // data?.item?.extra?.poructState[0] === PS030 (완료된 심부름)
+  // 버튼 문구: '완료된 심부름이에요'
+  // 버튼 동작: 직전 페이지로 이동
+
+  // data?.item?.extra?.poructState[0] === PS040 (기한 만료된 심부름)
+  // 버튼 문구: '기한이 지났어요'
+  // 버튼 동작: 직전 페이지로 이동
+
   if (!data) {
     return <div>로딩 중...</div>;
   }
 
   return (
-    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px]">
+    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] relative">
       <div className="post bg-[#fff] p-[22px] rounded-lg shadow-card-shadow grow">
         <div className="post_header border-b-[1px] border-gray-400 pb-[20px] flex flex-col gap-[20px]">
           <div className="post_title font-laundry text-detail-title break-all flex gap-[12px] items-center">
@@ -201,6 +231,13 @@ export default function Detail() {
 
       <CommentList />
       <div className="pb-40 bg-background-color"></div>
+
+      <button
+        type="submit"
+        className="bg-primary-500 font-laundry text-card-title text-2xl text-white p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full"
+      >
+        심부름 요청하기
+      </button>
     </main>
   );
 }
