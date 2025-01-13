@@ -1,7 +1,7 @@
 import LocationMap from "@components/LocationMap";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import CommentList from "@pages/board/CommentList";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -52,6 +52,26 @@ export default function Detail() {
   const pickupLocation = data?.item?.extra?.pickupLocation;
   const arrivalLocation = data?.item?.extra?.arrivalLocation;
 
+  // 지원하기 함수
+  const apply = useMutation({
+    mutationFn: (_id) => {
+      const body = {
+        _id: _id,
+        quantity: 1,
+      };
+      return axios.post(`/orders/`, body);
+    },
+
+    onSuccess: () => {
+      alert("심부름 지원이 완료되었습니다.");
+      navigate(`/`); // 나의 지원 목록으로 이동하는 경로 추가 필요
+    },
+    onError: (err) => {
+      alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      console.error(err);
+    },
+  });
+
   // 내가 올린 심부름인지 아닌지 여부
   console.log("유저 데이터: ", user);
   const isMyErrand = data?.item?.seller_id === user._id;
@@ -85,10 +105,8 @@ export default function Detail() {
       // 남이 요청한 && 구인 중
       return {
         text: "지원하기",
-        // 지원하기 게시물 작성 동작 추가 필요
-        action: () => {
-          navigate(`/`);
-        },
+        // 지원하기(Post) 동작 추가 필요
+        action: apply.mutate,
       };
     } else if (!isMyErrand && errandState === "PS020") {
       // 남이 요청한 && 진행 중
