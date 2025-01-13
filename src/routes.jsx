@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
-import MyErrand from "@pages/user/MyErrand";
 
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
@@ -9,6 +8,7 @@ const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
 const MyPage = lazy(() => import("@pages/user/Mypage"));
 const UserPage = lazy(() => import("@pages/user/Userpage"));
+const MyErrand = lazy(() => import("@pages/user/MyErrand"));
 
 const router = createBrowserRouter(
   [
