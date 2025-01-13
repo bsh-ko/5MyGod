@@ -5,38 +5,102 @@ export default function NavigationHeader() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const getPageConfig = () => {
-    // 기존 방식: 패턴 정의
-    // if (location.pathname.match(/^\/products\/[^/]+$/)) {
-    //   return {
-    //     title: "심부름 상세",
-    //     showBackButton: true,
-    //     bgColor: "bg-background-color",
-    //   };
-    // }
+  const PAGE_CONFIGS = [
+    {
+      pattern: /^\/$/,
+      config: {
+        title: "오는길에",
+        showBackButton: false,
+        showHeaderButton: true,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
+      pattern: /^\/errand\/new$/,
+      config: {
+        title: "심부름 요청하기",
+        showBackButton: true,
+        showHeaderButton: true,
+        bgColor: "bg-white",
+      },
+    },
+    {
+      pattern: /^\/errand\/[^/]+\/applicants$/,
+      config: {
+        title: "지원자들",
+        showBackButton: true,
+        showHeaderButton: true,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
+      pattern: /^\/errand\/[^/]+$/,
+      config: {
+        title: "심부름 상세",
+        showBackButton: true,
+        showHeaderButton: true,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
+      pattern: /^\/users\/mypage$/,
+      config: {
+        title: "내 정보",
+        showBackButton: false,
+        showHeaderButton: true,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
+      pattern: /^\/users\/myerrand$/,
+      config: {
+        title: "진행중 심부름",
+        showBackButton: false,
+        showHeaderButton: true,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
+      pattern: /^\/users\/signup$/,
+      config: {
+        title: "회원가입",
+        showBackButton: true,
+        showHeaderButton: false,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
+      pattern: /^\/users\/[^/]+$/,
+      config: {
+        title: "프로필",
+        showBackButton: true,
+        showHeaderButton: true,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
+      pattern: /^\/login$/,
+      config: {
+        title: "로그인",
+        showBackButton: true,
+        showHeaderButton: false,
+        bgColor: "bg-background-color",
+      },
+    },
+  ];
 
-    // 네비게이션 바의 최상단 뎁스에선 BackButton을 숨겨야하므로 개별 처리
-    switch (location.pathname) {
-      case "/":
-        return {
-          title: "오는길에",
-          showBackButton: false,
-          bgColor: "bg-background-color",
-        };
-      case "/users/mypage":
-        return {
-          title: "나의 정보",
-          showBackButton: false,
-          bgColor: "bg-background-color",
-        };
-      default:
-        // 업데이트된 방식
-        return {
-          title: location.state.title,
-          showBackButton: true,
-          bgColor: "bg-background-color",
-        };
-    }
+  const DEFAULT_CONFIG = {
+    title: "오는길에",
+    showBackButton: true,
+    showHeaderButton: true,
+    bgColor: "bg-background-color",
+  };
+
+  const getPageConfig = () => {
+    const matchedConfig = PAGE_CONFIGS.find(({ pattern }) =>
+      pattern.test(location.pathname)
+    );
+    return matchedConfig ? matchedConfig.config : DEFAULT_CONFIG;
   };
 
   const config = getPageConfig();
