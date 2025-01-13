@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 
 TagList.propTypes = {
-  tags: PropTypes.array.isRequired,
+  item: PropTypes.object.isRequired,
 };
 
-export default function TagList({ tags }) {
+export default function TagList({ item }) {
   // 태그 별로 이미지와 텍스트 매핑
   const tagData = {
     TA01: {
@@ -45,9 +45,11 @@ export default function TagList({ tags }) {
   };
 
   return (
-    <ul className="tags flex gap-[8px] min-w-0 w-full overflow-scroll">
-      {tags?.length > 0 ? (
-        tags.map((tag, index) => {
+    <ul
+      className={`tags flex gap-[8px] min-w-0 w-full overflow-scroll scrollbar-hide`}
+    >
+      {item.extra?.tags.length > 0 ? (
+        item.extra?.tags.map((tag, index) => {
           const tagInfo = tagData[tag] || {}; // 태그 정보 가져오기
 
           return (
