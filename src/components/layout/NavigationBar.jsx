@@ -52,16 +52,37 @@ export default function NavigationBar() {
   const [activeItem, setActiveItem] = useState("home");
   const location = useLocation();
 
+  const SCROLL_THRESHOLD = 10;
+  const scrollTimeoutRef = React.useRef(null);
+
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
+    const scrollDifference = Math.abs(currentScrollY - prevScrollPos);
 
-    // 스크롤 방향에 따른 즉각적인 상태 업데이트
-    if (currentScrollY < prevScrollPos) {
-      setVisible(true);
-    } else if (currentScrollY > prevScrollPos) {
-      setVisible(false);
+    // 스크롤 변화량이 임계값보다 큰 경우에만 처리
+    if (scrollDifference > SCROLL_THRESHOLD) {
+      // 스크롤 방향에 따른 상태 업데이트
+      if (currentScrollY < prevScrollPos) {
+        // 위로 스크롤
+        setVisible(true);
+      } else {
+        // 아래로 스크롤
+        setVisible(false);
+      }
+
+      // 이전 스크롤 위치 업데이트
+      setPrevScrollPos(currentScrollY);
     }
-    setPrevScrollPos(currentScrollY);
+
+    // 스크롤 멈춤 감지를 위한 디바운스 처리
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+
+    scrollTimeoutRef.current = setTimeout(() => {
+      // 스크롤이 멈추고 일정 시간이 지나면 네비게이션 바를 보이게 함
+      setVisible(true);
+    }, 150); // 150ms 후에 실행
   }, [prevScrollPos]);
 
   useEffect(() => {
@@ -71,8 +92,11 @@ export default function NavigationBar() {
     // 컴포넌트 언마운트 시 클린업
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
     };
-  }, [handleScroll]); // handleScroll을 의존성 배열에 추가
+  }, [handleScroll]);
 
   const handleClick = (id) => {
     setActiveItem(id); // 클릭한 아이템을 활성화 상태로 설정
