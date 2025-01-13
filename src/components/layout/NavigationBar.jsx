@@ -7,28 +7,27 @@ import myerrandsDefault from "/assets/myerrands-default.png";
 import myerrandsActive from "/assets/myerrands-actived.png";
 import chatingDefault from "/assets/chating-default.png";
 import chatingActive from "/assets/chating-actived.png";
-import myinfoDefault from "/assets/myinfo-default.png";
-import myinfoActive from "/assets/myinfo-actived.png";
+import mypageDefault from "/assets/mypage-default.png";
+import mypageActive from "/assets/mypage-actived.png";
 
 const navItems = [
   {
     path: "/",
-    patterns: [/^\/products/, /^\/$/],
+    patterns: [/^\/$/],
     text: "홈",
     defaultIcon: homeDefault,
     activeIcon: homeActive,
   },
   {
-    // 다른 페이지 완성되는대로 추후 경로 수정 예정
-    path: "/user/myerrands",
-    patterns: [/^\/user\/myerrands/],
-    text: "내 심부름",
+    path: "/users/myerrand",
+    patterns: [/^\/users\/myerrand/],
+    text: "진행중심부름",
     defaultIcon: myerrandsDefault,
     activeIcon: myerrandsActive,
   },
   {
-    path: "/chat",
-    patterns: [/^\/chat/],
+    path: "/chating",
+    patterns: [/^\/chating/],
     text: "채팅",
     defaultIcon: chatingDefault,
     activeIcon: chatingActive,
@@ -38,8 +37,8 @@ const navItems = [
     path: "/users/mypage",
     patterns: [/^\/users\/mypage/],
     text: "내 정보",
-    defaultIcon: myinfoDefault,
-    activeIcon: myinfoActive,
+    defaultIcon: mypageDefault,
+    activeIcon: mypageActive,
   },
 ];
 
@@ -78,8 +77,11 @@ export default function NavigationBar() {
     return null;
   }
 
-  // 로그인 페이지에서는 버튼을 숨김
-  if (location.pathname === "/users/login") {
+  // 로그인, 회원가입 페이지에서는 네비게이션 바를 숨김
+  if (
+    location.pathname === "/users/login" ||
+    location.pathname === "/users/signup"
+  ) {
     return null;
   }
 
@@ -94,8 +96,6 @@ export default function NavigationBar() {
           <li key={item.path}>
             <NavLink
               to={item.path}
-              title={item.text}
-              state={{ title: item.text }}
               className={`flex flex-col items-center cursor-pointer ${
                 isPathActive(item.patterns)
                   ? "text-primary-500"
@@ -115,7 +115,9 @@ export default function NavigationBar() {
                   }
                   alt={item.text}
                 />
-                <span>{item.text}</span>
+                <span className="whitespace-nowrap overflow-hidden text-ellipsis">
+                  {item.text}
+                </span>
               </div>
             </NavLink>
           </li>
