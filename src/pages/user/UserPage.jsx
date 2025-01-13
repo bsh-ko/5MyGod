@@ -44,13 +44,15 @@ export default function UserPage() {
     <div className="flex flex-col items-center justify-center bg-gray-100">
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
       <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color overflow-scroll">
-        <Profile nickname={users.item.name || "닉네임 없음"} hearts={users.item.extra.likes || "0"} isMyPage={false} />
+        <Profile
+          image={users.item.image || "https://via.placeholder.com/100"}
+          nickname={users.item.name || "닉네임 미설정"}
+          hearts={users.item.extra.likes || "0"}
+          isMyPage={false}
+        />
 
-        {/* 탭 섹션 */}
         <section className="mt-5 font-pretendard">
           {/* <Tabs tabs={tabs} activeTab={activeTab} onTabClick={handleTabClick} /> */}
-
-          {/* 탭 내용 */}
           {activeTab === "intro" && (
             <div id="intro" className="tab-content">
               <div className="intro bg-white p-5">
@@ -85,7 +87,7 @@ export default function UserPage() {
                 <h3 className="text-lg font-bold mt-6 text-gray-700">심부름 상세</h3>
                 <p className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">{users.item.extra.details}</p>
               </div>
-              <div className="intro bg-white p-5 my-3">
+              <div className="intro bg-white p-5 mt-3 mb-[150px]">
                 <h3 className="text-lg font-bold text-gray-700 pb-3">경력</h3>
                 <p className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">
                   {users.item.extra.experience}

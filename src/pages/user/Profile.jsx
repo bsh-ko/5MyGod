@@ -1,9 +1,10 @@
-export default function Profile({ nickname, earnings, hearts, isMyPage }) {
+export default function Profile({ image, nickname, earnings, hearts, isMyPage }) {
+  console.log(image); // 출력값 : /files/final05/user-neo.webp
   return (
     <section className="flex items-center mt-6 px-4 font-laundry">
       {/* 프로필 이미지 */}
       <img
-        src="https://via.placeholder.com/100"
+        src={`https://11.fesp.shop${image}`}
         alt="프로필 이미지"
         className="w-20 h-20 rounded-full border border-gray-300"
       />
@@ -22,7 +23,7 @@ export default function Profile({ nickname, earnings, hearts, isMyPage }) {
 
         {/* 수익금과 하트 (isMyPage가 true일 때만 아래에 배치) */}
         {isMyPage && (
-          <div className="flex items-center gap-4 mt-4">
+          <div className="flex items-center gap-4 mt-3">
             <div className="flex items-center justify-between w-40 h-10 px-4 bg-white rounded-[10px]">
               <span className="text-gray-700 text-sm leading-[20px]">수익금:</span>
               <span className="text-gray-black-900 text-sm leading-[20px]">{earnings || "0"}</span>
