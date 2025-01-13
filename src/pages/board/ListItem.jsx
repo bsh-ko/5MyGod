@@ -16,39 +16,12 @@ ListItem.propTypes = {
       category: PropTypes.array.isRequired,
       tags: PropTypes.array.isRequired,
       due: PropTypes.string.isRequired,
+      productState: PropTypes.string.isRequired,
     }),
   }),
 };
 
 // 남은 시간 계산하는 헬퍼 함수
-// function calculateRemainingTime(due) {
-//   const now = moment(); // 현재 시각
-//   const dueTime = moment(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 moment 객체로 변환
-//   const diff = dueTime.diff(now); // 남은 시간 (밀리초 단위)
-
-//   if (diff <= 0) {
-//     return "마감";
-//   }
-
-//   // 남은 시간 계산
-//   const duration = moment.duration(diff); // moment의 duration 사용
-//   const days = Math.floor(duration.asDays()); // 남은 일수
-//   const hours = duration.hours(); // 남은 시간
-//   const minutes = duration.minutes(); // 남은 분
-
-//   // 남은 시간에 따라 다른 텍스트 반환
-//   if (days > 0) {
-//     // 1일 이상 남았을 때
-//     return `${days}일 남음`;
-//   } else if (hours > 0) {
-//     // 1일 미만, 시간 단위로 남았을 때
-//     return `${hours}시간 남음`;
-//   } else if (minutes > 0) {
-//     // 1시간 미만으로 남았을 때
-//     return "곧 마감";
-//   }
-// }
-
 function calculateRemainingTime(due) {
   const now = dayjs(); // 현재 시각
   const dueTime = dayjs(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 dayjs 객체로 변환
@@ -78,6 +51,17 @@ function calculateRemainingTime(due) {
 }
 
 export default function ListItem({ item }) {
+  // 심부름 상태 변수
+  const isCompleted = item.extra?.productState[0] === "PS030";
+  const isExpired = item.extra?.productState[0] === "PS040";
+  // const listItemColor = isCompleted || isExpired ? "bg-gray-300" : "bg-white";
+
+  // 완료 또는 만료된 심부름에 덮을 반투명 레이어
+  const overlayClass =
+    isCompleted || isExpired
+      ? "absolute inset-0 bg-gray-400 opacity-50 rounded-[10px]"
+      : "";
+
   // category에 따라 이미지 경로 매핑
   const categoryImages = {
     PC01: "/assets/bike.svg",
@@ -97,8 +81,9 @@ export default function ListItem({ item }) {
   return (
     <Link
       to={`/errand/${item._id}`}
-      className="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center"
+      className={`list_item w-full h-[116px] rounded-[10px] bg-white shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center relative`}
     >
+      <div className={`overlay ${overlayClass}`}></div>
       <img
         src={categoryImage}
         alt="게시글 대표이미지"
@@ -110,7 +95,7 @@ export default function ListItem({ item }) {
           {item.name}
         </h2>
 
-        <TagList tags={item.extra?.tags} />
+        <TagList item={item} />
 
         <div className="li_info flex flex-grow justify-between">
           <div className="font-pretendard text-card-timelimit">
