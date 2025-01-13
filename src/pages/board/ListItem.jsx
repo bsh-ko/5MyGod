@@ -94,7 +94,7 @@ export default function ListItem({ item }) {
       <div
         className={`overlay ${overlayClass} flex items-center justify-center`}
       >
-        <p className="w-1/2 h-1/2 bg-white bg-opacity-70 flex items-center justify-center rounded-lg font-laundry text-[20px] text-gray-700">
+        <p className="w-1/2 h-1/2 bg-white bg-opacity-70 flex items-center justify-center rounded-lg font-laundry text-[20px] text-gray-500">
           {overlayMessage}
         </p>
       </div>
