@@ -16,7 +16,7 @@ ListItem.propTypes = {
       category: PropTypes.array.isRequired,
       tags: PropTypes.array.isRequired,
       due: PropTypes.string.isRequired,
-      productState: PropTypes.string.isRequired,
+      productState: PropTypes.array.isRequired,
     }),
   }),
 };
@@ -59,8 +59,16 @@ export default function ListItem({ item }) {
   // 완료 또는 만료된 심부름에 덮을 반투명 레이어
   const overlayClass =
     isCompleted || isExpired
-      ? "absolute inset-0 bg-gray-400 opacity-50 rounded-[10px]"
+      ? "absolute inset-0 bg-gray-400 bg-opacity-50 rounded-[10px]"
       : "";
+
+  // 반투명 레이어에 띄울 메시지
+  let overlayMessage;
+  if (isCompleted) {
+    overlayMessage = "완료된 심부름";
+  } else if (isExpired) {
+    overlayMessage = "기한이 지난 심부름";
+  }
 
   // category에 따라 이미지 경로 매핑
   const categoryImages = {
@@ -83,7 +91,13 @@ export default function ListItem({ item }) {
       to={`/errand/${item._id}`}
       className={`list_item w-full h-[116px] rounded-[10px] bg-white shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center relative`}
     >
-      <div className={`overlay ${overlayClass}`}></div>
+      <div
+        className={`overlay ${overlayClass} flex items-center justify-center`}
+      >
+        <p className="w-1/2 h-1/2 bg-white bg-opacity-70 flex items-center justify-center rounded-lg font-laundry text-[20px] text-gray-700">
+          {overlayMessage}
+        </p>
+      </div>
       <img
         src={categoryImage}
         alt="게시글 대표이미지"
