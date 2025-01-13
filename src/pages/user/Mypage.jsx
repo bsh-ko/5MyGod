@@ -6,8 +6,8 @@ import useUserStore from "@zustand/userStore";
 
 import Profile from "@pages/user/Profile";
 import Tabs from "@pages/user/Tabs";
-import RequestList from "@pages/user/RequestList";
-import ApplyList from "@pages/user/ApplyList";
+import MyRequests from "@pages/user/MyRequests";
+import MyApplies from "@pages/user/MyApplies";
 
 export default function MyPage() {
   const [activeTab, setActiveTab] = useState("intro");
@@ -139,13 +139,13 @@ export default function MyPage() {
 
           {activeTab === "requests" && (
             <div id="requests" className="tab-content p-4">
-              <RequestList requestData={requestData} />
+              <MyRequests requestData={requestData} />
             </div>
           )}
 
           {activeTab === "apply" && (
             <div id="apply" className="tab-content p-4">
-              <ApplyList applyData={applyData} />
+              <MyApplies applyData={applyData} />
             </div>
           )}
         </section>
