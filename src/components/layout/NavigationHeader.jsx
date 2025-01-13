@@ -16,7 +16,7 @@ export default function NavigationHeader() {
       },
     },
     {
-      pattern: /^\/products\/new$/,
+      pattern: /^\/errand\/new$/,
       config: {
         title: "심부름 요청하기",
         showBackButton: true,
@@ -25,7 +25,7 @@ export default function NavigationHeader() {
       },
     },
     {
-      pattern: /^\/products\/[^/]+\/applicants$/,
+      pattern: /^\/errand\/[^/]+\/applicants$/,
       config: {
         title: "지원자들",
         showBackButton: true,
@@ -34,7 +34,7 @@ export default function NavigationHeader() {
       },
     },
     {
-      pattern: /^\/products\/[^/]+$/,
+      pattern: /^\/errand\/[^/]+$/,
       config: {
         title: "심부름 상세",
         showBackButton: true,
