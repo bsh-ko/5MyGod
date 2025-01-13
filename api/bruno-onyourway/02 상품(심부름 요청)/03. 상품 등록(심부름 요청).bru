@@ -1,0 +1,28 @@
+meta {
+  name: 03. 상품 등록(심부름 요청)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/seller/products
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+  "price": "data.price", // 가격(필수)
+  "quantity": 1, // 수량(필수)
+  "name": "formData.name", // 상품명(필수)
+  "content": "data.content", // 상품 설명(필수)
+  "extra": {
+    "category": "selectedCategory",
+    "tags": "selectedTags",
+    "pickupAddress": "isPickupDisabled ? null : pickupAddress",
+    "deliveryAddress": "isdeliveryDisabled ? null : deliveryAddress",
+    "dateAndTime": "dateAndTime",
+    "productState": "PS010"
+    }
+  }  
+}
