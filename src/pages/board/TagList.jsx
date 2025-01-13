@@ -45,7 +45,7 @@ export default function TagList({ tags }) {
   };
 
   return (
-    <ul className="tags flex gap-[8px] min-w-0 w-full overflow-scroll">
+    <ul className="tags flex gap-[8px] min-w-0 w-full overflow-scroll scrollbar-hide">
       {tags?.length > 0 ? (
         tags.map((tag, index) => {
           const tagInfo = tagData[tag] || {}; // 태그 정보 가져오기
