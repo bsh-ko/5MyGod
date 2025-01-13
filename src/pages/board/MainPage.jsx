@@ -5,12 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 export default function MainPage() {
   const axios = useAxiosInstance();
 
+  // 상품(심부름) 목록 가져오기
   const { data } = useQuery({
     queryKey: ["products"],
     queryFn: () => axios.get("/products"),
     select: (res) => res.data,
   });
-
   console.log("data: ", data);
 
   if (!data) {
