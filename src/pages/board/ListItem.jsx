@@ -48,6 +48,7 @@ ListItem.propTypes = {
 //     return "곧 마감";
 //   }
 // }
+
 function calculateRemainingTime(due) {
   const now = dayjs(); // 현재 시각
   const dueTime = dayjs(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 dayjs 객체로 변환
@@ -65,10 +66,13 @@ function calculateRemainingTime(due) {
   };
 
   if (duration.days > 0) {
+    // 하루 이상 남은 경우
     return `${duration.days}일 남음`;
   } else if (duration.hours > 0) {
+    // 하루 미만, 1시간 이상 남은 경우
     return `${duration.hours}시간 남음`;
   } else if (duration.minutes > 0) {
+    // 1시간 미만으로 남은 경우
     return "곧 마감";
   }
 }
@@ -91,7 +95,10 @@ export default function ListItem({ item }) {
   const remainingTime = calculateRemainingTime(item.extra?.due);
 
   return (
-    <li className="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center">
+    <Link
+      to={`/errand/${item._id}`}
+      className="list_item w-full h-[116px] rounded-[10px] bg-[#fff] shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center"
+    >
       <img
         src={categoryImage}
         alt="게시글 대표이미지"
@@ -100,12 +107,7 @@ export default function ListItem({ item }) {
 
       <div className="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]">
         <h2 className="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis">
-          <Link
-            to={`/products/${item._id}`}
-            state={{ back: "/products", title: "심부름 상세" }} // 업데이트 된 방식 props 추가
-          >
-            {item.name}
-          </Link>
+          {item.name}
         </h2>
 
         <TagList tags={item.extra?.tags} />
@@ -114,9 +116,11 @@ export default function ListItem({ item }) {
           <div className="font-pretendard text-card-timelimit">
             {remainingTime}
           </div>
-          <div className="font-pretendard text-card-price">{item.price} 원</div>
+          <div className="font-pretendard text-card-price">
+            {new Intl.NumberFormat("ko-KR").format(item.price)} 원
+          </div>
         </div>
       </div>
-    </li>
+    </Link>
   );
 }
