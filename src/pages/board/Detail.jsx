@@ -112,25 +112,19 @@ export default function Detail() {
       // 남이 요청한 && 진행 중
       return {
         text: "이미 진행 중이에요",
-        action: () => {
-          navigate(-1);
-        },
+        action: () => {},
       };
     } else if (errandState === "PS030") {
       // 완료된
       return {
         text: "이미 완료된 심부름이에요",
-        action: () => {
-          navigate(-1);
-        },
+        action: () => {},
       };
     } else if (errandState === "PS040") {
       // 기한 만료된
       return {
         text: "기한이 지난 심부름이에요",
-        action: () => {
-          navigate(-1);
-        },
+        action: () => {},
       };
     }
   };
