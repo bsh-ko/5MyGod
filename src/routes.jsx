@@ -5,6 +5,7 @@ const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
 const Detail = lazy(() => import("@pages/board/Detail"));
 const New = lazy(() => import("@pages/board/New"));
+//const MyErrand = lazy(() => import("@pages/user/MyErrand"));
 const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
 const MyPage = lazy(() => import("@pages/user/Mypage"));
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
         { index: true, element: <MainPage /> },
         { path: "products/:_id", element: <Detail /> },
         { path: "products/new", element: <New /> },
+        // { path: "users/myerrand", element: <MyErrand /> },
         // { path: ":type", element: <List /> },
         // { path: ":type/new", element: <New /> },
         // { path: ":type/:_id/edit", element: <Edit /> },
