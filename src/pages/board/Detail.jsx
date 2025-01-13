@@ -3,12 +3,13 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import CommentList from "@pages/board/CommentList";
 import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Detail() {
   const axios = useAxiosInstance();
   const { _id } = useParams();
-  const user = useUserStore();
+  const { user } = useUserStore();
+  const navigate = useNavigate();
 
   // 상품(심부름) 데이터 가져오기
   const { data } = useQuery({
@@ -16,7 +17,7 @@ export default function Detail() {
     queryFn: () => axios.get(`/products/${_id}`),
     select: (res) => res.data,
   });
-  console.log("article data: ", data);
+  console.log("심부름 데이터: ", data);
 
   // 회원 성별에 따라 이미지 매핑
   let genderImage;
@@ -52,16 +53,78 @@ export default function Detail() {
   const arrivalLocation = data?.item?.extra?.arrivalLocation;
 
   // 내가 올린 심부름인지 아닌지 여부
-  const isMyErrand = data?.item.seller_id === user._id;
+  console.log("유저 데이터: ", user);
+  const isMyErrand = data?.item?.seller_id === user._id;
+  // 심부름의 상태
+  const errandState = data?.item?.extra?.productState[0];
 
-  // 심부름 구분에 따라 달라지는 버튼
+  // 심부름 구분과 상태에 따라 달라지는 버튼의 문구와 동작 정의
+  const defineDynamicButton = () => {
+    if (!data || !data.item || !data.item.extra) return {};
+
+    if (isMyErrand && errandState === "PS010") {
+      // 내가 요청한 && 구인 중
+      return {
+        text: `지원자 n명 확인하기`,
+        // navigate 지원자목록페이지 경로 추가 필요
+        action: () => {
+          navigate(`/`);
+        },
+      };
+    } else if (isMyErrand && errandState === "PS020") {
+      // 내가 요청한 && 진행 중
+      return {
+        text: `심부름 완료 및 결제하기`,
+        // 심부름 상태 PS030으로 바꾸는 동작 추가 필요
+        // navigate 결제페이지 경로 추가 필요
+        action: () => {
+          navigate(`/`);
+        },
+      };
+    } else if (!isMyErrand && errandState === "PS010") {
+      // 남이 요청한 && 구인 중
+      return {
+        text: "지원하기",
+        // 지원하기 게시물 작성 동작 추가 필요
+        action: () => {
+          navigate(`/`);
+        },
+      };
+    } else if (!isMyErrand && errandState === "PS020") {
+      // 남이 요청한 && 진행 중
+      return {
+        text: "이미 진행 중이에요",
+        action: () => {
+          navigate(-1);
+        },
+      };
+    } else if (errandState === "PS030") {
+      // 완료된
+      return {
+        text: "이미 완료된 심부름이에요",
+        action: () => {
+          navigate(-1);
+        },
+      };
+    } else if (errandState === "PS040") {
+      // 기한 만료된
+      return {
+        text: "기한이 지난 심부름이에요",
+        action: () => {
+          navigate(-1);
+        },
+      };
+    }
+  };
+
+  const { text, action } = defineDynamicButton();
 
   // isMyErrand && data?.item?.extra?.productState[0] === PS010 (내가 요청한 && 구인 중)
   // 버튼 문구: '지원자 n명 확인하기'
   // 버튼 동작: 지원자 목록 페이지로 이동
 
   // isMyErrand && data?.item?.extra?.productState[0] === PS020 (내가 요청한 && 진행 중)
-  // 버튼 문구: '심부름이 완료되었어요'
+  // 버튼 문구: '심부름 완료하기'
   // 버튼 동작: 심부름 상태를 PS030으로 변경, 결제 페이지로 이동
 
   // !isMyErrand && data?.item?.extra?.productState[0] === PS010 (남이 요청한 && 구인 중)
@@ -234,9 +297,10 @@ export default function Detail() {
 
       <button
         type="submit"
+        onClick={action}
         className="bg-primary-500 font-laundry text-card-title text-2xl text-white p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full"
       >
-        심부름 요청하기
+        {text}
       </button>
     </main>
   );
