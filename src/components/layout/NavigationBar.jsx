@@ -12,6 +12,7 @@ import mypageActive from "/assets/mypage-actived.png";
 
 const navItems = [
   {
+    id: "home",
     path: "/",
     patterns: [/^\/$/],
     text: "홈",
@@ -19,6 +20,7 @@ const navItems = [
     activeIcon: homeActive,
   },
   {
+    id: "myerrand",
     path: "/users/myerrand",
     patterns: [/^\/users\/myerrand/],
     text: "진행중심부름",
@@ -26,6 +28,7 @@ const navItems = [
     activeIcon: myerrandsActive,
   },
   {
+    id: "chating",
     path: "/chating",
     patterns: [/^\/chating/],
     text: "채팅",
@@ -34,6 +37,7 @@ const navItems = [
     gapClass: "gap-y-[2px]",
   },
   {
+    id: "mypage",
     path: "/users/mypage",
     patterns: [/^\/users\/mypage/],
     text: "내 정보",
@@ -45,6 +49,7 @@ const navItems = [
 export default function NavigationBar() {
   const [visible, setVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [activeItem, setActiveItem] = useState("home");
   const location = useLocation();
 
   const handleScroll = useCallback(() => {
@@ -69,8 +74,8 @@ export default function NavigationBar() {
     };
   }, [handleScroll]); // handleScroll을 의존성 배열에 추가
 
-  const isPathActive = (patterns) => {
-    return patterns.some((pattern) => pattern.test(location.pathname));
+  const handleClick = (id) => {
+    setActiveItem(id); // 클릭한 아이템을 활성화 상태로 설정
   };
 
   if (!visible) {
@@ -96,10 +101,9 @@ export default function NavigationBar() {
           <li key={item.path}>
             <NavLink
               to={item.path}
+              onClick={() => handleClick(item.id)}
               className={`flex flex-col items-center cursor-pointer ${
-                isPathActive(item.patterns)
-                  ? "text-primary-500"
-                  : "text-gray-700"
+                activeItem === item.id ? "text-primary-500" : "text-gray-700"
               }`}
             >
               <div
@@ -109,9 +113,7 @@ export default function NavigationBar() {
               >
                 <img
                   src={
-                    isPathActive(item.patterns)
-                      ? item.activeIcon
-                      : item.defaultIcon
+                    activeItem === item.id ? item.activeIcon : item.defaultIcon
                   }
                   alt={item.text}
                 />
