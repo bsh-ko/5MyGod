@@ -9,7 +9,10 @@ export default function HeaderButton() {
   };
 
   // 로그인 페이지에서는 버튼을 숨김
-  if (location.pathname === "/users/login") {
+  if (
+    location.pathname === "/users/login" ||
+    location.pathname === "/users/signup"
+  ) {
     return null;
   }
 
