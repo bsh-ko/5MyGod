@@ -63,7 +63,7 @@ export default function MyPage() {
   });
 
   // 자기소개 수정 핸들러
-  const [introduction, setIntroduction] = useState(users?.item?.extra?.introduction || "");
+  const [introduction, setIntroduction] = useState(users.item.extra.introduction);
   const handleSaveClick = () => {
     mutation.mutate({ introduction });
   };
