@@ -16,7 +16,10 @@ export default function Profile({ image, nickname, earnings, hearts, isMyPage })
           {!isMyPage && (
             <div className="flex items-center justify-between w-20 h-10 px-3 bg-white rounded-[10px] gap-[2px]">
               <img src="/assets/heart.png" alt="하트 아이콘" className="w-5 h-5" />
-              <span className="text-gray-black-900 text-sm leading-[20px]">{hearts || "0"}</span>
+              <span className="text-gray-black-900 text-sm leading-[20px]">
+                {" "}
+                {hearts > 999 ? "999+" : hearts || "0"}
+              </span>
             </div>
           )}
         </div>
@@ -30,7 +33,10 @@ export default function Profile({ image, nickname, earnings, hearts, isMyPage })
             </div>
             <div className="flex items-center justify-between w-20 h-10 px-3 bg-white rounded-[10px]">
               <img src="/assets/heart.png" alt="하트 아이콘" className="w-5 h-5" />
-              <span className="text-gray-black-900 text-sm leading-[20px]">{hearts || "0"}</span>
+              <span className="text-gray-black-900 text-sm leading-[20px]">
+                {" "}
+                {hearts > 999 ? "999+" : hearts || "0"}
+              </span>
             </div>
           </div>
         )}
