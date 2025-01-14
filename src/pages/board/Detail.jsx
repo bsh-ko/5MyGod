@@ -88,7 +88,7 @@ export default function Detail() {
         text: `지원자 n명 확인하기`,
         // navigate 지원자목록페이지 경로 추가 필요
         action: () => {
-          navigate(`/errand/applylist/${_id}`);
+          navigate(`/errand/applicants/${_id}`);
         },
       };
     } else if (isMyErrand && errandState === "PS020") {
