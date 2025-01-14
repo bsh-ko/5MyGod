@@ -56,8 +56,12 @@ export default function Detail() {
   const apply = useMutation({
     mutationFn: (_id) => {
       const body = {
-        _id: _id,
-        quantity: 1,
+        products: [
+          {
+            _id: Number(_id),
+            quantity: 1,
+          },
+        ],
       };
       return axios.post(`/orders/`, body);
     },
@@ -106,7 +110,9 @@ export default function Detail() {
       return {
         text: "지원하기",
         // 지원하기(Post) 동작
-        action: apply.mutate,
+        action: () => {
+          apply.mutate(_id);
+        },
       };
     } else if (!isMyErrand && errandState === "PS020") {
       // 남이 요청한 && 진행 중
@@ -308,7 +314,7 @@ export default function Detail() {
       <div className="pb-40 bg-background-color"></div>
 
       <button
-        type="submit"
+        type="button"
         onClick={action}
         className="bg-primary-500 font-laundry text-card-title text-2xl text-white p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full"
       >
