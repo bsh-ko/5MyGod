@@ -62,7 +62,7 @@ export default function MyPage() {
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100">
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
-      <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color overflow-scroll">
+      <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color">
         <Profile
           image={users.item.image}
           nickname={users.item.name || "닉네임 없음"}
@@ -81,14 +81,18 @@ export default function MyPage() {
               <div className="intro bg-white p-5">
                 <div className="flex justify-between">
                   <h3 className="text-lg font-bold mb-3 text-gray-700">자기소개</h3>
-                  <a href="#" className="text-primary-500 font-bold text-sm"></a>
+                  <a href="#" className="text-primary-500 font-bold text-sm">
+                    수정하기
+                  </a>
                 </div>
                 <p>{users.item.extra.introduction}</p>
               </div>
               <div className="intro bg-white p-5 my-3">
                 <div className="flex justify-between my-3">
                   <h3 className="text-lg font-bold text-gray-700">심부름</h3>
-                  <a href="#" className="text-primary-500 font-bold text-sm"></a>
+                  <a href="#" className="text-primary-500 font-bold text-sm">
+                    수정하기
+                  </a>
                 </div>
                 <ul className="flex space-x-3">
                   {users.item.extra.errands?.map((task, index) => (

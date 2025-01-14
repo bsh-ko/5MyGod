@@ -43,7 +43,7 @@ export default function UserPage() {
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100">
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
-      <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color overflow-scroll">
+      <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color">
         <Profile
           image={users.item.image}
           nickname={users.item.name || "닉네임 미설정"}
