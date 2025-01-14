@@ -13,14 +13,11 @@ function LocationMap({ title, coordinates }) {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    console.log("Executing useEffect");
     try {
       if (!mapRef.current || !window.kakao || !coordinates) {
         console.log("Missing Kakao or coordinates");
         return;
       }
-      console.log("Coordinates: ", coordinates);
-      console.log("Map Ref: ", mapRef.current);
 
       const { latitude, longitude } = coordinates;
       const map = new window.kakao.maps.Map(mapRef.current, {

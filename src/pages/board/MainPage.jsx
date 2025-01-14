@@ -11,7 +11,7 @@ export default function MainPage() {
     queryFn: () => axios.get("/products"),
     select: (res) => res.data,
   });
-  console.log("data: ", data);
+  console.log("심부름 목록: ", data);
 
   if (!data) {
     return <div>로딩 중...</div>;
