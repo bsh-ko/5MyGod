@@ -1,13 +1,11 @@
 export default function Profile({ image, nickname, earnings, hearts, isMyPage }) {
-  console.log(image); // 출력값 : /files/final05/user-neo.webp
+  console.log(image); //
+  const img = image.trim() ? `https://11.fesp.shop${image}` : "https://via.placeholder.com/100";
+
   return (
     <section className="flex items-center mt-6 px-4 font-laundry">
       {/* 프로필 이미지 */}
-      <img
-        src={`https://11.fesp.shop${image}`}
-        alt="프로필 이미지"
-        className="w-20 h-20 rounded-full border border-gray-300"
-      />
+      <img src={img} alt="프로필 이미지" className="w-20 h-20 rounded-full border border-gray-300" />
       <div className="ml-4 text-gray-black-900 flex-1">
         {/* 닉네임과 추가 정보 */}
         <div className="flex items-center justify-between">

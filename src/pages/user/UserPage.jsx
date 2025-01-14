@@ -45,7 +45,7 @@ export default function UserPage() {
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
       <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color overflow-scroll">
         <Profile
-          image={users.item.image || "https://via.placeholder.com/100"}
+          image={users.item.image}
           nickname={users.item.name || "닉네임 미설정"}
           hearts={users.item.extra.likes || "0"}
           isMyPage={false}
