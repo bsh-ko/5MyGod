@@ -1,0 +1,22 @@
+meta {
+  name: 지원하기
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{url}}/orders
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "products": [
+      {
+        "_id": 6,
+        "quantity": 1
+      }
+    ]
+  }
+}
