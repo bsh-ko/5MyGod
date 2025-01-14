@@ -84,51 +84,74 @@ export default function UserPage() {
                   ))}
                 </ul>
 
-                <h3 className="text-lg font-bold mt-6 mb-3 text-gray-700">심부름 상세</h3>
+                <div className="flex justify-between my-3">
+                  <h3 className="text-lg font-bold text-gray-700">심부름 상세</h3>
+                </div>
                 <p className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">{users.item.extra.details}</p>
               </div>
-              <div className="intro bg-white p-5 mb-[150px]">
-                {users.item.extra.experience?.length > 0 ||
+
+              {(users.item.extra.experience?.length > 0 ||
                 users.item.extra.certificates?.length > 0 ||
-                users.item.extra.business?.length > 0 ? (
-                  <>
-                    {users.item.extra.experience && users.item.extra.experience.length > 0 && (
-                      <>
-                        <h3 className="text-lg font-bold mt-3 text-gray-700 pb-3">경력</h3>
-                        <p className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">
-                          {users.item.extra.experience}
-                        </p>
-                      </>
-                    )}
-
-                    {users.item.extra.certificates && users.item.extra.certificates.length > 0 && (
-                      <>
-                        <h3 className="text-lg font-bold mt-3 text-gray-700 pb-3">자격증</h3>
-                        <ul>
-                          {users.item.extra.certificates.map((cert, index) => (
-                            <li key={index} className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">
-                              {cert}
+                users.item.extra.business?.length > 0) && (
+                <div className="intro bg-white p-5 mt-3 mb-[150px]">
+                  {users.item.extra.experience && users.item.extra.experience.length > 0 && (
+                    <>
+                      <h3 className="text-lg font-bold text-gray-700 pb-3">경력</h3>
+                      <ul className="flex flex-wrap h-14 bg-gray-100 rounded-[10px] px-4">
+                        {users.item.extra.experience
+                          .reduce((acc, exp, index) => {
+                            const threeIndex = Math.floor(index / 3); // 3개씩 묶기 위한 인덱스 계산
+                            if (!acc[threeIndex]) {
+                              acc[threeIndex] = []; // 새로운 그룹 생성
+                            }
+                            acc[threeIndex].push(exp); // 각 그룹에 항목 추가
+                            return acc;
+                          }, [])
+                          .map((three, threeIndex) => (
+                            <li key={threeIndex} className="flex pr-3">
+                              {three.map((exp, index) => (
+                                <span
+                                  key={index}
+                                  className={`leading-[56px] pr-3 ${
+                                    index === 0 ? "font-bold" : "text-gray-700 text-sm"
+                                  }`}
+                                >
+                                  {exp}
+                                </span>
+                              ))}
                             </li>
                           ))}
-                        </ul>
-                      </>
-                    )}
+                      </ul>
+                    </>
+                  )}
 
-                    {users.item.extra.business && users.item.extra.business.length > 0 && (
-                      <>
-                        <h3 className="text-lg font-bold mt-3 text-gray-700 pb-3">사업자</h3>
-                        <ul>
-                          {users.item.extra.business.map((bus, index) => (
-                            <li key={index} className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">
-                              {bus}
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
-                  </>
-                ) : null}
-              </div>
+                  {users.item.extra.certificates && users.item.extra.certificates.length > 0 && (
+                    <>
+                      <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">자격증</h3>
+                      <ul>
+                        {users.item.extra.certificates.map((cert, index) => (
+                          <li key={index} className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">
+                            {cert}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
+                  {users.item.extra.business && users.item.extra.business.length > 0 && (
+                    <>
+                      <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">사업자</h3>
+                      <ul>
+                        {users.item.extra.business.map((bus, index) => (
+                          <li key={index} className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">
+                            {bus}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </section>
