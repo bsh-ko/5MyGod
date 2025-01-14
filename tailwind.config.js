@@ -76,6 +76,30 @@ export default {
           "14px",
           { lineHeight: "auto", letterSpacing: "-0.06em", fontWeight: "700" },
         ],
+        "navigation-text": [
+          "12px",
+          { lineHeight: "auto", letterSpacing: "-0.06em", fontWeight: "400" },
+        ],
+        "navigation-top": [
+          "28px",
+          { lineHeight: "auto", letterSpacing: "-0.08em", fontWeight: "700" },
+        ],
+        "tab": [
+          "16px",
+          { lineHeight: "auto", letterSpacing: "-0.06em", fontWeight: "700" },
+        ],
+        "small-button": [
+          "14px",
+          { lineHeight: "auto", letterSpacing: "-0.06em", fontWeight: "700" }
+        ],
+        "popup-title": [
+          "24px",
+          { lineheight: "auto", letterSpacing: "-0.06em", fontWeight: "900" },
+        ],
+        "popup-text": [
+          "20px",
+          { lineheight: "145%", letterSpacing: "-0.06em", fontWeight: "500" },
+        ]
       },
 
       colors: {
