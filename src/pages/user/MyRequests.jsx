@@ -1,7 +1,7 @@
 import React from "react";
 import ListItem from "@pages/board/ListItem";
 
-const RequestList = ({ requestData }) => {
+const MyRequests = ({ requestData }) => {
   const requestList = requestData?.item.map((item) => <ListItem key={item._id} item={item} />);
   return (
     <div>
@@ -14,4 +14,4 @@ const RequestList = ({ requestData }) => {
   );
 };
 
-export default RequestList;
+export default MyRequests;

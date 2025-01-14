@@ -1,10 +1,7 @@
 import dayjs from "dayjs";
 
 function getTime(day = 0, second = 0) {
-  return dayjs()
-    .add(day, "day")
-    .add(second, "second")
-    .format("YYYY.MM.DD HH:mm:ss");
+  return dayjs().add(day, "day").add(second, "second").format("YYYY.MM.DD HH:mm:ss");
 }
 
 export const initData = async (clientId, nextSeq) => {
@@ -15,8 +12,7 @@ export const initData = async (clientId, nextSeq) => {
       {
         _id: await nextSeq("user"),
         email: "admin@market.com",
-        password:
-          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "무지",
         phone: "01011112222",
         address: "서울시 강남구 역삼동 123",
@@ -28,14 +24,21 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           gender: "male",
           likes: 120,
+          introduction: "무지입니당",
+          errands: ["편의점 배달"],
+          transportation: ["도보", "자전거"],
+          details: ["발이 빠릅니다 "],
+          experience: ["배달", "배달의 민족", "5개월"],
+          certificates: ["오토바이 자격증"],
+          business: ["무지 사업자"],
+          earnings: 20000,
         },
       },
       // 2번 회원
       {
         _id: await nextSeq("user"),
         email: "s1@market.com",
-        password:
-          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "네오",
         phone: "01022223333",
         address: "서울시 강남구 삼성동 456",
@@ -47,14 +50,21 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           gender: "male",
           likes: 54,
+          introduction: "네오입니당",
+          errands: ["편의점 배달", "음식 배달", "사진 촬영"],
+          transportation: ["도보", "대중교통"],
+          details: ["저 사진 잘 찍어요 "],
+          experience: ["사진관 알바", "우리동네 사진관", "8개월"],
+          certificates: ["네오 자격증"],
+          business: ["네오 사업자"],
+          earnings: 500000,
         },
       },
       // 3번 회원
       {
         _id: await nextSeq("user"),
         email: "s2@market.com",
-        password:
-          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "어피치",
         phone: "01033334444",
         address: "서울시 강남구 도곡동 789",
@@ -66,14 +76,21 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           gender: "female",
           likes: 200,
+          introduction: "어피치입니당",
+          errands: ["빨래", "음식 배달", "사진 촬영"],
+          transportation: ["자차", "대중교통"],
+          details: [],
+          experience: [],
+          certificates: [],
+          business: [],
+          earnings: 10000,
         },
       },
       // 4번 회원
       {
         _id: await nextSeq("user"),
         email: "u1@market.com",
-        password:
-          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "제이지",
         phone: "01044445555",
         address: "서울시 강남구 논현동 222",
@@ -85,6 +102,40 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           gender: "female",
           likes: 9,
+          introduction: "제이지입니당",
+          errands: ["배달"],
+          transportation: ["오토바이"],
+          details: ["경력이 없지만 열정은 많습니다. "],
+          experience: [],
+          certificates: ["제이지 자격증"],
+          business: [],
+          earnings: 100000,
+        },
+      },
+      // 5번 회원
+      {
+        _id: await nextSeq("user"),
+        email: "n1@market.com",
+        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        name: "아무것도없음",
+        phone: "01044447555",
+        address: "서울시 강남구 논현동 222",
+        type: "seller",
+        loginType: "email",
+        image: ``,
+        createdAt: getTime(-20, -60 * 30),
+        updatedAt: getTime(-10, -60 * 60 * 12),
+        extra: {
+          gender: "female",
+          likes: 9,
+          introduction: "",
+          errands: [],
+          transportation: [],
+          details: [],
+          experience: [],
+          certificates: [],
+          business: [],
+          earnings: 500000,
         },
       },
     ],
@@ -101,7 +152,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "죽과 상비약 부탁",
-        quantity: 1,
+        quantity: 999,
         buyQuantity: 0,
 
         content: `죽과 상비약 사다 주세요
@@ -112,7 +163,7 @@ export const initData = async (clientId, nextSeq) => {
           category: ["PC01"],
           tags: ["TA01", "TA02"],
           productState: ["PS010"], // 구인 중
-          due: "2025.01.03 18:00:00",
+          due: "2025.01.31 18:00:00",
           pickupLocation: {
             address: "서울 종로구 세종로 186",
             detailAddress: "광화문역",
@@ -140,7 +191,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "SNS 프로필 사진 찍어주세요",
-        quantity: 1,
+        quantity: 999,
         buyQuantity: 0,
 
         content: "프로필 사진 바꾸고 싶은데 가볍게 찍어주세요",
@@ -150,7 +201,7 @@ export const initData = async (clientId, nextSeq) => {
           category: ["PC03"],
           tags: ["TA03"],
           productState: ["PS020"], // 진행 중
-          due: "2025.01.02 18:00:00",
+          due: "2025.01.31 18:00:00",
         },
       },
       // 4-3: 완료 (PS030)
@@ -162,7 +213,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "문서 작성해주세요",
-        quantity: 1,
+        quantity: 999,
         buyQuantity: 0,
 
         content: "전문 문서 작성 도와주세요",
@@ -172,7 +223,7 @@ export const initData = async (clientId, nextSeq) => {
           category: ["PC02"],
           tags: ["TA03", "TA04"],
           productState: ["PS030"], // 완료
-          due: "2025.01.02 18:00:00",
+          due: "2025.01.31 18:00:00",
           pickupLocation: {},
           arrivalLocation: {
             address: "서울특별시 마포구 마포대로 195",
@@ -184,7 +235,7 @@ export const initData = async (clientId, nextSeq) => {
           },
         },
       },
-      // 4-4: 기간 만료 (PS040)
+      // 4-4: 기간 만료 (PS010 && due 지남)
       {
         _id: await nextSeq("product"),
         seller_id: 4,
@@ -193,7 +244,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "강아지 돌봄 해주세요",
-        quantity: 1,
+        quantity: 999,
         buyQuantity: 0,
 
         content: "저희 집 멍멍이 두 시간만 봐주세요",
@@ -202,7 +253,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           category: ["PC05"],
           tags: ["TA05", "TA07"],
-          productState: ["PS040"], // 기간 만료
+          productState: ["PS010"],
           due: "2025.01.05 18:00:00",
         },
       },
@@ -217,7 +268,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "티켓팅 대신 해주세요",
-        quantity: 1,
+        quantity: 999,
         buyQuantity: 0,
 
         content: "오굿굿 콘서트 꼭 가고 싶은데 티켓팅 대신 해주세요",
@@ -239,7 +290,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "아이 돌봄 해주세요",
-        quantity: 1,
+        quantity: 999,
         buyQuantity: 0,
 
         content: "저희 집 꼬맹이 두 시간만 봐주세요",
@@ -249,7 +300,7 @@ export const initData = async (clientId, nextSeq) => {
           category: ["PC05"],
           tags: ["TA06", "TA07"],
           productState: ["PS020"], // 진행 중
-          due: "2025.01.25 18:00:00",
+          due: "2025.01.31 18:00:00",
         },
       },
       // 2-3: 완료 (PS030)
@@ -260,21 +311,21 @@ export const initData = async (clientId, nextSeq) => {
 
         show: true,
         active: true,
-        name: "강아지 돌봄 해주세요",
-        quantity: 1,
+        name: "코딩 도와주세요",
+        quantity: 999,
         buyQuantity: 0,
 
-        content: "저희 집 멍멍이 두 시간만 봐주세요",
+        content: "코딩 좀 도와주세요",
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
-          category: ["PC05"],
-          tags: ["TA06", "TA07"],
+          category: ["PC03"],
+          tags: ["TA01", "TA02"],
           productState: ["PS030"], // 완료
-          due: "2025.01.04 18:00:00",
+          due: "2025.01.31 18:00:00",
         },
       },
-      // 2-4: 기간 만료 (PS040)
+      // 2-4: 기간 만료 (PS010 && due 지남)
       {
         _id: await nextSeq("product"),
         seller_id: 2,
@@ -283,7 +334,7 @@ export const initData = async (clientId, nextSeq) => {
         show: true,
         active: true,
         name: "강원도 여행 가이드 해주실 분",
-        quantity: 1,
+        quantity: 999,
         buyQuantity: 0,
 
         content:
@@ -293,7 +344,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           category: ["PC03"],
           tags: ["TA04", "TA07"],
-          productState: ["PS040"], // 기간 만료
+          productState: ["PS010"],
           due: "2025.01.04 18:00:00",
         },
       },
@@ -302,7 +353,7 @@ export const initData = async (clientId, nextSeq) => {
     // 주문 (심부름 지원)
     order: [
       // 2번 유저의 지원 (4번 유저의 심부름에 대해)
-      // 2-1: 지원 완료, 매칭 대기 중 (OS010)
+      // 2-1: 지원 완료, 매칭 대기 중 (PS010)
       {
         _id: await nextSeq("order"),
         user_id: 2,
@@ -316,7 +367,7 @@ export const initData = async (clientId, nextSeq) => {
             show: true,
             active: true,
             name: "죽과 상비약 부탁",
-            quantity: 1,
+            quantity: 999,
             buyQuantity: 0,
 
             content: `죽과 상비약 사다 주세요
@@ -327,7 +378,7 @@ export const initData = async (clientId, nextSeq) => {
               category: ["PC01"],
               tags: ["TA01", "TA02"],
               productState: ["PS010"], // 구인 중
-              due: "2025.01.03 18:00:00",
+              due: "2025.01.31 18:00:00",
               pickupLocation: {
                 address: "서울 종로구 세종로 186",
                 detailAddress: "광화문역",
@@ -350,7 +401,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 2-2: 매칭 완료, 진행 중 (OS020)
+      // 2-2: 매칭 완료, 진행 중 (PS020)
       {
         _id: await nextSeq("order"),
         user_id: 2,
@@ -364,7 +415,7 @@ export const initData = async (clientId, nextSeq) => {
             show: true,
             active: true,
             name: "SNS 프로필 사진 찍어주세요",
-            quantity: 1,
+            quantity: 999,
             buyQuantity: 0,
 
             content: "프로필 사진 바꾸고 싶은데 가볍게 찍어주세요",
@@ -374,14 +425,14 @@ export const initData = async (clientId, nextSeq) => {
               category: ["PC03"],
               tags: ["TA03"],
               productState: ["PS020"], // 진행 중
-              due: "2025.01.02 18:00:00",
+              due: "2025.01.31 18:00:00",
             },
           },
         ],
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 2-3: 완료 (OS030)
+      // 2-3: 완료 (PS030)
       {
         _id: await nextSeq("order"),
         user_id: 2,
@@ -395,7 +446,7 @@ export const initData = async (clientId, nextSeq) => {
             show: true,
             active: true,
             name: "문서 작성해주세요",
-            quantity: 1,
+            quantity: 999,
             buyQuantity: 0,
 
             content: "전문 문서 작성 도와주세요",
@@ -404,8 +455,8 @@ export const initData = async (clientId, nextSeq) => {
             extra: {
               category: ["PC02"],
               tags: ["TA03", "TA04"],
-              productState: ["PS030"], // 심부름 완료
-              due: "2025.01.02 18:00:00",
+              productState: ["PS030"], // 완료
+              due: "2025.01.31 18:00:00",
               pickupLocation: {},
               arrivalLocation: {
                 address: "서울특별시 마포구 마포대로 195",
@@ -421,7 +472,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 2-4: 기간 만료 (OS040)
+      // 2-4: 기간 만료 (PS010 && due 지남)
       {
         _id: await nextSeq("order"),
         user_id: 2,
@@ -435,7 +486,7 @@ export const initData = async (clientId, nextSeq) => {
             show: true,
             active: true,
             name: "강아지 돌봄 해주세요",
-            quantity: 1,
+            quantity: 999,
             buyQuantity: 0,
 
             content: "저희 집 멍멍이 두 시간만 봐주세요",
@@ -444,7 +495,7 @@ export const initData = async (clientId, nextSeq) => {
             extra: {
               category: ["PC05"],
               tags: ["TA05", "TA07"],
-              productState: ["PS040"], // 기간 만료
+              productState: ["PS010"],
               due: "2025.01.05 18:00:00",
             },
           },
@@ -454,7 +505,7 @@ export const initData = async (clientId, nextSeq) => {
       },
 
       // 4번 유저의 지원 (2번 유저의 심부름에 대해)
-      // 4-1: 지원 안료, 매칭 대기 중 (OS010)
+      // 4-1: 지원 안료, 매칭 대기 중 (PS010)
       {
         _id: await nextSeq("order"),
         user_id: 4,
@@ -468,7 +519,7 @@ export const initData = async (clientId, nextSeq) => {
             show: true,
             active: true,
             name: "티켓팅 대신 해주세요",
-            quantity: 1,
+            quantity: 999,
             buyQuantity: 0,
 
             content: "오굿굿 콘서트 꼭 가고 싶은데 티켓팅 대신 해주세요",
@@ -485,7 +536,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 4-2: 매칭 완료, 심부름 진행 중 (OS020)
+      // 4-2: 매칭 완료, 심부름 진행 중 (PS020)
       {
         _id: await nextSeq("order"),
         user_id: 4,
@@ -499,7 +550,7 @@ export const initData = async (clientId, nextSeq) => {
             show: true,
             active: true,
             name: "아이 돌봄 해주세요",
-            quantity: 1,
+            quantity: 999,
             buyQuantity: 0,
 
             content: "저희 집 꼬맹이 두 시간만 봐주세요",
@@ -509,14 +560,14 @@ export const initData = async (clientId, nextSeq) => {
               category: ["PC05"],
               tags: ["TA06", "TA07"],
               productState: ["PS020"], // 진행 중
-              due: "2025.01.25 18:00:00",
+              due: "2025.01.31 18:00:00",
             },
           },
         ],
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 4-3: 완료 (OS030)
+      // 4-3: 완료 (PS030)
       {
         _id: await nextSeq("order"),
         user_id: 4,
@@ -529,25 +580,25 @@ export const initData = async (clientId, nextSeq) => {
 
             show: true,
             active: true,
-            name: "강아지 돌봄 해주세요",
-            quantity: 1,
+            name: "코딩 도와주세요",
+            quantity: 999,
             buyQuantity: 0,
 
-            content: "저희 집 멍멍이 두 시간만 봐주세요",
+            content: "코딩 좀 도와주세요",
             createdAt: getTime(-41, -60 * 60 * 2),
             updatedAt: getTime(-40, -60 * 15),
             extra: {
-              category: ["PC05"],
-              tags: ["TA06", "TA07"],
+              category: ["PC03"],
+              tags: ["TA01", "TA02"],
               productState: ["PS030"], // 완료
-              due: "2025.01.04 18:00:00",
+              due: "2025.01.31 18:00:00",
             },
           },
         ],
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 4-4: 기간 만료 (OS040)
+      // 4-4: 기간 만료 (PS010 && due 지남)
       {
         _id: await nextSeq("order"),
         user_id: 4,
@@ -561,7 +612,7 @@ export const initData = async (clientId, nextSeq) => {
             show: true,
             active: true,
             name: "강원도 여행 가이드 해주실 분",
-            quantity: 1,
+            quantity: 999,
             buyQuantity: 0,
 
             content:
@@ -571,7 +622,7 @@ export const initData = async (clientId, nextSeq) => {
             extra: {
               category: ["PC03"],
               tags: ["TA04", "TA07"],
-              productState: ["PS040"], // 기간 만료
+              productState: ["PS010"],
               due: "2025.01.04 18:00:00",
             },
           },
@@ -731,8 +782,7 @@ export const initData = async (clientId, nextSeq) => {
           image: "user-muzi.webp",
         },
         title: "배송지연 안내",
-        content:
-          "크리스마스 물류 증가로 인해 평소보다 2~3일 지연될 예정입니다.",
+        content: "크리스마스 물류 증가로 인해 평소보다 2~3일 지연될 예정입니다.",
         createdAt: getTime(-4, -60 * 60 * 2),
         updatedAt: getTime(-2, -60 * 60 * 13),
       },
@@ -746,8 +796,7 @@ export const initData = async (clientId, nextSeq) => {
           image: "user-muzi.webp",
         },
         title: "배송비 인상 안내",
-        content:
-          "택배사 배송비 인상으로 인해 기존 3,000원에서 3,500원으로 인상됩니다.",
+        content: "택배사 배송비 인상으로 인해 기존 3,000원에서 3,500원으로 인상됩니다.",
         createdAt: getTime(-6, -60 * 60 * 20),
         updatedAt: getTime(-4, -60 * 60 * 13),
       },
@@ -788,7 +837,7 @@ export const initData = async (clientId, nextSeq) => {
         ],
       },
 
-      //심부름 태그
+      // 심부름 태그
       {
         _id: "Tag",
         title: "심부름 태그",
@@ -831,7 +880,7 @@ export const initData = async (clientId, nextSeq) => {
         ],
       },
 
-      // 상품(심부름) 상태
+      // 심부름 상태
       {
         _id: "productState",
         title: "심부름 상태",
@@ -851,15 +900,10 @@ export const initData = async (clientId, nextSeq) => {
             code: "PS030",
             value: "심부름 완료",
           },
-          {
-            sort: 4,
-            code: "PS040",
-            value: "심부름 기간 만료",
-          },
         ],
       },
 
-      // 주문(지원) 상태
+      // 지원 상태
       {
         _id: "orderState",
         title: "지원 상태",
