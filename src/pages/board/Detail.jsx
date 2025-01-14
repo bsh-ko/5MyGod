@@ -76,6 +76,26 @@ export default function Detail() {
     },
   });
 
+  // 심부름 완료 처리 함수
+  const finish = useMutation({
+    mutationFn: (_id) => {
+      const body = {
+        "extra.productState": ["PS030"],
+      };
+      return axios.patch(`/seller/products/${_id}`, body);
+    },
+
+    onSuccess: () => {
+      alert("심부름이 완료되었습니다. 결제 페이지로 이동합니다.");
+      // 심부름 결제 함수 추가해야 함
+    },
+
+    onError: (err) => {
+      alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      console.error(err);
+    },
+  });
+
   // 내가 올린 심부름인지 아닌지 여부
   console.log("유저 데이터: ", user);
   const isMyErrand = data?.item?.seller_id === user?._id;
@@ -90,7 +110,6 @@ export default function Detail() {
       // 내가 요청한 && 구인 중
       return {
         text: `지원자 n명 확인하기`,
-        // navigate 지원자목록페이지 경로 추가 필요
         action: () => {
           navigate(`/errand/applicants/${_id}`);
         },
@@ -99,17 +118,17 @@ export default function Detail() {
       // 내가 요청한 && 진행 중
       return {
         text: `심부름 완료 및 결제하기`,
-        // 심부름 상태 PS030으로 바꾸는 동작 추가 필요
-        // navigate 결제페이지 경로 추가 필요
+        // 심부름 완료 처리 함수 호출
         action: () => {
-          navigate(`/`);
+          finish.mutate(_id); // 심부름 상태 PS030으로 바꿈
+          // 결제프로세스 추가 필요
         },
       };
     } else if (!isMyErrand && errandState === "PS010") {
       // 남이 요청한 && 구인 중
       return {
         text: "지원하기",
-        // 지원하기(Post) 동작
+        // 지원하기 함수 호출
         action: () => {
           apply.mutate(_id);
         },
@@ -120,19 +139,22 @@ export default function Detail() {
         text: "진행 중인 심부름",
         action: () => {},
       };
-    } else if (errandState === "PS030") {
+    }
+
+    if (errandState === "PS030") {
       // 완료된
       return {
         text: "이미 완료된 심부름",
         action: () => {},
       };
-    } else if (errandState === "PS040") {
-      // 기한 만료된
-      return {
-        text: "기한이 지난 심부름",
-        action: () => {},
-      };
     }
+    // else if (errandState === "PS010") {
+    //   // 기한 만료된
+    //   return {
+    //     text: "기한이 지난 심부름",
+    //     action: () => {},
+    //   };
+    // }
   };
 
   const { text, action } = defineDynamicButton();
