@@ -57,7 +57,10 @@ export default function ListItem({ item }) {
   // const listItemColor = isCompleted || isExpired ? "bg-gray-300" : "bg-white";
 
   // 완료 또는 만료된 심부름에 덮을 반투명 레이어
-  const overlayClass = isCompleted || isExpired ? "absolute inset-0 bg-gray-400 bg-opacity-50 rounded-[10px]" : "";
+  const overlayClass =
+    isCompleted || isExpired
+      ? "absolute inset-0 bg-gray-400 bg-opacity-50 rounded-[10px]"
+      : "";
 
   // 반투명 레이어에 띄울 메시지
   let overlayMessage;
@@ -77,7 +80,8 @@ export default function ListItem({ item }) {
   };
 
   // category의 첫번째 값을 기반으로 이미지 경로 설정
-  const categoryImage = categoryImages[item.extra?.category[0]] || "/assets/check.svg"; // category 설정이 안 된 경우 기본 이미지로 체크이미지 표시
+  const categoryImage =
+    categoryImages[item.extra?.category[0]] || "/assets/check.svg"; // category 설정이 안 된 경우 기본 이미지로 체크이미지 표시
 
   // 남은 시간
   const remainingTime = calculateRemainingTime(item.extra?.due);
@@ -87,21 +91,33 @@ export default function ListItem({ item }) {
       to={`/errand/${item._id}`}
       className={`list_item w-full h-[116px] rounded-[10px] bg-white shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center relative`}
     >
-      <div className={`overlay ${overlayClass} flex items-center justify-center`}>
+      <div
+        className={`overlay ${overlayClass} flex items-center justify-center`}
+      >
         <p className="w-1/2 h-1/2 bg-white bg-opacity-70 flex items-center justify-center rounded-lg font-laundry text-[20px] text-gray-500">
           {overlayMessage}
         </p>
       </div>
-      <img src={categoryImage} alt="게시글 대표이미지" className="flex-shrink-0 w-[40px] h-[40px]" />
+      <img
+        src={categoryImage}
+        alt="게시글 대표이미지"
+        className="flex-shrink-0 w-[40px] h-[40px]"
+      />
 
       <div className="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]">
-        <h2 className="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis">{item.name}</h2>
+        <h2 className="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis">
+          {item.name}
+        </h2>
 
         <TagList item={item} />
 
         <div className="li_info flex flex-grow justify-between">
-          <div className="font-pretendard text-card-timelimit">{remainingTime}</div>
-          <div className="font-pretendard text-card-price">{new Intl.NumberFormat("ko-KR").format(item.price)} 원</div>
+          <div className="font-pretendard text-card-timelimit">
+            {remainingTime}
+          </div>
+          <div className="font-pretendard text-card-price">
+            {new Intl.NumberFormat("ko-KR").format(item.price)} 원
+          </div>
         </div>
       </div>
     </Link>
