@@ -7,7 +7,7 @@ export default function Layout() {
     <div className="l_container max-w-[393px] h-screen mx-auto flex flex-col">
       <NavigationHeader />
       <Outlet />
-      <NavigationBar />
+      {/* <NavigationBar /> */}
     </div>
   );
 }
