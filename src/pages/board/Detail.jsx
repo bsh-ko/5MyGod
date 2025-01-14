@@ -74,7 +74,7 @@ export default function Detail() {
 
   // 내가 올린 심부름인지 아닌지 여부
   console.log("유저 데이터: ", user);
-  const isMyErrand = data?.item?.seller_id === user._id;
+  const isMyErrand = data?.item?.seller_id === user?._id;
   // 심부름의 상태
   const errandState = data?.item?.extra?.productState[0];
 
@@ -88,7 +88,7 @@ export default function Detail() {
         text: `지원자 n명 확인하기`,
         // navigate 지원자목록페이지 경로 추가 필요
         action: () => {
-          navigate(`/`);
+          navigate(`/errand/applylist/${_id}`);
         },
       };
     } else if (isMyErrand && errandState === "PS020") {
@@ -105,25 +105,25 @@ export default function Detail() {
       // 남이 요청한 && 구인 중
       return {
         text: "지원하기",
-        // 지원하기(Post) 동작 추가 필요
+        // 지원하기(Post) 동작
         action: apply.mutate,
       };
     } else if (!isMyErrand && errandState === "PS020") {
       // 남이 요청한 && 진행 중
       return {
-        text: "이미 진행 중이에요",
+        text: "진행 중인 심부름",
         action: () => {},
       };
     } else if (errandState === "PS030") {
       // 완료된
       return {
-        text: "이미 완료된 심부름이에요",
+        text: "이미 완료된 심부름",
         action: () => {},
       };
     } else if (errandState === "PS040") {
       // 기한 만료된
       return {
-        text: "기한이 지난 심부름이에요",
+        text: "기한이 지난 심부름",
         action: () => {},
       };
     }
@@ -141,19 +141,19 @@ export default function Detail() {
 
   // !isMyErrand && data?.item?.extra?.productState[0] === PS010 (남이 요청한 && 구인 중)
   // 버튼 문구: '지원하기'
-  // 버튼 동작: 지원자 게시판에 글 작성 (api 통신 기능 차후 추가 예정)
+  // 버튼 동작: 지원자 게시판에 글 작성
 
   // !isMyErrand && data?.item?.extra?.productState[0] === PS020 (남이 요청한 && 진행 중)
   // 버튼 문구: '이미 진행 중이에요'
-  // 버튼 동작: 직전 페이지로 이동
+  // 버튼 동작:
 
   // data?.item?.extra?.poructState[0] === PS030 (완료된 심부름)
   // 버튼 문구: '완료된 심부름이에요'
-  // 버튼 동작: 직전 페이지로 이동
+  // 버튼 동작:
 
   // data?.item?.extra?.poructState[0] === PS040 (기한 만료된 심부름)
   // 버튼 문구: '기한이 지났어요'
-  // 버튼 동작: 직전 페이지로 이동
+  // 버튼 동작:
 
   if (!data) {
     return <div>로딩 중...</div>;
