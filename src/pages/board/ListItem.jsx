@@ -51,9 +51,12 @@ function calculateRemainingTime(due) {
 }
 
 export default function ListItem({ item }) {
+  // 기한 만료 여부 변수
+  const isPastDue = calculateRemainingTime(item?.extra?.due) === "마감";
+
   // 심부름 상태 변수
   const isCompleted = item.extra?.productState[0] === "PS030";
-  const isExpired = item.extra?.productState[0] === "PS040";
+  const isExpired = item.extra?.productState[0] === "PS010" && isPastDue;
   // const listItemColor = isCompleted || isExpired ? "bg-gray-300" : "bg-white";
 
   // 완료 또는 만료된 심부름에 덮을 반투명 레이어
