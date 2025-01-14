@@ -302,7 +302,7 @@ export const initData = async (clientId, nextSeq) => {
     // 주문 (심부름 지원)
     order: [
       // 2번 유저의 지원 (4번 유저의 심부름에 대해)
-      // 2-1: 지원 완료, 매칭 대기 중 (OS010)
+      // 2-1: 지원 완료, 매칭 대기 중
       {
         _id: await nextSeq("order"),
         user_id: 2,
@@ -855,32 +855,32 @@ export const initData = async (clientId, nextSeq) => {
       },
 
       // 주문(지원) 상태
-      // {
-      //   _id: "orderState",
-      //   title: "지원 상태",
-      //   codes: [
-      //     {
-      //       sort: 1,
-      //       code: "OS010",
-      //       value: "지원 완료, 매칭 대기 중",
-      //     },
-      //     {
-      //       sort: 2,
-      //       code: "OS020",
-      //       value: "매칭 완료, 심부름 진행 중",
-      //     },
-      //     {
-      //       sort: 3,
-      //       code: "OS030",
-      //       value: "심부름 완료",
-      //     },
-      //     {
-      //       sort: 4,
-      //       code: "OS040",
-      //       value: "심부름 기간 만료",
-      //     },
-      //   ],
-      // },
+      {
+        _id: "orderState",
+        title: "지원 상태",
+        codes: [
+          {
+            sort: 1,
+            code: "OS010",
+            value: "지원 완료, 매칭 대기 중",
+          },
+          {
+            sort: 2,
+            code: "OS020",
+            value: "매칭 완료, 심부름 진행 중",
+          },
+          {
+            sort: 3,
+            code: "OS030",
+            value: "심부름 완료",
+          },
+          {
+            sort: 4,
+            code: "OS040",
+            value: "심부름 기간 만료",
+          },
+        ],
+      },
     ],
     // 설정
     config: [
