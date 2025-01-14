@@ -9,6 +9,7 @@ const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
 const MyPage = lazy(() => import("@pages/user/Mypage"));
 const UserPage = lazy(() => import("@pages/user/Userpage"));
+const PaySuccess = lazy(() => import("@pages/pay/PaySuccess"));
 
 const router = createBrowserRouter(
   [
@@ -18,12 +19,16 @@ const router = createBrowserRouter(
       // errorElement: <ErrorPage />,
       children: [
         { index: true, element: <MainPage /> },
-        { path: "errand/:_id", element: <Detail /> },
-        { path: "errand/new", element: <New /> },
+        { path: "products/:_id", element: <Detail /> },
+        { path: "products/new", element: <New /> },
+        // { path: ":type", element: <List /> },
+        // { path: ":type/new", element: <New /> },
+        // { path: ":type/:_id/edit", element: <Edit /> },
         { path: "users/signup", element: <Signup /> },
         { path: "users/login", element: <Login /> },
         { path: "users/mypage", element: <MyPage /> },
         { path: "users/userpage", element: <UserPage /> },
+        { path: "pay/paysuccess", element: <PaySuccess /> },
       ],
     },
   ],
