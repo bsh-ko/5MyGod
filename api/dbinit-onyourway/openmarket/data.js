@@ -1,10 +1,7 @@
 import dayjs from "dayjs";
 
 function getTime(day = 0, second = 0) {
-  return dayjs()
-    .add(day, "day")
-    .add(second, "second")
-    .format("YYYY.MM.DD HH:mm:ss");
+  return dayjs().add(day, "day").add(second, "second").format("YYYY.MM.DD HH:mm:ss");
 }
 
 export const initData = async (clientId, nextSeq) => {
@@ -15,8 +12,7 @@ export const initData = async (clientId, nextSeq) => {
       {
         _id: await nextSeq("user"),
         email: "admin@market.com",
-        password:
-          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "무지",
         phone: "01011112222",
         address: "서울시 강남구 역삼동 123",
@@ -28,14 +24,21 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           gender: "male",
           likes: 120,
+          introduction: "무지입니당",
+          errands: ["편의점 배달"],
+          transportation: ["도보", "자전거"],
+          details: ["발이 빠릅니다 "],
+          experience: ["배달", "배달의 민족", "5개월"],
+          certificates: ["오토바이 자격증"],
+          business: ["무지 사업자"],
+          earnings: 20000,
         },
       },
       // 2번 회원
       {
         _id: await nextSeq("user"),
         email: "s1@market.com",
-        password:
-          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "네오",
         phone: "01022223333",
         address: "서울시 강남구 삼성동 456",
@@ -47,14 +50,21 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           gender: "male",
           likes: 54,
+          introduction: "네오입니당",
+          errands: ["편의점 배달", "음식 배달", "사진 촬영"],
+          transportation: ["도보", "대중교통"],
+          details: ["저 사진 잘 찍어요 "],
+          experience: ["사진관 알바", "우리동네 사진관", "8개월"],
+          certificates: ["네오 자격증"],
+          business: ["네오 사업자"],
+          earnings: 500000,
         },
       },
       // 3번 회원
       {
         _id: await nextSeq("user"),
         email: "s2@market.com",
-        password:
-          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "어피치",
         phone: "01033334444",
         address: "서울시 강남구 도곡동 789",
@@ -66,14 +76,21 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           gender: "female",
           likes: 200,
+          introduction: "어피치입니당",
+          errands: ["빨래", "음식 배달", "사진 촬영"],
+          transportation: ["자차", "대중교통"],
+          details: [],
+          experience: [],
+          certificates: [],
+          business: [],
+          earnings: 10000,
         },
       },
       // 4번 회원
       {
         _id: await nextSeq("user"),
         email: "u1@market.com",
-        password:
-          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "제이지",
         phone: "01044445555",
         address: "서울시 강남구 논현동 222",
@@ -85,6 +102,14 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           gender: "female",
           likes: 9,
+          introduction: "제이지입니당",
+          errands: ["배달"],
+          transportation: ["오토바이"],
+          details: ["경력이 없지만 열정은 많습니다. "],
+          experience: [],
+          certificates: ["제이지 자격증"],
+          business: [],
+          earnings: 100000,
         },
       },
     ],
@@ -731,8 +756,7 @@ export const initData = async (clientId, nextSeq) => {
           image: "user-muzi.webp",
         },
         title: "배송지연 안내",
-        content:
-          "크리스마스 물류 증가로 인해 평소보다 2~3일 지연될 예정입니다.",
+        content: "크리스마스 물류 증가로 인해 평소보다 2~3일 지연될 예정입니다.",
         createdAt: getTime(-4, -60 * 60 * 2),
         updatedAt: getTime(-2, -60 * 60 * 13),
       },
@@ -746,8 +770,7 @@ export const initData = async (clientId, nextSeq) => {
           image: "user-muzi.webp",
         },
         title: "배송비 인상 안내",
-        content:
-          "택배사 배송비 인상으로 인해 기존 3,000원에서 3,500원으로 인상됩니다.",
+        content: "택배사 배송비 인상으로 인해 기존 3,000원에서 3,500원으로 인상됩니다.",
         createdAt: getTime(-6, -60 * 60 * 20),
         updatedAt: getTime(-4, -60 * 60 * 13),
       },
