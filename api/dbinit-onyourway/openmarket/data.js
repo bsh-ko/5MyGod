@@ -112,6 +112,32 @@ export const initData = async (clientId, nextSeq) => {
           earnings: 100000,
         },
       },
+      // 5번 회원
+      {
+        _id: await nextSeq("user"),
+        email: "n1@market.com",
+        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        name: "아무것도없음",
+        phone: "01044447555",
+        address: "서울시 강남구 논현동 222",
+        type: "seller",
+        loginType: "email",
+        image: ``,
+        createdAt: getTime(-20, -60 * 30),
+        updatedAt: getTime(-10, -60 * 60 * 12),
+        extra: {
+          gender: "female",
+          likes: 9,
+          introduction: "ㄴㄴㄴ입니당",
+          errands: [],
+          transportation: [],
+          details: [],
+          experience: [],
+          certificates: [],
+          business: [],
+          earnings: 500000,
+        },
+      },
     ],
 
     // 상품 (심부름 요청 글)
