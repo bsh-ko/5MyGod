@@ -64,7 +64,7 @@ export default function MyPage() {
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
       <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color overflow-scroll">
         <Profile
-          image={users.item.image || "https://via.placeholder.com/100"}
+          image={users.item.image}
           nickname={users.item.name || "닉네임 없음"}
           earnings={users.item.extra.earnings || "0"}
           hearts={users.item.extra.likes || "0"}
