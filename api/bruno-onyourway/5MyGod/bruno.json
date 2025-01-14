@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "오는길에",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
