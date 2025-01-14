@@ -302,7 +302,7 @@ export const initData = async (clientId, nextSeq) => {
     // 주문 (심부름 지원)
     order: [
       // 2번 유저의 지원 (4번 유저의 심부름에 대해)
-      // 2-1: 지원 완료, 매칭 대기 중
+      // 2-1: 지원 완료, 매칭 대기 중 (PS010)
       {
         _id: await nextSeq("order"),
         user_id: 2,
@@ -350,7 +350,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 2-2: 매칭 완료, 진행 중 (OS020)
+      // 2-2: 매칭 완료, 진행 중 (PS020)
       {
         _id: await nextSeq("order"),
         user_id: 2,
@@ -381,7 +381,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 2-3: 완료 (OS030)
+      // 2-3: 완료 (PS030)
       {
         _id: await nextSeq("order"),
         user_id: 2,
@@ -421,7 +421,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 2-4: 기간 만료 (OS040)
+      // 2-4: 기간 만료 (PS010 && due 지남)
       {
         _id: await nextSeq("order"),
         user_id: 2,
@@ -454,7 +454,7 @@ export const initData = async (clientId, nextSeq) => {
       },
 
       // 4번 유저의 지원 (2번 유저의 심부름에 대해)
-      // 4-1: 지원 안료, 매칭 대기 중 (OS010)
+      // 4-1: 지원 안료, 매칭 대기 중 (PS010)
       {
         _id: await nextSeq("order"),
         user_id: 4,
@@ -485,7 +485,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 4-2: 매칭 완료, 심부름 진행 중 (OS020)
+      // 4-2: 매칭 완료, 심부름 진행 중 (PS020)
       {
         _id: await nextSeq("order"),
         user_id: 4,
@@ -516,7 +516,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 4-3: 완료 (OS030)
+      // 4-3: 완료 (PS030)
       {
         _id: await nextSeq("order"),
         user_id: 4,
@@ -547,7 +547,7 @@ export const initData = async (clientId, nextSeq) => {
         createdAt: getTime(-6, -60 * 60 * 3),
         updatedAt: getTime(-6, -60 * 60 * 3),
       },
-      // 4-4: 기간 만료 (OS040)
+      // 4-4: 기간 만료 (PS010 && due 지남)
       {
         _id: await nextSeq("order"),
         user_id: 4,
@@ -788,7 +788,7 @@ export const initData = async (clientId, nextSeq) => {
         ],
       },
 
-      //심부름 태그
+      // 심부름 태그
       {
         _id: "Tag",
         title: "심부름 태그",
@@ -854,7 +854,7 @@ export const initData = async (clientId, nextSeq) => {
         ],
       },
 
-      // 주문(지원) 상태
+      // 지원 상태
       {
         _id: "orderState",
         title: "지원 상태",
