@@ -281,7 +281,7 @@ export default function New() {
     onSuccess: ({ data }) => {
       alert("심부름 요청이 등록되었습니다.");
       console.log("서버 응답 데이터: ", data);
-      navigate(`/products/${data.item._id}`);
+      navigate(`/errand/${data.item._id}`);
     },
     onError: (err) => {
       console.error(err);
