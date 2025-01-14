@@ -4,8 +4,8 @@ import useUserStore from "@zustand/userStore";
 import ListItem from "@pages/board/ListItem";
 
 const MyErrand = () => {
-  const axiosInstance = useAxiosInstance();
-  const { user } = useUserStore();
+  const axiosInstance = useAxiosInstance(); // 공통 Axios 인스턴스 사용
+  const { user } = useUserStore(); // Zustand에서 사용자 정보 가져오기
   const [errandItems, setErrandItems] = useState([]);
   const [activeTab, setActiveTab] = useState("부탁한 심부름");
   const [loading, setLoading] = useState(false);
@@ -23,12 +23,16 @@ const MyErrand = () => {
 
       // 데이터 구조에 따라 처리
       if (activeTab === "지원한 심부름") {
-        // orders의 경우 item.products[0]
-        setErrandItems(
-          response.data?.item.map((order) => order.products[0]) || []
-        );
+        // 지원한 심부름에서 "OS040"과 "OS030" 상태가 아닌 데이터 필터링
+        const filteredItems =
+          response.data?.item
+            .filter(
+              (order) => order.state !== "OS040" && order.state !== "OS030"
+            )
+            .map((order) => order.products[0]) || [];
+        setErrandItems(filteredItems);
       } else {
-        // products의 경우 item 자체
+        // 부탁한 심부름은 필터링 없이 그대로 사용
         setErrandItems(response.data?.item || []);
       }
     } catch (error) {

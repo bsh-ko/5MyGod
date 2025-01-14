@@ -251,7 +251,7 @@ export default function New() {
     mutationFn: (formData) => {
       const body = {
         price: Number(price.replace(/,/g, "")), // 가격(필수) - 쉼표 제거한 뒤 숫자값으로 변환해서 전송
-        quantity: 1, // 수량(필수)
+        quantity: 999, // 수량(필수)
         name: title, // 상품명(필수)
         content: content, // 상품 설명(필수)
         extra: {
@@ -281,7 +281,7 @@ export default function New() {
     onSuccess: ({ data }) => {
       alert("심부름 요청이 등록되었습니다.");
       console.log("서버 응답 데이터: ", data);
-      navigate(`/products/${data.item._id}`);
+      navigate(`/errand/${data.item._id}`);
     },
     onError: (err) => {
       console.error(err);

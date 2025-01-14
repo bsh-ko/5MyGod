@@ -3,39 +3,27 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import useUserStore from "@zustand/userStore";
+import { useParams } from "react-router-dom";
 
 import Profile from "@pages/user/Profile";
 import Tabs from "@pages/user/Tabs";
-import RequestList from "@pages/user/RequestList";
-import ApplyList from "@pages/user/ApplyList";
+import MyRequests from "@pages/user/MyRequests";
+import MyApplies from "@pages/user/MyApplies";
 
 export default function MyPage() {
-  const [activeTab, setActiveTab] = useState("intro");
-  const {
-    user,
-    isEditingIntroduction, // 자기소개 수정 상태
-    isEditingErrands,
-    isEditingTransportation,
-    newIntroduction, // 수정할 자기소개
-    newErrands,
-    newTransportation,
-    toggleEditIntroduction, // 자기소개 수정 모드 전환
-    toggleEditErrands,
-    toggleEditTransportation,
-    setNewIntroduction, // 자기소개 수정 값 설정
-    setNewErrands,
-    setNewTransportation,
-    saveIntroduction, // 자기소개 저장
-    saveErrands,
-    saveTransportation,
-  } = useUserStore();
+  const [activeTab, setActiveTab] = useState("intro"); //탭 전환
+  const { user } = useUserStore();
+  const { _id } = useParams();
   const axios = useAxiosInstance();
   const queryClient = useQueryClient();
+  // const updateProfile = async;
+  const [isEditing, setIsEditing] = useState(false); // 수정
 
   const {
     data: users,
     isLoading,
     error,
+    refetch,
   } = useQuery({
     queryKey: ["userProfile"], // Query Key
     queryFn: () => axios.get(`/users/${user._id}`).then((res) => res.data),
@@ -60,34 +48,31 @@ export default function MyPage() {
 
   console.log("apply data: ", applyData);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm({
-    defaultValues: {
-      title: users?.item?.extra?.introduction,
-    },
-  });
+  // console.log(`유저 아이디 : ${users._id}`);
+  // const mutation = useMutation({
+  //   mutationFn: (updatedData) => axios.patch(`/users/${users.item._id}`, updatedData),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["userProfile", _id] }); // 성공 후 유저 프로필 데이터를 새로고침
+  //     alert("수정 성공");
+  //     setIsEditing(false); // 수정 완료 후 편집 상태 종료
+  //   },
+  //   onError: (error) => {
+  //     console.error(error);
+  //     alert("잠시 후 다시 시도해주세요.");
+  //   },
+  // });
 
-  useEffect(() => {
-    if (users?.item?.extra?.introduction) {
-      setValue("title", users.item.extra.introduction);
-    }
-  }, [users, setValue]);
+  // 자기소개 수정 핸들러
+  // const [introduction, setIntroduction] = useState(users.item.extra.introduction);
+  // const handleSaveClick = () => {
+  //   mutation.mutate({ introduction });
+  // };
 
-  const updateIntroduction = useMutation({
-    mutationFn: (formData) => axios.patch(`/users/${user._id}`, formData),
-    onSuccess: () => {
-      alert("자기소개가 수정되었습니다.");
-      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-      toggleEditIntroduction(); // 수정 모드 종료
-    },
-    onError: (err) => {
-      console.error(err);
-    },
-  });
+  const handleEditClick = () => setIsEditing(true);
+  const handleCancelClick = () => {
+    setIsEditing(false);
+    // setIntroduction(users?.item?.extra?.introduction || "");
+  };
 
   if (isLoading) return <div>로딩 중...</div>;
 
@@ -95,11 +80,6 @@ export default function MyPage() {
     const errorMessage = error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
     return <div>{errorMessage}</div>;
   }
-
-  const handleSaveIntroduction = (data) => {
-    const updatedData = { introduction: data.title }; // 수정된 데이터를 서버에 보낼 형식
-    updateIntroduction.mutate(updatedData);
-  };
 
   const tabs = [
     { id: "intro", label: "소개" },
@@ -113,8 +93,9 @@ export default function MyPage() {
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100">
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
-      <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color overflow-scroll">
+      <div className="w-full max-w-[393px] mx-auto h-screen bg-background-color">
         <Profile
+          image={users.item.image}
           nickname={users.item.name || "닉네임 없음"}
           earnings={users.item.extra.earnings || "0"}
           hearts={users.item.extra.likes || "0"}
@@ -131,85 +112,62 @@ export default function MyPage() {
               <div className="intro bg-white p-5">
                 <div className="flex justify-between">
                   <h3 className="text-lg font-bold mb-3 text-gray-700">자기소개</h3>
-                  <a
-                    href="#"
-                    className="text-primary-500 font-bold text-sm"
-                    onClick={handleSaveIntroduction} // 함수 연결
-                  >
-                    {isEditingIntroduction ? "저장" : "수정하기"}
-                  </a>
+                  {/* {!isEditing ? (
+                    <button onClick={handleEditClick} className="text-primary-500 font-bold text-sm">
+                      수정하기
+                    </button>
+                  ) : (
+                    <button onClick={handleCancelClick} className="text-gray-500 font-bold text-sm">
+                      취소하기
+                    </button>
+                  )} */}
                 </div>
-                {isEditingIntroduction ? (
-                  <textarea
-                    value={newIntroduction}
-                    onChange={(e) => setNewIntroduction(e.target.value)} // 입력된 값 반영
-                    className="w-full h-20 bg-gray-100 rounded-md px-4 py-2"
-                  />
+                {/* {!isEditing ? (
+                  <p>{introduction}</p>
                 ) : (
-                  <p>{users.item.extra.introduction}</p> // 기존 자기소개 보여주기
-                )}
+                  <>
+                    <textarea
+                      value={introduction}
+                      onChange={(e) => setIntroduction(e.target.value)}
+                      className="w-full h-20 border border-gray-300 rounded-md p-2"
+                      placeholder="자기소개를 입력하세요."
+                    />
+                    <button
+                      onClick={handleSaveClick}
+                      className="bg-primary-500 text-white font-bold px-4 py-2 rounded-md mt-3"
+                    >
+                      저장하기
+                    </button>
+                  </>
+                )} */}
               </div>
               <div className="intro bg-white p-5 my-3">
                 <div className="flex justify-between my-3">
                   <h3 className="text-lg font-bold text-gray-700">심부름</h3>
-                  <a
-                    href="#"
-                    className="text-primary-500 font-bold text-sm"
-                    onClick={() => {
-                      if (isEditingErrands) {
-                        saveErrands(axios, user._id);
-                      }
-                      toggleEditErrands();
-                    }}
-                  >
-                    {isEditingErrands ? "저장" : "수정하기"}
+                  <a href="#" className="text-primary-500 font-bold text-sm">
+                    수정하기
                   </a>
                 </div>
-                {isEditingErrands ? (
-                  <textarea
-                    value={newErrands.join(", ")}
-                    onChange={(e) => setNewErrands(e.target.value.split(", "))}
-                    className="w-full h-20 bg-gray-100 rounded-md px-4 py-2"
-                  />
-                ) : (
-                  <ul className="flex space-x-3">
-                    {users.item.extra.errands?.map((task, index) => (
-                      <li key={index} className="flex items-center">
-                        <p className="bg-gray-100 px-2 py-1 rounded-md">{task}</p>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <ul className="flex space-x-3">
+                  {users.item.extra.errands?.map((task, index) => (
+                    <li key={index} className="flex items-center">
+                      <p className="bg-gray-100 px-2 py-1 rounded-md">{task}</p>
+                    </li>
+                  ))}
+                </ul>
+
                 <div className="flex justify-between my-3">
                   <h3 className="text-lg font-bold text-gray-700">이동 수단</h3>
-                  <a
-                    href="#"
-                    className="text-primary-500 font-bold text-sm"
-                    onClick={() => {
-                      if (isEditingTransportation) {
-                        saveTransportation(axios, user._id);
-                      }
-                      toggleEditTransportation();
-                    }}
-                  >
-                    {isEditingTransportation ? "저장" : "수정하기"}
-                  </a>
+                  <a href="#" className="text-primary-500 font-bold text-sm"></a>
                 </div>
-                {isEditingTransportation ? (
-                  <textarea
-                    value={newTransportation.join(", ")}
-                    onChange={(e) => setNewTransportation(e.target.value.split(", "))}
-                    className="w-full h-20 bg-gray-100 rounded-md px-4 py-2"
-                  />
-                ) : (
-                  <ul className="flex space-x-3">
-                    {users.item.extra.transportation?.map((transport, index) => (
-                      <li key={index} className="flex items-center">
-                        <p className="bg-gray-100 px-2 py-1 rounded-md">{transport}</p>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <ul className="flex space-x-3">
+                  {users.item.extra.transportation?.map((transport, index) => (
+                    <li key={index} className="flex items-center">
+                      <p className="bg-gray-100 px-2 py-1 rounded-md">{transport}</p>
+                    </li>
+                  ))}
+                </ul>
+
                 <h3 className="text-lg font-bold mt-6 text-gray-700">심부름 상세 (선택)</h3>
                 <p className="text-gray-700 text-sm mb-3">가격이나 자주 하는 질문 또는 안내사항을 작성할 수 있어요</p>
                 <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
@@ -217,7 +175,7 @@ export default function MyPage() {
                   <option value="예시2">예시2</option>
                 </select>
               </div>
-              <div className="intro bg-white p-5 my-3">
+              <div className="intro bg-white p-5 mt-3 mb-[150px]">
                 <h3 className="text-lg font-bold text-gray-700 pb-3">경력 (선택)</h3>
                 <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
                   <option value="예시1">예시1</option>
@@ -239,13 +197,13 @@ export default function MyPage() {
 
           {activeTab === "requests" && (
             <div id="requests" className="tab-content p-4">
-              <RequestList requestData={requestData} />
+              <MyRequests requestData={requestData} />
             </div>
           )}
 
           {activeTab === "apply" && (
             <div id="apply" className="tab-content p-4">
-              <ApplyList applyData={applyData} />
+              <MyApplies applyData={applyData} />
             </div>
           )}
         </section>

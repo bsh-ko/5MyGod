@@ -4,6 +4,7 @@ import { lazy } from "react";
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
 const Detail = lazy(() => import("@pages/board/Detail"));
+const Applicants = lazy(() => import("@pages/board/Applicants"));
 const New = lazy(() => import("@pages/board/New"));
 const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       children: [
         { index: true, element: <MainPage /> },
         { path: "errand/:_id", element: <Detail /> },
+        { path: "errand/applicants/:_id", element: <Applicants /> },
         { path: "errand/new", element: <New /> },
         { path: "users/signup", element: <Signup /> },
         { path: "users/login", element: <Login /> },

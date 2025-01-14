@@ -1,9 +1,9 @@
 import React from "react";
 import ListItem from "@pages/board/ListItem";
 
-const ApplyList = ({ applyData }) => {
+const MyApplies = ({ applyData }) => {
   if (!applyData?.item || applyData.item.length === 0) {
-    return <div className="pt-5 items-center text-center text-gray-500">요청한 심부름이 없습니다.</div>;
+    return <div className="pt-5 items-center text-center text-gray-500">지원한 심부름이 없습니다.</div>;
   }
 
   // 데이터 변환 함수
@@ -16,6 +16,7 @@ const ApplyList = ({ applyData }) => {
       category: data.extra?.category || [],
       tags: data.extra?.tags || [],
       due: data.extra?.due || "",
+      productState: data.extra?.productState || [],
     },
   });
 
@@ -27,4 +28,4 @@ const ApplyList = ({ applyData }) => {
   return <ul className="space-y-3">{applyList}</ul>;
 };
 
-export default ApplyList;
+export default MyApplies;
