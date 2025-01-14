@@ -128,7 +128,7 @@ export const initData = async (clientId, nextSeq) => {
         extra: {
           gender: "female",
           likes: 9,
-          introduction: "ㄴㄴㄴ입니당",
+          introduction: "",
           errands: [],
           transportation: [],
           details: [],
