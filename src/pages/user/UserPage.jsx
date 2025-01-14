@@ -27,7 +27,7 @@ export default function UserPage() {
   if (isLoading) return <div>로딩 중...</div>;
 
   if (error) {
-    const errorMessage = error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
+    const errorMessage = error.response.data.message || "유저 정보를 가져오는 데 실패했습니다.";
     return <div>{errorMessage}</div>;
   }
 
@@ -59,40 +59,54 @@ export default function UserPage() {
                 <div className="flex justify-between">
                   <h3 className="text-lg font-bold mb-3 text-gray-700">자기소개</h3>
                 </div>
-                <p>{users.item.extra.introduction || "자기소개 내용이 없습니다."}</p>
+                <p className="text-gray-black-900">{users.item.extra.introduction || "자기소개 내용이 없습니다."}</p>
               </div>
               <div className="intro bg-white p-5 my-3">
                 <div className="flex justify-between my-3">
                   <h3 className="text-lg font-bold text-gray-700">심부름</h3>
                 </div>
                 <ul className="flex space-x-3">
-                  {users.item.extra.errands?.map((task, index) => (
-                    <li key={index} className="flex items-center">
-                      <p className="bg-gray-100 px-2 py-1 rounded-md">{task}</p>
-                    </li>
-                  ))}
+                  {users.item.extra.errands && users.item.extra.errands.length > 0 ? (
+                    users.item.extra.errands.map((task, index) => (
+                      <li key={index} className="flex items-center">
+                        <p className="bg-gray-100 px-2 py-1 rounded-md text-gray-black-900">{task}</p>
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-gray-black-900">등록한 심부름이 없습니다.</p>
+                  )}
                 </ul>
 
                 <div className="flex justify-between my-3">
                   <h3 className="text-lg font-bold text-gray-700">이동 수단</h3>
                 </div>
                 <ul className="flex space-x-3">
-                  {users.item.extra.transportation?.map((transport, index) => (
-                    <li key={index} className="flex items-center">
-                      <p className="bg-gray-100 px-2 py-1 rounded-md">{transport}</p>
-                    </li>
-                  ))}
+                  {users.item.extra.transportation && users.item.extra.transportation.length > 0 ? (
+                    users.item.extra.transportation?.map((transport, index) => (
+                      <li key={index} className="flex items-center">
+                        <p className="bg-gray-100 px-2 py-1 rounded-md text-gray-black-900">{transport}</p>
+                      </li>
+                    ))
+                  ) : (
+                    <p className="text-gray-black-900">등록한 이동 수단이 없습니다.</p>
+                  )}
                 </ul>
 
-                <div className="flex justify-between my-3">
-                  <h3 className="text-lg font-bold text-gray-700">심부름 상세</h3>
-                </div>
-                <p className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">{users.item.extra.details}</p>
+                {users.item.extra.details.length > 0 && (
+                  <>
+                    <div className="flex justify-between my-3">
+                      <h3 className="text-lg font-bold text-gray-700">심부름 상세</h3>
+                    </div>
+                    <p className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">
+                      {users.item.extra.details}
+                    </p>
+                  </>
+                )}
               </div>
 
-              {(users.item.extra.experience?.length > 0 ||
-                users.item.extra.certificates?.length > 0 ||
-                users.item.extra.business?.length > 0) && (
+              {(users.item.extra.experience.length > 0 ||
+                users.item.extra.certificates.length > 0 ||
+                users.item.extra.business.length > 0) && (
                 <div className="intro bg-white p-5 mt-3 mb-[150px]">
                   {users.item.extra.experience && users.item.extra.experience.length > 0 && (
                     <>
