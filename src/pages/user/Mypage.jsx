@@ -48,30 +48,30 @@ export default function MyPage() {
 
   console.log("apply data: ", applyData);
 
-  console.log(`유저 아이디 : ${users.item._id}`);
-  const mutation = useMutation({
-    mutationFn: (updatedData) => axios.patch(`/users/${users.item._id}`, updatedData),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userProfile", _id] }); // 성공 후 유저 프로필 데이터를 새로고침
-      alert("수정 성공");
-      setIsEditing(false); // 수정 완료 후 편집 상태 종료
-    },
-    onError: (error) => {
-      console.error(error);
-      alert("잠시 후 다시 시도해주세요.");
-    },
-  });
+  // console.log(`유저 아이디 : ${users._id}`);
+  // const mutation = useMutation({
+  //   mutationFn: (updatedData) => axios.patch(`/users/${users.item._id}`, updatedData),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["userProfile", _id] }); // 성공 후 유저 프로필 데이터를 새로고침
+  //     alert("수정 성공");
+  //     setIsEditing(false); // 수정 완료 후 편집 상태 종료
+  //   },
+  //   onError: (error) => {
+  //     console.error(error);
+  //     alert("잠시 후 다시 시도해주세요.");
+  //   },
+  // });
 
   // 자기소개 수정 핸들러
-  const [introduction, setIntroduction] = useState(users.item.extra.introduction);
-  const handleSaveClick = () => {
-    mutation.mutate({ introduction });
-  };
+  // const [introduction, setIntroduction] = useState(users.item.extra.introduction);
+  // const handleSaveClick = () => {
+  //   mutation.mutate({ introduction });
+  // };
 
   const handleEditClick = () => setIsEditing(true);
   const handleCancelClick = () => {
     setIsEditing(false);
-    setIntroduction(users?.item?.extra?.introduction || "");
+    // setIntroduction(users?.item?.extra?.introduction || "");
   };
 
   if (isLoading) return <div>로딩 중...</div>;
@@ -112,7 +112,7 @@ export default function MyPage() {
               <div className="intro bg-white p-5">
                 <div className="flex justify-between">
                   <h3 className="text-lg font-bold mb-3 text-gray-700">자기소개</h3>
-                  {!isEditing ? (
+                  {/* {!isEditing ? (
                     <button onClick={handleEditClick} className="text-primary-500 font-bold text-sm">
                       수정하기
                     </button>
@@ -120,9 +120,9 @@ export default function MyPage() {
                     <button onClick={handleCancelClick} className="text-gray-500 font-bold text-sm">
                       취소하기
                     </button>
-                  )}
+                  )} */}
                 </div>
-                {!isEditing ? (
+                {/* {!isEditing ? (
                   <p>{introduction}</p>
                 ) : (
                   <>
@@ -139,7 +139,7 @@ export default function MyPage() {
                       저장하기
                     </button>
                   </>
-                )}
+                )} */}
               </div>
               <div className="intro bg-white p-5 my-3">
                 <div className="flex justify-between my-3">
