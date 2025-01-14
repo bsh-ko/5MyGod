@@ -251,7 +251,7 @@ export default function New() {
     mutationFn: (formData) => {
       const body = {
         price: Number(price.replace(/,/g, "")), // 가격(필수) - 쉼표 제거한 뒤 숫자값으로 변환해서 전송
-        quantity: 1, // 수량(필수)
+        quantity: 999, // 수량(필수)
         name: title, // 상품명(필수)
         content: content, // 상품 설명(필수)
         extra: {
