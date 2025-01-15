@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
-function Payment({ productId, payAmount }) {
+function Payment({ payamount }) {
   useEffect(() => {
     const loadPortOneSDK = () => {
       const script = document.createElement("script");
@@ -48,14 +47,7 @@ function Payment({ productId, payAmount }) {
     }
   };
 
-  return (
-    <button
-      onClick={handlePayment}
-      className="w-[393px] h-16 bg-primary-500 text-white font-laundry font-bold tracking-tighter text-[24px]"
-    >
-      {payAmount}원 결제하기
-    </button>
-  );
+  return <button onClick={handlePayment}>결제하기</button>;
 }
 
 export default Payment;
