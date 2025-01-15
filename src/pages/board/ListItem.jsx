@@ -64,6 +64,7 @@ export default function ListItem({ item }) {
     isCompleted || isExpired
       ? "absolute inset-0 bg-gray-400 bg-opacity-50 rounded-[10px]"
       : "";
+
   const overlayClass =
     isCompleted || isExpired
       ? "absolute inset-0 bg-gray-400 bg-opacity-50 rounded-[10px]"
@@ -99,7 +100,7 @@ export default function ListItem({ item }) {
       className={`list_item w-full h-[116px] rounded-[10px] bg-white shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center relative`}
     >
       <div
-        className={`overlay ${overlayClass} flex items-center justify-center`}
+        className={`overlay ${overlayClass} flex items-center justify-center absolute`}
       >
         <p className="w-1/2 h-1/2 bg-white bg-opacity-70 flex items-center justify-center rounded-lg font-laundry text-[20px] text-gray-500">
           {overlayMessage}

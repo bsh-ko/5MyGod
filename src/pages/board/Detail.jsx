@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import Payment from "@pages/pay/Payment";
 
+
 // 남은 시간 계산하는 헬퍼 함수
 function calculateRemainingTime(due) {
   const now = dayjs(); // 현재 시각
