@@ -84,14 +84,15 @@ export default function Detail() {
   const arrivalLocation = data?.item?.extra?.arrivalLocation;
 
   // 이 심부름에 대한 나의 지원 내역 가져오기
-  const { myAppliesToThis } = useQuery({
-    queryKey: ["myAppliesToThis"],
-    queryFn: () => {
-      axios.get(`/orders?custom={"products._id": ${data.item._id}}`);
+  const { data: myAppliesToThis } = useQuery({
+    queryKey: ["myAppliesToThis", user._id],
+    queryFn: () => axios.get(`/orders?custom={"products._id": ${_id}}`),
+    select: (res) => res.data.item,
+    onError: (err) => {
+      console.error("지원 내역 관련 오류: ", err);
     },
-    select: (res) => res.data,
   });
-  console.log("이 상품에 대한 나의 지원 내역: ", myAppliesToThis);
+  console.log("이 심부름에 대한 나의 지원 내역: ", myAppliesToThis);
 
   // 지원하기 함수
   const apply = useMutation({
@@ -148,8 +149,8 @@ export default function Detail() {
   const isPastDue = calculateRemainingTime(data?.item?.extra?.due) === "마감";
   console.log("기한 만료 여부: ", isPastDue);
   // 이 심부름에 내가 이미 지원했는지 여부
-  const isAlreadyApplied = myAppliesToThis?.item?.length >= 1;
-  console.log("이미 지원했는지 여부: ", isAlreadyApplied);
+  const isAlreadyApplied = myAppliesToThis?.length > 0;
+  console.log("이미 지원했는지: ", isAlreadyApplied);
 
   // 심부름 구분에 따라 버튼의 UI와 동작 정의 (다이나믹 버튼)
   const defineDynamicButton = () => {
