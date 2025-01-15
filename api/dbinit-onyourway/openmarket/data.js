@@ -172,7 +172,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA01", "TA02"],
           productState: ["PS010"], // 구인 중
           due: "2025.01.31 18:00:00",
-          matchedWith: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
           pickupLocation: {
             address: "서울 종로구 세종로 186",
             detailAddress: "광화문역",
@@ -211,7 +211,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA03"],
           productState: ["PS020"], // 진행 중
           due: "2025.01.31 18:00:00",
-          matchedWith: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
+          matchedUserId: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
         },
       },
       // 4-3: 완료 (PS030)
@@ -234,7 +234,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA03", "TA04"],
           productState: ["PS030"], // 완료
           due: "2025.01.31 18:00:00",
-          matchedWith: "2", // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
+          matchedUserId: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
           pickupLocation: {},
           arrivalLocation: {
             address: "서울특별시 마포구 마포대로 195",
@@ -266,7 +266,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA05", "TA07"],
           productState: ["PS010"],
           due: "2025.01.05 18:00:00",
-          matchedWith: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
         },
       },
 
@@ -291,7 +291,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA02", "TA04"],
           productState: ["PS010"], // 구인 중
           due: "2025.12.31 20:00:00",
-          matchedWith: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
         },
       },
       // 2-2: 매칭 완료, 진행 중 (PS020)
@@ -314,7 +314,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA06", "TA07"],
           productState: ["PS020"], // 진행 중
           due: "2025.01.31 18:00:00",
-          matchedWith: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
+          matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
         },
       },
       // 2-3: 완료 (PS030)
@@ -337,7 +337,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA01", "TA02"],
           productState: ["PS030"], // 완료
           due: "2025.01.31 18:00:00",
-          matchedWith: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
+          matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
         },
       },
       // 2-4: 기간 만료 (PS010 && due 지남)
@@ -361,7 +361,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA04", "TA07"],
           productState: ["PS010"],
           due: "2025.01.04 18:00:00",
-          matchedWith: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
         },
       },
     ],
@@ -395,7 +395,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA01", "TA02"],
               productState: ["PS010"], // 구인 중
               due: "2025.01.31 18:00:00",
-              matchedWith: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+              matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
               pickupLocation: {
                 address: "서울 종로구 세종로 186",
                 detailAddress: "광화문역",
@@ -443,7 +443,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA03"],
               productState: ["PS020"], // 진행 중
               due: "2025.01.31 18:00:00",
-              matchedWith: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
+              matchedUserId: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
             },
           },
         ],
@@ -475,7 +475,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA03", "TA04"],
               productState: ["PS030"], // 완료
               due: "2025.01.31 18:00:00",
-              matchedWith: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
+              matchedUserId: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
               pickupLocation: {},
               arrivalLocation: {
                 address: "서울특별시 마포구 마포대로 195",
@@ -516,7 +516,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA05", "TA07"],
               productState: ["PS010"],
               due: "2025.01.05 18:00:00",
-              matchedWith: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+              matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
             },
           },
         ],
@@ -550,7 +550,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA02", "TA04"],
               productState: ["PS010"], // 구인 중
               due: "2025.12.31 20:00:00",
-              matchedWith: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+              matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
             },
           },
         ],
@@ -582,7 +582,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA06", "TA07"],
               productState: ["PS020"], // 진행 중
               due: "2025.01.31 18:00:00",
-              matchedWith: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
+              matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
             },
           },
         ],
@@ -614,7 +614,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA01", "TA02"],
               productState: ["PS030"], // 완료
               due: "2025.01.31 18:00:00",
-              matchedWith: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
+              matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
             },
           },
         ],
@@ -647,7 +647,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA04", "TA07"],
               productState: ["PS010"],
               due: "2025.01.04 18:00:00",
-              matchedWith: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+              matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
             },
           },
         ],
