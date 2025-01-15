@@ -1,0 +1,21 @@
+meta {
+  name: 특정 상품에 내가 주문한 내역 조회 - 5번 심부름으로 테스트
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/orders/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "products": [
+      {
+        "_id": 5
+      }
+    ]
+  }
+}
