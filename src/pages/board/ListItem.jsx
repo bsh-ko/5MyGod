@@ -65,11 +65,6 @@ export default function ListItem({ item }) {
       ? "absolute inset-0 bg-gray-400 bg-opacity-50 rounded-[10px]"
       : "";
 
-  const overlayClass =
-    isCompleted || isExpired
-      ? "absolute inset-0 bg-gray-400 bg-opacity-50 rounded-[10px]"
-      : "";
-
   // 반투명 레이어에 띄울 메시지
   let overlayMessage;
   if (isCompleted) {
