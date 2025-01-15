@@ -1,26 +1,45 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import ListItem from "@pages/board/ListItem";
 import { useQuery } from "@tanstack/react-query";
+import useUserStore from "@zustand/userStore";
 import { useNavigate } from "react-router-dom";
 
 export default function MainPage() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
+  const user = useUserStore();
 
-  // 상품(심부름) 목록 가져오기
+  // 심부름 목록 가져오기
   const { data } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["errands"],
     queryFn: () => axios.get("/products"),
     select: (res) => res.data,
   });
-  console.log("심부름 목록: ", data);
+  console.log("로그인 된 유저: ", user);
+  console.log("심부름 전체 목록: ", data);
 
   if (!data) {
     return <div>로딩 중...</div>;
   }
 
-  // ListItem 순회 호출
-  const list = data.item.map((item) => <ListItem key={item._id} item={item} />);
+  // 현재 시각
+  const now = new Date();
+  console.log("페이지 로드 시각: ", now);
+
+  // 심부름 목록 필터링
+  const filteredItems = data.item.filter((item) => {
+    const isNotCurrentUser = item.seller._id !== user.user._id; // 남이 쓴 글
+    const isRecruiting = item.extra.productState[0] === "PS010"; // 구인 중
+    const isBeforeDue = new Date(item.extra.due) >= now; // 기한 안 지남
+
+    return isNotCurrentUser && isRecruiting && isBeforeDue;
+  });
+
+  // 필터링된 심부름 배열을 순회하며 <ListItem> 생성
+  const list = filteredItems.map((item) => (
+    <ListItem key={item._id} item={item} />
+  ));
+  console.log("필터링된 심부름으로 생성한 리스트아이템 목록: ", list);
 
   const handleRequestClick = () => {
     navigate(`/errand/new`); // 작성페이지로 이동
