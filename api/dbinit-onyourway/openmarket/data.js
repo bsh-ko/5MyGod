@@ -314,7 +314,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA06", "TA07"],
           productState: ["PS020"], // 진행 중
           due: "2025.01.31 18:00:00",
-          matchedWith: "4", // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
+          matchedWith: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
         },
       },
       // 2-3: 완료 (PS030)
@@ -337,7 +337,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA01", "TA02"],
           productState: ["PS030"], // 완료
           due: "2025.01.31 18:00:00",
-          matchedWith: "4", // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
+          matchedWith: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
         },
       },
       // 2-4: 기간 만료 (PS010 && due 지남)
