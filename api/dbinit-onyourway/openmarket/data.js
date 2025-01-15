@@ -1,7 +1,10 @@
 import dayjs from "dayjs";
 
 function getTime(day = 0, second = 0) {
-  return dayjs().add(day, "day").add(second, "second").format("YYYY.MM.DD HH:mm:ss");
+  return dayjs()
+    .add(day, "day")
+    .add(second, "second")
+    .format("YYYY.MM.DD HH:mm:ss");
 }
 
 export const initData = async (clientId, nextSeq) => {
@@ -12,7 +15,8 @@ export const initData = async (clientId, nextSeq) => {
       {
         _id: await nextSeq("user"),
         email: "admin@market.com",
-        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password:
+          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "무지",
         phone: "01011112222",
         address: "서울시 강남구 역삼동 123",
@@ -38,7 +42,8 @@ export const initData = async (clientId, nextSeq) => {
       {
         _id: await nextSeq("user"),
         email: "s1@market.com",
-        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password:
+          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "네오",
         phone: "01022223333",
         address: "서울시 강남구 삼성동 456",
@@ -64,7 +69,8 @@ export const initData = async (clientId, nextSeq) => {
       {
         _id: await nextSeq("user"),
         email: "s2@market.com",
-        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password:
+          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "어피치",
         phone: "01033334444",
         address: "서울시 강남구 도곡동 789",
@@ -90,7 +96,8 @@ export const initData = async (clientId, nextSeq) => {
       {
         _id: await nextSeq("user"),
         email: "u1@market.com",
-        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password:
+          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "제이지",
         phone: "01044445555",
         address: "서울시 강남구 논현동 222",
@@ -116,7 +123,8 @@ export const initData = async (clientId, nextSeq) => {
       {
         _id: await nextSeq("user"),
         email: "n1@market.com",
-        password: "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
+        password:
+          "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
         name: "아무것도없음",
         phone: "01044447555",
         address: "서울시 강남구 논현동 222",
@@ -164,6 +172,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA01", "TA02"],
           productState: ["PS010"], // 구인 중
           due: "2025.01.31 18:00:00",
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
           pickupLocation: {
             address: "서울 종로구 세종로 186",
             detailAddress: "광화문역",
@@ -202,6 +211,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA03"],
           productState: ["PS020"], // 진행 중
           due: "2025.01.31 18:00:00",
+          matchedUserId: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
         },
       },
       // 4-3: 완료 (PS030)
@@ -224,6 +234,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA03", "TA04"],
           productState: ["PS030"], // 완료
           due: "2025.01.31 18:00:00",
+          matchedUserId: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
           pickupLocation: {},
           arrivalLocation: {
             address: "서울특별시 마포구 마포대로 195",
@@ -255,6 +266,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA05", "TA07"],
           productState: ["PS010"],
           due: "2025.01.05 18:00:00",
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
         },
       },
 
@@ -279,6 +291,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA02", "TA04"],
           productState: ["PS010"], // 구인 중
           due: "2025.12.31 20:00:00",
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
         },
       },
       // 2-2: 매칭 완료, 진행 중 (PS020)
@@ -301,6 +314,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA06", "TA07"],
           productState: ["PS020"], // 진행 중
           due: "2025.01.31 18:00:00",
+          matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
         },
       },
       // 2-3: 완료 (PS030)
@@ -323,6 +337,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA01", "TA02"],
           productState: ["PS030"], // 완료
           due: "2025.01.31 18:00:00",
+          matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
         },
       },
       // 2-4: 기간 만료 (PS010 && due 지남)
@@ -346,6 +361,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA04", "TA07"],
           productState: ["PS010"],
           due: "2025.01.04 18:00:00",
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
         },
       },
     ],
@@ -379,6 +395,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA01", "TA02"],
               productState: ["PS010"], // 구인 중
               due: "2025.01.31 18:00:00",
+              matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
               pickupLocation: {
                 address: "서울 종로구 세종로 186",
                 detailAddress: "광화문역",
@@ -426,6 +443,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA03"],
               productState: ["PS020"], // 진행 중
               due: "2025.01.31 18:00:00",
+              matchedUserId: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
             },
           },
         ],
@@ -457,6 +475,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA03", "TA04"],
               productState: ["PS030"], // 완료
               due: "2025.01.31 18:00:00",
+              matchedUserId: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
               pickupLocation: {},
               arrivalLocation: {
                 address: "서울특별시 마포구 마포대로 195",
@@ -497,6 +516,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA05", "TA07"],
               productState: ["PS010"],
               due: "2025.01.05 18:00:00",
+              matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
             },
           },
         ],
@@ -530,6 +550,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA02", "TA04"],
               productState: ["PS010"], // 구인 중
               due: "2025.12.31 20:00:00",
+              matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
             },
           },
         ],
@@ -561,6 +582,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA06", "TA07"],
               productState: ["PS020"], // 진행 중
               due: "2025.01.31 18:00:00",
+              matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
             },
           },
         ],
@@ -592,6 +614,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA01", "TA02"],
               productState: ["PS030"], // 완료
               due: "2025.01.31 18:00:00",
+              matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
             },
           },
         ],
@@ -624,6 +647,7 @@ export const initData = async (clientId, nextSeq) => {
               tags: ["TA04", "TA07"],
               productState: ["PS010"],
               due: "2025.01.04 18:00:00",
+              matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
             },
           },
         ],
@@ -782,7 +806,8 @@ export const initData = async (clientId, nextSeq) => {
           image: "user-muzi.webp",
         },
         title: "배송지연 안내",
-        content: "크리스마스 물류 증가로 인해 평소보다 2~3일 지연될 예정입니다.",
+        content:
+          "크리스마스 물류 증가로 인해 평소보다 2~3일 지연될 예정입니다.",
         createdAt: getTime(-4, -60 * 60 * 2),
         updatedAt: getTime(-2, -60 * 60 * 13),
       },
@@ -796,7 +821,8 @@ export const initData = async (clientId, nextSeq) => {
           image: "user-muzi.webp",
         },
         title: "배송비 인상 안내",
-        content: "택배사 배송비 인상으로 인해 기존 3,000원에서 3,500원으로 인상됩니다.",
+        content:
+          "택배사 배송비 인상으로 인해 기존 3,000원에서 3,500원으로 인상됩니다.",
         createdAt: getTime(-6, -60 * 60 * 20),
         updatedAt: getTime(-4, -60 * 60 * 13),
       },
