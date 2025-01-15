@@ -1,6 +1,7 @@
 import LikeButton from "@pages/pay/LikeButton";
 
 export default function PaySuccess() {
+  // 결제 금액, 유저 닉네임 동적 구현 요구됨
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="content-center flex flex-col items-center">
