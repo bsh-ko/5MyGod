@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
+import Payment from "@pages/pay/Payment";
 
 // 남은 시간 계산하는 헬퍼 함수
 function calculateRemainingTime(due) {
@@ -383,7 +384,7 @@ export default function Detail() {
           </div>
         </div>
       </div>
-
+      <Payment productId="9" payAmount="100" />
       <CommentList />
       <div className="pb-40 bg-background-color"></div>
 
