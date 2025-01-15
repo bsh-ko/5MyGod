@@ -136,7 +136,7 @@ export default function Detail() {
   console.log("심부름 상태 코드: ", errandState);
   // 기한 만료 여부
   const isPastDue = calculateRemainingTime(data?.item?.extra?.due) === "마감";
-  console.log("기간 만료 여부: ", isPastDue);
+  console.log("기한 만료 여부: ", isPastDue);
 
   // 심부름 구분에 따라 버튼의 UI와 동작 정의 (다이나믹 버튼)
   const defineDynamicButton = () => {
