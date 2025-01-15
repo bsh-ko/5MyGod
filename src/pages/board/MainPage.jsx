@@ -50,7 +50,7 @@ export default function MainPage() {
           onClick={() => {
             navigate(`/errand/new`);
           }}
-          className="bg-primary-500 font-laundry text-[28px] text-white p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full"
+          className="bg-primary-500 font-laundry text-[24px] text-white p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full"
         >
           새로운 심부름 요청하기
         </button>
