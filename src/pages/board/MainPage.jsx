@@ -57,12 +57,11 @@ export default function MainPage() {
 
   // 심부름 목록 필터링
   const filteredItems = data.item.filter((item) => {
-    // const isOthersRequest = item.seller._id !== user.user._id; // 남이 쓴 글
-    // const isRecruiting = item.extra.productState[0] === "PS010"; // 구인 중
-    // const isBeforeDue = new Date(item.extra.due) >= now; // 기한 안 지남
+    const isOthersRequest = item.seller._id !== user.user._id; // 남이 쓴 글
+    const isRecruiting = item.extra.productState[0] === "PS010"; // 구인 중
+    const isBeforeDue = new Date(item.extra.due) >= now; // 기한 안 지남
 
-    // return isOthersRequest && isRecruiting && isBeforeDue;
-    return item;
+    return isOthersRequest && isRecruiting && isBeforeDue;
   });
 
   // 필터링된 심부름 배열을 순회하며 <ListItem> 생성
