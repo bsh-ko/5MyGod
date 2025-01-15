@@ -35,7 +35,7 @@ function Payment({ productId, payAmount }) {
           channelKey: "channel-key-4ca6a942-3ee0-48fb-93ef-f4294b876d28",
           payMethod: "CARD",
           card: {},
-          redirectUrl: "http://localhost:5173/pay/paysuccess", //결제 후 이동할 url
+          redirectUrl: "http://localhost:5173/pay/paysuccess", //결제 성공 후 이동할 url
         });
         console.log("결제 완료되었습니다.", result);
         navigate("/pay/paysuccess");
