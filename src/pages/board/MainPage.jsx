@@ -51,7 +51,8 @@ export default function MainPage() {
       <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] relative">
         <div className="list_info font-laundry text-[14px] text-gray-700 flex justify-between items-center px-2">
           <p>
-            심부름 <span className="text-red-500">{data.item.length}건이</span>{" "}
+            심부름{" "}
+            <span className="text-red-500">{filteredItems.length}건이</span>{" "}
             있어요
           </p>
 
