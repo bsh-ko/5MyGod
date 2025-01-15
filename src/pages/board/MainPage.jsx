@@ -1,9 +1,11 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import ListItem from "@pages/board/ListItem";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 export default function MainPage() {
   const axios = useAxiosInstance();
+  const navigate = useNavigate();
 
   // 상품(심부름) 목록 가져오기
   const { data } = useQuery({
@@ -17,11 +19,16 @@ export default function MainPage() {
     return <div>로딩 중...</div>;
   }
 
+  // ListItem 순회 호출
   const list = data.item.map((item) => <ListItem key={item._id} item={item} />);
+
+  const handleRequestClick = () => {
+    navigate(`/errand/new`);
+  };
 
   return (
     <div className="l_container max-w-[393px] h-screen mx-auto flex flex-col">
-      <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px]">
+      <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] relative">
         <div className="list_info font-laundry text-[14px] text-gray-700 flex justify-between items-center px-2">
           <p>
             심부름 <span className="text-red-500">{data.item.length}건이</span>{" "}
@@ -34,9 +41,20 @@ export default function MainPage() {
           </div>
         </div>
 
-        <ul className="list flex flex-col items-center gap-[24px]">{list}</ul>
+        <ul className="list flex flex-col items-center gap-[24px] pb-[80px]">
+          {list}
+        </ul>
+
+        <button
+          type="button"
+          onClick={() => {
+            navigate(`/errand/new`);
+          }}
+          className="bg-primary-500 font-laundry text-[28px] text-white p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full"
+        >
+          새로운 심부름 요청하기
+        </button>
       </main>
-      <div className="pb-40 bg-background-color"></div>
     </div>
   );
 }
