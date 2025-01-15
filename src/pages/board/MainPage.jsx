@@ -23,7 +23,8 @@ export default function MainPage() {
   const list = data.item.map((item) => <ListItem key={item._id} item={item} />);
 
   const handleRequestClick = () => {
-    navigate(`/errand/new`);
+    navigate(`/errand/new`); // 작성페이지로 이동
+    window.scrollTo(0, 0); // 스크롤 위치 초기화
   };
 
   return (
@@ -48,7 +49,7 @@ export default function MainPage() {
         <button
           type="button"
           onClick={() => {
-            navigate(`/errand/new`);
+            handleRequestClick();
           }}
           className="bg-primary-500 font-laundry text-[24px] text-white p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full"
         >
