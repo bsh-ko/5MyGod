@@ -5,17 +5,11 @@ meta {
 }
 
 get {
-  url: {{url}}/orders/
+  url: {{url}}/orders?custom={"products._id": 4}
   body: json
   auth: inherit
 }
 
-body:json {
-  {
-    "products": [
-      {
-        "_id": 5
-      }
-    ]
-  }
+params:query {
+  custom: {"products._id": 4}
 }
