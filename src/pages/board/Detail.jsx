@@ -5,6 +5,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigation } from "@contexts/NavigationContext";
 
 // 남은 시간 계산하는 헬퍼 함수
 function calculateRemainingTime(due) {
@@ -40,6 +42,32 @@ export default function Detail() {
   const { _id } = useParams();
   const { user } = useUserStore();
   const navigate = useNavigate();
+  // 스크롤에 따른 버튼 위치 변경
+  const { visible } = useNavigation();
+  const [buttonPos, setButtonPos] = useState(window.innerHeight - 83 - 76);
+
+  useEffect(() => {
+    const updateButtonPosition = () => {
+      // 뷰포트 높이를 기준으로 버튼 위치 계산
+      const viewportHeight =
+        window.visualViewport?.height || window.innerHeight;
+      setButtonPos(
+        visible
+          ? viewportHeight - 83 - 76 // 네비게이션 바가 보일 때
+          : viewportHeight - 76 // 네비게이션 바가 숨겨질 때
+      );
+    };
+
+    // 초기 위치 설정
+    updateButtonPosition();
+
+    // 스크롤시 위치 업데이트
+    window.addEventListener("scroll", updateButtonPosition);
+
+    return () => {
+      window.removeEventListener("scroll", updateButtonPosition);
+    };
+  }, [visible]);
 
   // 상품(심부름) 데이터 가져오기
   const { data } = useQuery({
@@ -415,7 +443,8 @@ export default function Detail() {
       <button
         type="button"
         onClick={action}
-        className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full`}
+        className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
+        style={{ top: `${buttonPos}px` }}
       >
         {text}
       </button>
