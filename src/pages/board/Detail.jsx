@@ -226,7 +226,7 @@ export default function Detail() {
       return {
         text: `지원자 ${applicantCount}명 확인하기`,
         action: () => {
-          navigate(`/errand/applicants/${_id}`);
+          navigate(`/errand/applicants/${_id}`, { state: { applicantsData } }); // 지원자목록 페이지로 이동, 지원자 데이터를 전달
         },
         dynamicBg: "bg-primary-500",
         dynamicTextColor: "text-white",
@@ -238,7 +238,7 @@ export default function Detail() {
         text: `심부름 완료 및 결제하기`,
         // 심부름 완료 처리 함수 호출
         action: () => {
-          finish.mutate(_id); // 심부름 상태 PS030으로 바꿈
+          finish.mutate(_id); // 심부름 상태를 PS030으로 바꿈
           // 결제프로세스 추가 필요
         },
         dynamicBg: "bg-primary-500",
@@ -259,9 +259,8 @@ export default function Detail() {
         // 아직 지원 안한 경우
         return {
           text: "지원하기",
-          // 지원하기 함수 호출
           action: () => {
-            apply.mutate(_id);
+            apply.mutate(_id); // 지원하기 함수 호출
           },
           dynamicBg: "bg-complementary-300",
           dynamicTextColor: "text-primary-500",
