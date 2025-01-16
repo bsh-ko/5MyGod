@@ -47,27 +47,6 @@ export default function Detail() {
   });
   console.log("이 심부름에 대한 지원 데이터: ", applicantsData);
 
-  // 결제 api 로드
-  useEffect(() => {
-    const loadPortOneSDK = () => {
-      const script = document.createElement("script");
-      script.src = "https://cdn.portone.io/v2/browser-sdk.js";
-      script.async = true;
-
-      script.onload = () => {
-        console.log("PortOne SDK 결제 api 로드 완료");
-      };
-
-      script.onerror = () => {
-        console.error("PortOne SDK 결제 api 로드 실패");
-      };
-
-      document.body.appendChild(script);
-    };
-
-    loadPortOneSDK();
-  }, []);
-
   //////////////////////////////////////////////////////////////////// 함수 //////////////////////////////////////////////////////////////////
 
   // 남은 시간 계산하는 헬퍼 함수
@@ -122,7 +101,7 @@ export default function Detail() {
     },
   });
 
-  // 심부름 상태를 완료로 변경하는 함수 (결제 함수의 onSuccess에서 호출)
+  // 심부름 상태를 완료로 변경하는 함수 (결제 함수 성공 시 호출)
   // const handleFinish = useMutation({
   //   mutationFn: (_id) => {
   //     const body = {
@@ -140,33 +119,6 @@ export default function Detail() {
   //     console.error(err);
   //   },
   // });
-
-  // 결제 함수
-  const handlePayment = async () => {
-    try {
-      if (window.PortOne) {
-        const result = await window.PortOne.requestPayment({
-          storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
-          paymentId: `testm5w7k00${_id}`, //결제 ID - 고유값으로 재사용 불가, 반복 테스트하려면 뒤 숫자 세자리 제외하고 바꾸면 됨
-          orderName: "테스트 결제",
-          totalAmount: data.item.price, // 결제 금액
-          currency: "KRW",
-          channelKey: "channel-key-4ca6a942-3ee0-48fb-93ef-f4294b876d28",
-          payMethod: "CARD",
-          card: {},
-        });
-        // 결제 성공 시에만 아래 동작이 되도록 해야 함
-        console.log("결제가 완료되었습니다: ", result);
-        navigate("/pay/paysuccess", { state: { data } }); // 결제 완료 페이지로 이동, 심부름 데이터를 전달
-      } else {
-        alert("결제 모듈이 로드되지 않았습니다.");
-      }
-    } catch (error) {
-      //사용자가 결제 모듈을 취소했을 때
-      alert("결제가 취소되었습니다.");
-      console.log("결제를 취소했습니다.", error);
-    }
-  };
 
   ///////////////////////////////////////////////////////////////////// UI //////////////////////////////////////////////////////////////////
 
@@ -283,9 +235,7 @@ export default function Detail() {
       // 내가 요청한 && 진행 중
       return {
         text: `심부름 완료 및 결제하기`,
-        action: () => {
-          handlePayment(); // 결제함수 호출
-        },
+        action: () => {},
         dynamicBg: "bg-primary-500",
         dynamicTextColor: "text-white",
         dynamicCursor: "cursor-pointer",
@@ -479,6 +429,7 @@ export default function Detail() {
       </div>
 
       <CommentList />
+
       <div className="pb-40 bg-background-color"></div>
 
       <button
