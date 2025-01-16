@@ -42,10 +42,10 @@ export default function Detail() {
   const { _id } = useParams();
   const { user } = useUserStore();
   const navigate = useNavigate();
-  // 스크롤에 따른 버튼 위치 변경
   const { visible } = useNavigation();
   const [buttonPos, setButtonPos] = useState(window.innerHeight - 83 - 76);
 
+  // 버튼 위치 관리
   useEffect(() => {
     const updateButtonPosition = () => {
       // 뷰포트 높이를 기준으로 버튼 위치 계산
@@ -263,30 +263,6 @@ export default function Detail() {
 
   const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } =
     defineDynamicButton();
-
-  // isMyErrand && data?.item?.extra?.productState[0] === PS010 (내가 요청한 && 구인 중)
-  // 버튼 문구: '지원자 n명 확인하기'
-  // 버튼 동작: 지원자 목록 페이지로 이동
-
-  // isMyErrand && data?.item?.extra?.productState[0] === PS020 (내가 요청한 && 진행 중)
-  // 버튼 문구: '심부름 완료하기'
-  // 버튼 동작: 심부름 상태를 PS030으로 변경, 결제 페이지로 이동
-
-  // !isMyErrand && data?.item?.extra?.productState[0] === PS010 (남이 요청한 && 구인 중)
-  // 버튼 문구: '지원하기'
-  // 버튼 동작: 지원자 게시판에 글 작성
-
-  // !isMyErrand && data?.item?.extra?.productState[0] === PS020 (남이 요청한 && 진행 중)
-  // 버튼 문구: '이미 진행 중이에요'
-  // 버튼 동작:
-
-  // data?.item?.extra?.poructState[0] === PS030 (완료된 심부름)
-  // 버튼 문구: '완료된 심부름이에요'
-  // 버튼 동작:
-
-  // data?.item?.extra?.poructState[0] === PS040 (기한 만료된 심부름)
-  // 버튼 문구: '기한이 지났어요'
-  // 버튼 동작:
 
   if (!data) {
     return <div>로딩 중...</div>;
