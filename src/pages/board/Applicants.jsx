@@ -1,32 +1,67 @@
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import useAxiosInstance from "@hooks/useAxiosInstance";
 
-export default function Applicants() {
-  const location = useLocation();
-  const { applicantsData } = location.state || {};
-  console.log(
-    "상세보기 페이지에서 전달 받은 지원자 목록 데이터: ",
-    applicantsData
-  );
+const ApplicantList = () => {
+  const [applicants, setApplicants] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const axiosInstance = useAxiosInstance();
+
+  useEffect(() => {
+    const fetchApplicants = async () => {
+      try {
+        setLoading(true);
+
+        // Axios 인스턴스를 사용하여 API 호출
+        const response = await axiosInstance.get("/seller/oders"); //
+        const data = response.data;
+
+        // 데이터 설정
+        setApplicants(data.items || []);
+      } catch (error) {
+        console.error("지원자 데이터를 가져오는 중 오류 발생:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchApplicants();
+  }, []);
+
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
 
   return (
-    <div className="flex flex-col gap-[16px]">
-      <h1 className="bg-gray-300 font-laundry text-[24px] p-[8px] text-center rounded-lg shadow-card-shadow">
-        지원자 목록
-      </h1>
-      {applicantsData ? (
-        <ul className="flex flex-col gap-[12px]">
-          {applicantsData.item.map((applicant, index) => (
-            <li
-              key={index}
-              className="shadow-card-shadow font-pretendard text-[16px] rounded-lg text-center p-[8px]"
-            >
-              {applicant.user.name}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>아직 지원자가 없어요</p>
-      )}
+    <div className="w-[393px] min-h-[852px] max-h-screen flex flex-col bg-white overflow-hidden">
+      {/* ✅ 지원자 목록 */}
+      <main className="font-Pretendard text-gray-black-900 flex-1 p-4 space-y-6 overflow-y-auto bg-[#F5F9FF]">
+        {applicants.map((applicant) => (
+          <div
+            key={applicant.id} // 고유한 ID 사용
+            className="w-[360px] h-[84px] flex-shrink-0 flex items-center justify-between bg-white rounded-[10px] shadow-card-shadow"
+          >
+            <div className="flex items-center ml-[23px]">
+              <div
+                className="w-[42px] h-[42px] flex-shrink-0 rounded-full bg-[#D9D9D9] mr-4"
+                style={{
+                  backgroundImage: `url(${applicant.profileImage || ""})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              ></div>
+              <div>
+                <h3 className="text-sm font-bold">{applicant.name}</h3>
+                <p className="text-xs">{applicant.description}</p>
+              </div>
+            </div>
+            <button className="font-laundry w-[77px] h-[84px] flex-shrink-0 rounded-r-[10px] bg-[#4849E8] text-white text-sm">
+              수락하기
+            </button>
+          </div>
+        ))}
+      </main>
     </div>
   );
-}
+};
+
+export default ApplicantList;
