@@ -52,7 +52,7 @@ export default function NavigationHeader() {
       },
     },
     {
-      pattern: /^\/users\/myerrand$/,
+      pattern: /^\/users\/ongoingErrands$/,
       config: {
         title: "진행중 심부름",
         showBackButton: false,

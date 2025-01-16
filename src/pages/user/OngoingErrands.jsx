@@ -3,7 +3,7 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import useUserStore from "@zustand/userStore";
 import ListItem from "@pages/board/ListItem";
 
-const MyErrand = () => {
+const OngoingErrands = () => {
   const axiosInstance = useAxiosInstance(); // 공통 Axios 인스턴스 사용
   const { user } = useUserStore(); // Zustand에서 사용자 정보 가져오기
   const [errandItems, setErrandItems] = useState([]);
@@ -113,4 +113,4 @@ const MyErrand = () => {
   );
 };
 
-export default MyErrand;
+export default OngoingErrands;

@@ -3,8 +3,8 @@ import { NavLink, useLocation } from "react-router-dom";
 
 import homeDefault from "/assets/home-default.png";
 import homeActive from "/assets/home-actived.png";
-import myerrandsDefault from "/assets/myerrands-default.png";
-import myerrandsActive from "/assets/myerrands-actived.png";
+import ongoingErrandsDefault from "/assets/ongoingErrands-default.png";
+import ongoingErrandsActive from "/assets/ongoingErrands-actived.png";
 import chatingDefault from "/assets/chating-default.png";
 import chatingActive from "/assets/chating-actived.png";
 import mypageDefault from "/assets/mypage-default.png";
@@ -20,12 +20,12 @@ const navItems = [
     activeIcon: homeActive,
   },
   {
-    id: "myerrand",
-    path: "/users/myerrand",
-    patterns: [/^\/users\/myerrand/],
+    id: "ongoingErrands",
+    path: "/users/ongoingErrands",
+    patterns: [/^\/users\/ongoingErrands/],
     text: "진행중심부름",
-    defaultIcon: myerrandsDefault,
-    activeIcon: myerrandsActive,
+    defaultIcon: ongoingErrandsDefault,
+    activeIcon: ongoingErrandsActive,
   },
   {
     id: "chating",
