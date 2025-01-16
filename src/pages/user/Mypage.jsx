@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import useUserStore from "@zustand/userStore";
-import { useParams } from "react-router-dom";
 
 import Profile from "@pages/user/Profile";
 import Tabs from "@pages/user/Tabs";
 import MyRequests from "@pages/user/MyRequests";
 import MyApplies from "@pages/user/MyApplies";
-import Introduction from "@pages/user/edit/Introduction";
+import MyEdit from "@pages/user/MyEdit";
 
 export default function MyPage() {
   const [activeTab, setActiveTab] = useState("intro"); //탭 전환
   const { user } = useUserStore();
-  const { _id } = useParams();
   const axios = useAxiosInstance();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [isEditing, setIsEditing] = useState(false); // 수정 중인지 아닌지
 
   const {
     data: users,
@@ -63,6 +64,7 @@ export default function MyPage() {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100">
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
@@ -74,7 +76,6 @@ export default function MyPage() {
           hearts={users.item.extra.likes || "0"}
           isMyPage={true}
         />
-
         {/* 탭 섹션 */}
         <section className="mt-5 font-pretendard">
           <Tabs tabs={tabs} activeTab={activeTab} onTabClick={handleTabClick} />
@@ -82,58 +83,108 @@ export default function MyPage() {
           {/* 탭 내용 */}
           {activeTab === "intro" && (
             <div id="intro" className="tab-content">
-              <Introduction userId={users.item._id} editIntroduction={users.item.extra.introduction} />
-              <div className="intro bg-white p-5 my-3">
-                <div className="flex justify-between my-3">
-                  <h3 className="text-lg font-bold text-gray-700">심부름</h3>
-                  <a href="#" className="text-primary-500 font-bold text-sm">
-                    수정하기
-                  </a>
-                </div>
-                <ul className="flex space-x-3">
-                  {users.item.extra.errands?.map((task, index) => (
-                    <li key={index} className="flex items-center">
-                      <p className="bg-gray-100 px-2 py-1 rounded-md">{task}</p>
-                    </li>
-                  ))}
-                </ul>
+              {isEditing ? (
+                <MyEdit users={users} setIsEditing={setIsEditing} />
+              ) : (
+                <>
+                  <div className="intro bg-white p-5 ">
+                    <div className="flex justify-between mb-3">
+                      <h3 className="text-lg font-bold text-gray-700 ">자기소개</h3>
+                      <button className="text-primary-500" onClick={() => setIsEditing(true)}>
+                        수정하기
+                      </button>
+                    </div>
+                    <p>{users?.item.extra.introduction || "자기소개가 없습니다."}</p>
+                  </div>
+                  <div className="intro bg-white p-5 my-3">
+                    <div className="flex justify-between my-3">
+                      <h3 className="text-lg font-bold text-gray-700">심부름</h3>
+                    </div>
+                    <ul className="flex space-x-3">
+                      {users.item.extra.errands?.map((task, index) => (
+                        <li key={index} className="flex items-center">
+                          <p className="bg-gray-100 px-2 py-1 rounded-md">{task}</p>
+                        </li>
+                      ))}
+                    </ul>
 
-                <div className="flex justify-between my-3">
-                  <h3 className="text-lg font-bold text-gray-700">이동 수단</h3>
-                  <a href="#" className="text-primary-500 font-bold text-sm"></a>
-                </div>
-                <ul className="flex space-x-3">
-                  {users.item.extra.transportation?.map((transport, index) => (
-                    <li key={index} className="flex items-center">
-                      <p className="bg-gray-100 px-2 py-1 rounded-md">{transport}</p>
-                    </li>
-                  ))}
-                </ul>
+                    <div className="flex justify-between my-3">
+                      <h3 className="text-lg font-bold text-gray-700">이동 수단</h3>
+                      <a href="#" className="text-primary-500 font-bold text-sm"></a>
+                    </div>
+                    <ul className="flex space-x-3">
+                      {users.item.extra.transportation?.map((transport, index) => (
+                        <li key={index} className="flex items-center">
+                          <p className="bg-gray-100 px-2 py-1 rounded-md">{transport}</p>
+                        </li>
+                      ))}
+                    </ul>
 
-                <h3 className="text-lg font-bold mt-6 text-gray-700">심부름 상세 (선택)</h3>
-                <p className="text-gray-700 text-sm mb-3">가격이나 자주 하는 질문 또는 안내사항을 작성할 수 있어요</p>
-                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
-                  <option value="예시1">예시1</option>
-                  <option value="예시2">예시2</option>
-                </select>
-              </div>
-              <div className="intro bg-white p-5 mt-3 mb-[150px]">
-                <h3 className="text-lg font-bold text-gray-700 pb-3">경력 (선택)</h3>
-                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
-                  <option value="예시1">예시1</option>
-                  <option value="예시2">예시2</option>
-                </select>
-                <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">자격증 (선택)</h3>
-                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
-                  <option value="예시1">예시1</option>
-                  <option value="예시2">예시2</option>
-                </select>
-                <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">사업자 (선택)</h3>
-                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
-                  <option value="예시1">예시1</option>
-                  <option value="예시2">예시2</option>
-                </select>
-              </div>
+                    <h3 className="text-lg font-bold mt-6 text-gray-700">심부름 상세 (선택)</h3>
+                    <p className="text-gray-700 text-sm mb-3">자주 하는 질문 또는 안내사항을 작성할 수 있어요</p>
+                    <ul className="mb-3">
+                      {users.item.extra.details?.map((detail, index) => (
+                        <li
+                          key={index}
+                          className="w-full h-14 leading-[56px] bg-gray-100 rounded-[10px] px-5 text-gray-800 font-semibold"
+                        >
+                          {detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="intro bg-white p-5 mt-3 mb-[150px]">
+                    <h3 className="text-lg font-bold text-gray-700 pb-3">경력 (선택)</h3>
+                    <ul className="flex flex-wrap h-14 bg-gray-100 rounded-[10px] px-5 mb-3 ">
+                      {users.item.extra.experience
+                        .reduce((acc, exp, index) => {
+                          const threeIndex = Math.floor(index / 3); // 3개씩 묶기 위한 인덱스 계산
+                          if (!acc[threeIndex]) {
+                            acc[threeIndex] = []; // 새로운 그룹 생성
+                          }
+                          acc[threeIndex].push(exp); // 각 그룹에 항목 추가
+                          return acc;
+                        }, [])
+                        .map((three, threeIndex) => (
+                          <li key={threeIndex} className="flex pr-3">
+                            {three.map((exp, index) => (
+                              <span
+                                key={index}
+                                className={`leading-[56px] pr-3 ${
+                                  index === 0 ? "font-bold text-gray-800" : "text-gray-700 text-sm"
+                                }`}
+                              >
+                                {exp}
+                              </span>
+                            ))}
+                          </li>
+                        ))}
+                    </ul>
+                    <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">자격증 (선택)</h3>
+                    <ul className="mb-3">
+                      {users.item.extra.certificates?.map((certificate, index) => (
+                        <li
+                          key={index}
+                          className="w-full h-14 leading-[56px] bg-gray-100 rounded-[10px] px-5 text-gray-800 font-semibold"
+                        >
+                          {certificate}
+                        </li>
+                      ))}
+                    </ul>
+                    <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">사업자 (선택)</h3>
+                    <ul className="mb-3">
+                      {users.item.extra.business?.map((business, index) => (
+                        <li
+                          key={index}
+                          className="w-full h-14 leading-[56px] bg-gray-100 rounded-[10px] px-5 text-gray-800 font-semibold"
+                        >
+                          {business}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
