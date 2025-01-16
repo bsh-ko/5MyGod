@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@contexts/NavigationContext";
+import Payment from "@pages/pay/Payment";
 
 export default function Detail() {
   const axios = useAxiosInstance();
@@ -432,14 +433,20 @@ export default function Detail() {
 
       <div className="pb-40 bg-background-color"></div>
 
-      <button
-        type="button"
-        onClick={action}
-        className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
-        style={{ top: `${buttonPos}px` }}
-      >
-        {text}
-      </button>
+      {/* '심부름 완료 및 결제하기 버튼' */}
+      {isMyErrand && errandState === "PS020" && <Payment item={data.item} />}
+
+      {/* 다이나믹 버튼 */}
+      {!(isMyErrand && errandState === "PS020") && (
+        <button
+          type="button"
+          onClick={action}
+          className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
+          style={{ top: `${buttonPos}px` }}
+        >
+          {text}
+        </button>
+      )}
     </main>
   );
 }
