@@ -23,17 +23,23 @@ const MyErrand = () => {
 
       // 데이터 구조에 따라 처리
       if (activeTab === "지원한 심부름") {
-        // 지원한 심부름에서 "OS040"과 "OS030" 상태가 아닌 데이터 필터링
+        // "OS020" 상태 및 "PS020" 상태 필터링
         const filteredItems =
           response.data?.item
             .filter(
-              (order) => order.state !== "OS040" && order.state !== "OS030"
+              (order) =>
+                order.state === "OS020" &&
+                order.products[0]?.extra?.productState[0] === "PS020"
             )
             .map((order) => order.products[0]) || [];
         setErrandItems(filteredItems);
       } else {
-        // 부탁한 심부름은 필터링 없이 그대로 사용
-        setErrandItems(response.data?.item || []);
+        // item.seller_id와 user._id가 일치하는 데이터 필터링
+        const filteredItems =
+          response.data?.item.filter(
+            (product) => product.seller_id === user?._id
+          ) || [];
+        setErrandItems(filteredItems);
       }
     } catch (error) {
       console.error(`${activeTab} API 호출 오류:`, error);
@@ -50,7 +56,8 @@ const MyErrand = () => {
     }
 
     // API 엔드포인트 결정
-    const endpoint = activeTab === "지원한 심부름" ? "/orders" : "/products";
+    const endpoint =
+      activeTab === "지원한 심부름" ? "/orders" : "/seller/products";
 
     // API 호출
     fetchErrands(endpoint);

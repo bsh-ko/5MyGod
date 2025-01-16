@@ -11,6 +11,7 @@ const Signup = lazy(() => import("@pages/user/Signup"));
 const MyPage = lazy(() => import("@pages/user/Mypage"));
 const UserPage = lazy(() => import("@pages/user/Userpage"));
 const MyErrand = lazy(() => import("@pages/user/MyErrand"));
+const MyApplies = lazy(() => import("@pages/user/MyErrand"));
 
 const router = createBrowserRouter(
   [
@@ -21,12 +22,14 @@ const router = createBrowserRouter(
       children: [
         { index: true, element: <MainPage /> },
         { path: "errand/:_id", element: <Detail /> },
-        { path: "errand/applicants/:_id", element: <Applicants /> },
+        { path: "errand/:_id/applicants", element: <Applicants /> },
         { path: "errand/new", element: <New /> },
         { path: "users/signup", element: <Signup /> },
         { path: "users/login", element: <Login /> },
         { path: "users/mypage", element: <MyPage /> },
         { path: "users/myerrand", element: <MyErrand /> },
+        { path: "users/myApplies", element: <MyApplies /> },
+        { path: "users/myApplies", element: <MyApplies /> },
         // { path: "users/userpage", element: <UserPage /> },
       ],
     },
