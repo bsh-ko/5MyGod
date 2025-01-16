@@ -29,7 +29,6 @@ const router = createBrowserRouter(
         { path: "users/mypage", element: <MyPage /> },
         { path: "users/myerrand", element: <MyErrand /> },
         { path: "users/myApplies", element: <MyApplies /> },
-        { path: "users/myApplies", element: <MyApplies /> },
         // { path: "users/userpage", element: <UserPage /> },
       ],
     },
