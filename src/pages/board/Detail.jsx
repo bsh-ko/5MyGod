@@ -18,7 +18,7 @@ export default function Detail() {
 
   ///////////////////////////////////////////////////////////////// api 통신 /////////////////////////////////////////////////////////////////
 
-  // 심부름 데이터 가져오기
+  // 심부름 데이터 받아오기
   const { data } = useQuery({
     queryKey: ["products", _id],
     queryFn: () => axios.get(`/products/${_id}`),
@@ -27,16 +27,25 @@ export default function Detail() {
   console.log("심부름 데이터: ", data);
   console.log("유저 데이터: ", user);
 
-  // (남의 심부름일 경우) 이 심부름에 대한 나의 지원 내역 가져오기
+  // 이 심부름에 대한 나의 지원 내역 받아오기
   const { data: myAppliesToThis } = useQuery({
     queryKey: ["myAppliesToThis", _id],
     queryFn: () => axios.get(`/orders?custom={"products._id": ${_id}}`),
     select: (res) => res.data.item,
     onError: (err) => {
-      console.error("지원 내역 관련 오류: ", err);
+      console.error(err);
     },
   });
   console.log("이 심부름에 대한 나의 지원 내역: ", myAppliesToThis);
+
+  // 이 심부름에 대한 지원자 데이터 받아오기
+  const { data: applicantsData } = useQuery({
+    queryKey: ["applicants", _id],
+    queryFn: () => axios.get(`/seller/orders?custom={"products._id": ${_id}}`),
+    select: (res) => res.data,
+    onError: (err) => console.error(err),
+  });
+  console.log("이 심부름에 지원한 지원자 데이터: ", applicantsData);
 
   //////////////////////////////////////////////////////////////////// 함수 //////////////////////////////////////////////////////////////////
 
@@ -171,6 +180,9 @@ export default function Detail() {
   const pickupLocation = data?.item?.extra?.pickupLocation;
   const arrivalLocation = data?.item?.extra?.arrivalLocation;
 
+  // 이 심부름에 지원한 지원자 수
+  const applicantCount = applicantsData?.item?.length;
+
   //////////////////////////////////////////////////////////////// 다이나믹 버튼 ////////////////////////////////////////////////////////////////
 
   // 심부름 구분
@@ -212,7 +224,7 @@ export default function Detail() {
     } else if (isMyErrand && errandState === "PS010") {
       // 내가 요청한 && 구인 중
       return {
-        text: `지원자 n명 확인하기`,
+        text: `지원자 ${applicantCount}명 확인하기`,
         action: () => {
           navigate(`/errand/applicants/${_id}`);
         },
