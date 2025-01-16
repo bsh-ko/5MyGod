@@ -433,7 +433,7 @@ export default function Detail() {
 
       <div className="pb-40 bg-background-color"></div>
 
-      {/* '심부름 완료 및 결제하기 버튼' */}
+      {/* 결제 컴포넌트 버튼 */}
       {isMyErrand && errandState === "PS020" && <Payment item={data.item} />}
 
       {/* 다이나믹 버튼 */}
