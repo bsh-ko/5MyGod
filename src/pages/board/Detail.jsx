@@ -45,9 +45,9 @@ export default function Detail() {
     select: (res) => res.data,
     onError: (err) => console.error(err),
   });
-  console.log("이 심부름에 지원한 지원자 데이터: ", applicantsData);
+  console.log("이 심부름에 대한 지원 데이터: ", applicantsData);
 
-  // 결제 api 호출
+  // 결제 api 로드
   useEffect(() => {
     const loadPortOneSDK = () => {
       const script = document.createElement("script");
@@ -122,25 +122,24 @@ export default function Detail() {
     },
   });
 
-  // 심부름 완료 처리 함수
-  const finish = useMutation({
-    mutationFn: (_id) => {
-      const body = {
-        "extra.productState": ["PS030"],
-      };
-      return axios.patch(`/seller/products/${_id}`, body);
-    },
+  // 심부름 상태를 완료로 변경하는 함수 (결제 함수의 onSuccess에서 호출)
+  // const handleFinish = useMutation({
+  //   mutationFn: (_id) => {
+  //     const body = {
+  //       "extra.productState": ["PS030"],
+  //     };
+  //     return axios.patch(`/seller/products/${_id}`, body);
+  //   },
 
-    onSuccess: () => {
-      alert("심부름이 완료되었습니다. 결제 페이지로 이동합니다.");
-      // 심부름 결제 함수 추가해야 함
-    },
+  //   onSuccess: () => {
+  //     console.log("심부름 상태가 PS030으로 수정되었습니다.");
+  //   },
 
-    onError: (err) => {
-      alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-      console.error(err);
-    },
-  });
+  //   onError: (err) => {
+  //     alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+  //     console.error(err);
+  //   },
+  // });
 
   // 결제 함수
   const handlePayment = async () => {
@@ -148,17 +147,17 @@ export default function Detail() {
       if (window.PortOne) {
         const result = await window.PortOne.requestPayment({
           storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
-          paymentId: `testm5w7k00${_id}`, //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
+          paymentId: `testm5w7k00${_id}`, //결제 ID - 고유값으로 재사용 불가, 반복 테스트하려면 뒤 숫자 세자리 제외하고 바꾸면 됨
           orderName: "테스트 결제",
-          totalAmount: data.item.price, //결제 금액
+          totalAmount: data.item.price, // 결제 금액
           currency: "KRW",
           channelKey: "channel-key-4ca6a942-3ee0-48fb-93ef-f4294b876d28",
           payMethod: "CARD",
           card: {},
-          redirectUrl: "http://localhost:5173/pay/paysuccess", //결제 성공 후 이동할 url
         });
+        // 결제 성공 시에만 아래 동작이 되도록 해야 함
         console.log("결제가 완료되었습니다: ", result);
-        navigate("/pay/paysuccess");
+        navigate("/pay/paysuccess", { state: { data } }); // 결제 완료 페이지로 이동, 심부름 데이터를 전달
       } else {
         alert("결제 모듈이 로드되지 않았습니다.");
       }
@@ -285,8 +284,7 @@ export default function Detail() {
       return {
         text: `심부름 완료 및 결제하기`,
         action: () => {
-          finish.mutate(_id); // 심부름 완료 처리 함수 호출. 심부름 상태를 PS030으로 바꿈
-          handlePayment(); // 결제 함수 호출
+          handlePayment(); // 결제함수 호출
         },
         dynamicBg: "bg-primary-500",
         dynamicTextColor: "text-white",
