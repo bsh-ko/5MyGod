@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: {{url}}/seller/oders
+  url: {{url}}/seller/oders?custom
   body: none
-  auth: none
+  auth: inherit
+}
+
+params:query {
+  custom: 
 }
