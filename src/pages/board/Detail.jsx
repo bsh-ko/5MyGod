@@ -5,6 +5,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigation } from "@contexts/NavigationContext";
 
 // 남은 시간 계산하는 헬퍼 함수
 function calculateRemainingTime(due) {
@@ -40,6 +42,32 @@ export default function Detail() {
   const { _id } = useParams();
   const { user } = useUserStore();
   const navigate = useNavigate();
+  // 스크롤에 따른 버튼 위치 변경
+  const { visible } = useNavigation();
+  const [buttonPos, setButtonPos] = useState(window.innerHeight - 83 - 76);
+
+  useEffect(() => {
+    const updateButtonPosition = () => {
+      // 뷰포트 높이를 기준으로 버튼 위치 계산
+      const viewportHeight =
+        window.visualViewport?.height || window.innerHeight;
+      setButtonPos(
+        visible
+          ? viewportHeight - 83 - 76 // 네비게이션 바가 보일 때
+          : viewportHeight - 76 // 네비게이션 바가 숨겨질 때
+      );
+    };
+
+    // 초기 위치 설정
+    updateButtonPosition();
+
+    // 스크롤시 위치 업데이트
+    window.addEventListener("scroll", updateButtonPosition);
+
+    return () => {
+      window.removeEventListener("scroll", updateButtonPosition);
+    };
+  }, [visible]);
 
   // 상품(심부름) 데이터 가져오기
   const { data } = useQuery({
@@ -83,6 +111,17 @@ export default function Detail() {
   const pickupLocation = data?.item?.extra?.pickupLocation;
   const arrivalLocation = data?.item?.extra?.arrivalLocation;
 
+  // 이 심부름에 대한 나의 지원 내역 가져오기
+  const { data: myAppliesToThis } = useQuery({
+    queryKey: ["myAppliesToThis", user._id],
+    queryFn: () => axios.get(`/orders?custom={"products._id": ${_id}}`),
+    select: (res) => res.data.item,
+    onError: (err) => {
+      console.error("지원 내역 관련 오류: ", err);
+    },
+  });
+  console.log("이 심부름에 대한 나의 지원 내역: ", myAppliesToThis);
+
   // 지원하기 함수
   const apply = useMutation({
     mutationFn: (_id) => {
@@ -99,7 +138,7 @@ export default function Detail() {
 
     onSuccess: () => {
       alert("심부름 지원이 완료되었습니다.");
-      navigate(`/`); // 나의 지원 목록으로 이동하는 경로 추가 필요
+      navigate(`/users/mypage`);
     },
     onError: (err) => {
       alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
@@ -136,7 +175,10 @@ export default function Detail() {
   console.log("심부름 상태 코드: ", errandState);
   // 기한 만료 여부
   const isPastDue = calculateRemainingTime(data?.item?.extra?.due) === "마감";
-  console.log("기간 만료 여부: ", isPastDue);
+  console.log("기한 만료 여부: ", isPastDue);
+  // 이 심부름에 내가 이미 지원했는지 여부
+  const isAlreadyApplied = myAppliesToThis?.length > 0;
+  console.log("이미 지원했는지: ", isAlreadyApplied);
 
   // 심부름 구분에 따라 버튼의 UI와 동작 정의 (다이나믹 버튼)
   const defineDynamicButton = () => {
@@ -186,16 +228,27 @@ export default function Detail() {
       };
     } else if (!isMyErrand && errandState === "PS010") {
       // 남이 요청한 && 구인 중
-      return {
-        text: "지원하기",
-        // 지원하기 함수 호출
-        action: () => {
-          apply.mutate(_id);
-        },
-        dynamicBg: "bg-complementary-300",
-        dynamicTextColor: "text-primary-500",
-        dynamicCursor: "cursor-pointer",
-      };
+      if (isAlreadyApplied) {
+        // 이미 지원한 경우
+        return {
+          text: "이미 지원한 심부름이에요",
+          dynamicBg: "bg-gray-400",
+          dynamicTextColor: "text-white",
+          dynamicCursor: "cursor-default",
+        };
+      } else {
+        // 아직 지원 안한 경우
+        return {
+          text: "지원하기",
+          // 지원하기 함수 호출
+          action: () => {
+            apply.mutate(_id);
+          },
+          dynamicBg: "bg-complementary-300",
+          dynamicTextColor: "text-primary-500",
+          dynamicCursor: "cursor-pointer",
+        };
+      }
     } else if (!isMyErrand && errandState === "PS020") {
       // 남이 요청한 && 진행 중
       return {
@@ -390,7 +443,8 @@ export default function Detail() {
       <button
         type="button"
         onClick={action}
-        className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full`}
+        className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
+        style={{ top: `${buttonPos}px` }}
       >
         {text}
       </button>

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-function Payment({ payamount }) {
+function Payment({ productId, payAmount }) {
   useEffect(() => {
     const loadPortOneSDK = () => {
       const script = document.createElement("script");
