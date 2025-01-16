@@ -3,11 +3,40 @@ import ListItem from "@pages/board/ListItem";
 import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigation } from "@contexts/NavigationContext";
 
 export default function MainPage() {
   const axios = useAxiosInstance();
   const navigate = useNavigate();
   const user = useUserStore();
+
+  // 스크롤에 따른 버튼 위치 변경
+  const { visible } = useNavigation();
+  const [buttonPos, setButtonPos] = useState(window.innerHeight - 83 - 76);
+
+  useEffect(() => {
+    const updateButtonPosition = () => {
+      // 뷰포트 높이를 기준으로 버튼 위치 계산
+      const viewportHeight =
+        window.visualViewport?.height || window.innerHeight;
+      setButtonPos(
+        visible
+          ? viewportHeight - 83 - 76 // 네비게이션 바가 보일 때
+          : viewportHeight - 76 // 네비게이션 바가 숨겨질 때
+      );
+    };
+
+    // 초기 위치 설정
+    updateButtonPosition();
+
+    // 스크롤시 위치 업데이트
+    window.addEventListener("scroll", updateButtonPosition);
+
+    return () => {
+      window.removeEventListener("scroll", updateButtonPosition);
+    };
+  }, [visible]);
 
   // 심부름 목록 가져오기
   const { data } = useQuery({
@@ -71,7 +100,8 @@ export default function MainPage() {
           onClick={() => {
             handleRequestClick();
           }}
-          className="bg-primary-500 font-laundry text-[24px] text-white p-[20px] rounded-t-lg absolute bottom-0 left-0 w-full"
+          className={`bg-primary-500 font-laundry text-[24px] text-white p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0`}
+          style={{ top: `${buttonPos}px` }}
         >
           새로운 심부름 요청하기
         </button>
