@@ -111,6 +111,17 @@ export default function Detail() {
   const pickupLocation = data?.item?.extra?.pickupLocation;
   const arrivalLocation = data?.item?.extra?.arrivalLocation;
 
+  // 이 심부름에 대한 나의 지원 내역 가져오기
+  const { data: myAppliesToThis } = useQuery({
+    queryKey: ["myAppliesToThis", user._id],
+    queryFn: () => axios.get(`/orders?custom={"products._id": ${_id}}`),
+    select: (res) => res.data.item,
+    onError: (err) => {
+      console.error("지원 내역 관련 오류: ", err);
+    },
+  });
+  console.log("이 심부름에 대한 나의 지원 내역: ", myAppliesToThis);
+
   // 지원하기 함수
   const apply = useMutation({
     mutationFn: (_id) => {
@@ -127,7 +138,7 @@ export default function Detail() {
 
     onSuccess: () => {
       alert("심부름 지원이 완료되었습니다.");
-      navigate(`/`); // 나의 지원 목록으로 이동하는 경로 추가 필요
+      navigate(`/users/mypage`);
     },
     onError: (err) => {
       alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
@@ -164,7 +175,10 @@ export default function Detail() {
   console.log("심부름 상태 코드: ", errandState);
   // 기한 만료 여부
   const isPastDue = calculateRemainingTime(data?.item?.extra?.due) === "마감";
-  console.log("기간 만료 여부: ", isPastDue);
+  console.log("기한 만료 여부: ", isPastDue);
+  // 이 심부름에 내가 이미 지원했는지 여부
+  const isAlreadyApplied = myAppliesToThis?.length > 0;
+  console.log("이미 지원했는지: ", isAlreadyApplied);
 
   // 심부름 구분에 따라 버튼의 UI와 동작 정의 (다이나믹 버튼)
   const defineDynamicButton = () => {
@@ -214,16 +228,27 @@ export default function Detail() {
       };
     } else if (!isMyErrand && errandState === "PS010") {
       // 남이 요청한 && 구인 중
-      return {
-        text: "지원하기",
-        // 지원하기 함수 호출
-        action: () => {
-          apply.mutate(_id);
-        },
-        dynamicBg: "bg-complementary-300",
-        dynamicTextColor: "text-primary-500",
-        dynamicCursor: "cursor-pointer",
-      };
+      if (isAlreadyApplied) {
+        // 이미 지원한 경우
+        return {
+          text: "이미 지원한 심부름이에요",
+          dynamicBg: "bg-gray-400",
+          dynamicTextColor: "text-white",
+          dynamicCursor: "cursor-default",
+        };
+      } else {
+        // 아직 지원 안한 경우
+        return {
+          text: "지원하기",
+          // 지원하기 함수 호출
+          action: () => {
+            apply.mutate(_id);
+          },
+          dynamicBg: "bg-complementary-300",
+          dynamicTextColor: "text-primary-500",
+          dynamicCursor: "cursor-pointer",
+        };
+      }
     } else if (!isMyErrand && errandState === "PS020") {
       // 남이 요청한 && 진행 중
       return {

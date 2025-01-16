@@ -525,38 +525,40 @@ export const initData = async (clientId, nextSeq) => {
       },
 
       // 4번 유저의 지원 (2번 유저의 심부름에 대해)
+      // 2번 유저가 올린 5번 심부름에는 4번 유저가 지원 안 한 상태입니다!
       // O5: 지원 안료, 매칭 대기 중 (PS010)
-      {
-        _id: 5,
-        user_id: 4,
-        state: "OS010", // 지원 완료, 매칭 대기 중
-        products: [
-          {
-            _id: 5,
-            seller_id: 2,
-            price: 20000,
+      // {
+      //   _id: 5,
+      //   user_id: 4,
+      //   state: "OS010", // 지원 완료, 매칭 대기 중
+      //   products: [
+      //     {
+      //       _id: 5,
+      //       seller_id: 2,
+      //       price: 20000,
 
-            show: true,
-            active: true,
-            name: "티켓팅 대신 해주세요",
-            quantity: 999,
-            buyQuantity: 0,
+      //       show: true,
+      //       active: true,
+      //       name: "티켓팅 대신 해주세요",
+      //       quantity: 999,
+      //       buyQuantity: 0,
 
-            content: "오굿굿 콘서트 꼭 가고 싶은데 티켓팅 대신 해주세요",
-            createdAt: getTime(-41, -60 * 60 * 2),
-            updatedAt: getTime(-40, -60 * 15),
-            extra: {
-              category: ["PC04"],
-              tags: ["TA02", "TA04"],
-              productState: ["PS010"], // 구인 중
-              due: "2025.12.31 20:00:00",
-              matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
-            },
-          },
-        ],
-        createdAt: getTime(-6, -60 * 60 * 3),
-        updatedAt: getTime(-6, -60 * 60 * 3),
-      },
+      //       content: "오굿굿 콘서트 꼭 가고 싶은데 티켓팅 대신 해주세요",
+      //       createdAt: getTime(-41, -60 * 60 * 2),
+      //       updatedAt: getTime(-40, -60 * 15),
+      //       extra: {
+      //         category: ["PC04"],
+      //         tags: ["TA02", "TA04"],
+      //         productState: ["PS010"], // 구인 중
+      //         due: "2025.12.31 20:00:00",
+      //         matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+      //       },
+      //     },
+      //   ],
+      //   createdAt: getTime(-6, -60 * 60 * 3),
+      //   updatedAt: getTime(-6, -60 * 60 * 3),
+      // },
+
       // O6: 매칭 완료, 심부름 진행 중 (PS020)
       {
         _id: 6,
