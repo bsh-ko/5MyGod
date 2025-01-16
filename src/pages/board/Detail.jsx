@@ -8,68 +8,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@contexts/NavigationContext";
 
-// 남은 시간 계산하는 헬퍼 함수
-function calculateRemainingTime(due) {
-  const now = dayjs(); // 현재 시각
-  const dueTime = dayjs(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 dayjs 객체로 변환
-  const diff = dueTime.diff(now, "millisecond"); // 남은 시간 (밀리초 단위)
-
-  if (diff <= 0) {
-    return "마감";
-  }
-
-  // 남은 시간 계산
-  const duration = {
-    days: Math.floor(diff / (1000 * 60 * 60 * 24)), // 남은 일수
-    hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), // 남은 시간
-    minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)), // 남은 분
-  };
-
-  if (duration.days > 0) {
-    // 하루 이상 남은 경우
-    return `${duration.days}일 남음`;
-  } else if (duration.hours > 0) {
-    // 하루 미만, 1시간 이상 남은 경우
-    return `${duration.hours}시간 남음`;
-  } else if (duration.minutes > 0) {
-    // 1시간 미만으로 남은 경우
-    return "곧 마감";
-  }
-}
-
 export default function Detail() {
   const axios = useAxiosInstance();
   const { _id } = useParams();
   const { user } = useUserStore();
   const navigate = useNavigate();
-  // 스크롤에 따른 버튼 위치 변경
   const { visible } = useNavigation();
   const [buttonPos, setButtonPos] = useState(window.innerHeight - 83 - 76);
 
-  useEffect(() => {
-    const updateButtonPosition = () => {
-      // 뷰포트 높이를 기준으로 버튼 위치 계산
-      const viewportHeight =
-        window.visualViewport?.height || window.innerHeight;
-      setButtonPos(
-        visible
-          ? viewportHeight - 83 - 76 // 네비게이션 바가 보일 때
-          : viewportHeight - 76 // 네비게이션 바가 숨겨질 때
-      );
-    };
+  ///////////////////////////////////////////////////////////////// api 통신 /////////////////////////////////////////////////////////////////
 
-    // 초기 위치 설정
-    updateButtonPosition();
-
-    // 스크롤시 위치 업데이트
-    window.addEventListener("scroll", updateButtonPosition);
-
-    return () => {
-      window.removeEventListener("scroll", updateButtonPosition);
-    };
-  }, [visible]);
-
-  // 상품(심부름) 데이터 가져오기
+  // 심부름 데이터 받아오기
   const { data } = useQuery({
     queryKey: ["products", _id],
     queryFn: () => axios.get(`/products/${_id}`),
@@ -78,49 +27,55 @@ export default function Detail() {
   console.log("심부름 데이터: ", data);
   console.log("유저 데이터: ", user);
 
-  // 회원 성별에 따라 이미지 매핑
-  let genderImage;
-  if (data?.item?.seller?.extra?.gender === "male") {
-    genderImage = `/assets/male.png`;
-  } else if (data?.item?.seller?.extra?.gender === "female") {
-    genderImage = `/assets/female.png`;
-  } else {
-    genderImage = `/assets/unchecked.png`;
-  }
-
-  // 마감 일시를 동적으로 출력하기 위한 변수
-  let dueDateDisplay;
-  if (data?.item?.extra?.due) {
-    const due = data.item.extra.due;
-    const date = new Date(due);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const formattedTime = `${date.getHours()}:${String(
-      date.getMinutes()
-    ).padStart(2, "0")}`;
-    dueDateDisplay = (
-      <div>
-        <span className="text-primary-700">{month}</span>월{" "}
-        <span className="text-primary-700">{day}</span>일{" "}
-        <span className="text-primary-700">{formattedTime}</span> 까지
-      </div>
-    );
-  }
-
-  // 위치 정보
-  const pickupLocation = data?.item?.extra?.pickupLocation;
-  const arrivalLocation = data?.item?.extra?.arrivalLocation;
-
-  // 이 심부름에 대한 나의 지원 내역 가져오기
+  // 이 심부름에 대한 나의 지원 내역 받아오기
   const { data: myAppliesToThis } = useQuery({
-    queryKey: ["myAppliesToThis", user._id],
+    queryKey: ["myAppliesToThis", _id],
     queryFn: () => axios.get(`/orders?custom={"products._id": ${_id}}`),
     select: (res) => res.data.item,
     onError: (err) => {
-      console.error("지원 내역 관련 오류: ", err);
+      console.error(err);
     },
   });
   console.log("이 심부름에 대한 나의 지원 내역: ", myAppliesToThis);
+
+  // 이 심부름에 대한 지원자 데이터 받아오기
+  const { data: applicantsData } = useQuery({
+    queryKey: ["applicants", _id],
+    queryFn: () => axios.get(`/seller/orders?custom={"products._id": ${_id}}`),
+    select: (res) => res.data,
+    onError: (err) => console.error(err),
+  });
+  console.log("이 심부름에 지원한 지원자 데이터: ", applicantsData);
+
+  //////////////////////////////////////////////////////////////////// 함수 //////////////////////////////////////////////////////////////////
+
+  // 남은 시간 계산하는 헬퍼 함수
+  function calculateRemainingTime(due) {
+    const now = dayjs(); // 현재 시각
+    const dueTime = dayjs(due, "YYYY.MM.DD HH:mm:ss"); // 마감일시를 dayjs 객체로 변환
+    const diff = dueTime.diff(now, "millisecond"); // 남은 시간 (밀리초 단위)
+
+    if (diff <= 0) {
+      return "마감";
+    }
+
+    const duration = {
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)), // 남은 일수
+      hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), // 남은 시간
+      minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)), // 남은 분
+    };
+
+    if (duration.days > 0) {
+      // 하루 이상 남은 경우
+      return `${duration.days}일 남음`;
+    } else if (duration.hours > 0) {
+      // 하루 미만, 1시간 이상 남은 경우
+      return `${duration.hours}시간 남음`;
+    } else if (duration.minutes > 0) {
+      // 1시간 미만으로 남은 경우
+      return "곧 마감";
+    }
+  }
 
   // 지원하기 함수
   const apply = useMutation({
@@ -166,9 +121,73 @@ export default function Detail() {
     },
   });
 
+  ///////////////////////////////////////////////////////////////////// UI //////////////////////////////////////////////////////////////////
+
+  // 버튼 위치 관리
+  useEffect(() => {
+    const updateButtonPosition = () => {
+      // 뷰포트 높이를 기준으로 버튼 위치 계산
+      const viewportHeight =
+        window.visualViewport?.height || window.innerHeight;
+      setButtonPos(
+        visible
+          ? viewportHeight - 83 - 76 // 네비게이션 바가 보일 때
+          : viewportHeight - 76 // 네비게이션 바가 숨겨질 때
+      );
+    };
+
+    // 초기 위치 설정
+    updateButtonPosition();
+
+    // 스크롤시 위치 업데이트
+    window.addEventListener("scroll", updateButtonPosition);
+
+    return () => {
+      window.removeEventListener("scroll", updateButtonPosition);
+    };
+  }, [visible]);
+
+  // 회원 성별에 따라 이미지 매핑
+  let genderImage;
+  if (data?.item?.seller?.extra?.gender === "male") {
+    genderImage = `/assets/male.png`;
+  } else if (data?.item?.seller?.extra?.gender === "female") {
+    genderImage = `/assets/female.png`;
+  } else {
+    genderImage = `/assets/unchecked.png`;
+  }
+
+  // 마감 일시를 동적으로 출력하기 위한 변수
+  let dueDateDisplay;
+  if (data?.item?.extra?.due) {
+    const due = data.item.extra.due;
+    const date = new Date(due);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const formattedTime = `${date.getHours()}:${String(
+      date.getMinutes()
+    ).padStart(2, "0")}`;
+    dueDateDisplay = (
+      <div>
+        <span className="text-primary-700">{month}</span>월{" "}
+        <span className="text-primary-700">{day}</span>일{" "}
+        <span className="text-primary-700">{formattedTime}</span> 까지
+      </div>
+    );
+  }
+
+  // 위치 정보
+  const pickupLocation = data?.item?.extra?.pickupLocation;
+  const arrivalLocation = data?.item?.extra?.arrivalLocation;
+
+  // 이 심부름에 지원한 지원자 수
+  const applicantCount = applicantsData?.item?.length;
+
+  //////////////////////////////////////////////////////////////// 다이나믹 버튼 ////////////////////////////////////////////////////////////////
+
   // 심부름 구분
   // 내가 올린 심부름인지 아닌지 여부
-  const isMyErrand = data?.item?.seller_id === user?._id;
+  const isMyErrand = data?.item?.seller_id === user?._id || false;
   console.log("내가 요청한 심부름인지: ", isMyErrand);
   // 심부름의 상태
   const errandState = data?.item?.extra?.productState[0];
@@ -205,9 +224,9 @@ export default function Detail() {
     } else if (isMyErrand && errandState === "PS010") {
       // 내가 요청한 && 구인 중
       return {
-        text: `지원자 n명 확인하기`,
+        text: `지원자 ${applicantCount}명 확인하기`,
         action: () => {
-          navigate(`/errand/applicants/${_id}`);
+          navigate(`/errand/applicants/${_id}`, { state: { applicantsData } }); // 지원자목록 페이지로 이동, 지원자 데이터를 전달
         },
         dynamicBg: "bg-primary-500",
         dynamicTextColor: "text-white",
@@ -219,7 +238,7 @@ export default function Detail() {
         text: `심부름 완료 및 결제하기`,
         // 심부름 완료 처리 함수 호출
         action: () => {
-          finish.mutate(_id); // 심부름 상태 PS030으로 바꿈
+          finish.mutate(_id); // 심부름 상태를 PS030으로 바꿈
           // 결제프로세스 추가 필요
         },
         dynamicBg: "bg-primary-500",
@@ -240,9 +259,8 @@ export default function Detail() {
         // 아직 지원 안한 경우
         return {
           text: "지원하기",
-          // 지원하기 함수 호출
           action: () => {
-            apply.mutate(_id);
+            apply.mutate(_id); // 지원하기 함수 호출
           },
           dynamicBg: "bg-complementary-300",
           dynamicTextColor: "text-primary-500",
@@ -263,30 +281,6 @@ export default function Detail() {
 
   const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } =
     defineDynamicButton();
-
-  // isMyErrand && data?.item?.extra?.productState[0] === PS010 (내가 요청한 && 구인 중)
-  // 버튼 문구: '지원자 n명 확인하기'
-  // 버튼 동작: 지원자 목록 페이지로 이동
-
-  // isMyErrand && data?.item?.extra?.productState[0] === PS020 (내가 요청한 && 진행 중)
-  // 버튼 문구: '심부름 완료하기'
-  // 버튼 동작: 심부름 상태를 PS030으로 변경, 결제 페이지로 이동
-
-  // !isMyErrand && data?.item?.extra?.productState[0] === PS010 (남이 요청한 && 구인 중)
-  // 버튼 문구: '지원하기'
-  // 버튼 동작: 지원자 게시판에 글 작성
-
-  // !isMyErrand && data?.item?.extra?.productState[0] === PS020 (남이 요청한 && 진행 중)
-  // 버튼 문구: '이미 진행 중이에요'
-  // 버튼 동작:
-
-  // data?.item?.extra?.poructState[0] === PS030 (완료된 심부름)
-  // 버튼 문구: '완료된 심부름이에요'
-  // 버튼 동작:
-
-  // data?.item?.extra?.poructState[0] === PS040 (기한 만료된 심부름)
-  // 버튼 문구: '기한이 지났어요'
-  // 버튼 동작:
 
   if (!data) {
     return <div>로딩 중...</div>;
