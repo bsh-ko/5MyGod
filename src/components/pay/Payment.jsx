@@ -16,9 +16,7 @@ const useUpdateProductState = () => {
       };
 
       const response = await axios.patch(`/seller/products/${productId}`, {
-        item: {
-          extra: updatedExtra,
-        },
+        extra: updatedExtra,
       });
       if (!response.data.ok) {
         throw new Error("상품 상태 업데이트에 실패했습니다.");
