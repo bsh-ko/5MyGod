@@ -1,4 +1,4 @@
-import LikeButton from "@pages/pay/LikeButton";
+import LikeButton from "@components/pay/LikeButton";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";

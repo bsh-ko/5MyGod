@@ -10,7 +10,7 @@ const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
 const MyPage = lazy(() => import("@pages/user/Mypage"));
 const UserPage = lazy(() => import("@pages/user/Userpage"));
-const PaySuccess = lazy(() => import("@pages/pay/PaySuccess"));
+const PaySuccess = lazy(() => import("@components/pay/PaySuccess"));
 
 const router = createBrowserRouter(
   [

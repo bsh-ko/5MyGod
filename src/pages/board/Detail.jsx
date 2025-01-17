@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@contexts/NavigationContext";
-import Payment from "@pages/pay/Payment";
+import Payment from "@components/pay/Payment";
 
 export default function Detail() {
   const axios = useAxiosInstance();
