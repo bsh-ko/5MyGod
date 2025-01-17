@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams, useParams, useLocation } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import useUserStore from "@zustand/userStore";
-import { useParams, useLocation } from "react-router-dom";
 
 import Profile from "@pages/user/Profile";
 import Tabs from "@pages/user/Tabs";
@@ -14,10 +13,8 @@ import MyEdit from "@pages/user/MyEdit";
 
 export default function MyPage() {
   const location = useLocation();
-
-  const [activeTab, setActiveTab] = useState(
-    location.state?.activeTab || "intro"
-  ); //탭 전환
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") || "intro";
   const { user, setUser } = useUserStore();
   const axios = useAxiosInstance();
   const navigate = useNavigate();
@@ -56,8 +53,7 @@ export default function MyPage() {
   if (isLoading) return <div>로딩 중...</div>;
 
   if (error) {
-    const errorMessage =
-      error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
+    const errorMessage = error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
     return <div>{errorMessage}</div>;
   }
 
@@ -68,8 +64,13 @@ export default function MyPage() {
   ];
 
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set("tab", tab);
+      return params;
+    });
   };
+
   const handleUserUpdate = (updatedUser) => {
     setUser(updatedUser);
     queryClient.setQueryData(["userProfile"], { item: updatedUser });
