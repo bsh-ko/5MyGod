@@ -108,25 +108,6 @@ export default function Detail() {
     },
   });
 
-  // 심부름 상태를 완료로 변경하는 함수 (결제 함수 성공 시 호출)
-  // const handleFinish = useMutation({
-  //   mutationFn: (_id) => {
-  //     const body = {
-  //       "extra.productState": ["PS030"],
-  //     };
-  //     return axios.patch(`/seller/products/${_id}`, body);
-  //   },
-
-  //   onSuccess: () => {
-  //     console.log("심부름 상태가 PS030으로 수정되었습니다.");
-  //   },
-
-  //   onError: (err) => {
-  //     alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-  //     console.error(err);
-  //   },
-  // });
-
   ///////////////////////////////////////////////////////////////////// UI //////////////////////////////////////////////////////////////////
 
   // 버튼 위치 관리
@@ -236,7 +217,7 @@ export default function Detail() {
       return {
         text: `지원자 ${applicantCount}명 확인하기`,
         action: () => {
-          navigate(`/errand/applicants/${_id}`, { state: { applicantsData } }); // 지원자목록 페이지로 이동, 지원자 데이터를 전달
+          navigate(`/errand/applicants/${_id}`, { state: { applicantsData } }); // 지원자목록 페이지로 이동, 지원 데이터를 전달
         },
         dynamicBg: "bg-primary-500",
         dynamicTextColor: "text-white",
@@ -442,7 +423,7 @@ export default function Detail() {
       <div className="pb-40 bg-background-color"></div>
 
       {/* 결제 컴포넌트 버튼 */}
-      {isMyErrand && errandState === "PS020" && (
+      {isLoggedIn && isMyErrand && errandState === "PS020" && (
         <Payment
           item={data.item}
           className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
