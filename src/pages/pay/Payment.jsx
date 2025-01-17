@@ -1,6 +1,23 @@
+import PropTypes from "prop-types";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+// import useAxiosInstance from "@hooks/useAxiosInstance";
 
-function Payment({ productId, payAmount }) {
+// function editProdState({ productData, toBeState }) {
+//   const axios = useAxiosInstance();
+
+//   const { data: userData, isLoading: isUserLoading } = useQuery({
+//     queryKey: ["users", matchedUserId],
+//     queryFn: () => axios.post(`/users/${matchedUserId}`),
+//     select: (res) => res.data,
+//     enabled: !!matchedUserId,
+//   });
+// }
+
+export default function Payment({ item, className, style }) {
+  const productId = item?._id;
+  const payAmount = item?.price;
+
   useEffect(() => {
     const loadPortOneSDK = () => {
       const script = document.createElement("script");
@@ -27,7 +44,7 @@ function Payment({ productId, payAmount }) {
       if (window.PortOne) {
         const result = await window.PortOne.requestPayment({
           storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
-          paymentId: productId, //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
+          paymentId: productId + "18", //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
           orderName: "테스트 결제",
           totalAmount: payAmount, //결제 금액
           currency: "KRW",
@@ -37,7 +54,8 @@ function Payment({ productId, payAmount }) {
           redirectUrl: "http://localhost:5173/pay/paysuccess", //결제 성공 후 이동할 url
         });
         console.log("결제 완료되었습니다.", result);
-        navigate("/pay/paysuccess");
+        // 결제 완료 후 product 상태 변경 (PS030)
+        navigate("/pay/paysuccess", { state: item });
       } else {
         alert("결제 모듈이 로드되지 않았습니다.");
       }
@@ -47,7 +65,15 @@ function Payment({ productId, payAmount }) {
     }
   };
 
-  return <button onClick={handlePayment}>결제하기</button>;
+  return (
+    <button onClick={handlePayment} className={className} style={style}>
+      결제하기
+    </button>
+  );
 }
 
-export default Payment;
+Payment.propTypes = {
+  item: PropTypes.object.isRequired,
+  className: PropTypes.string,
+  style: PropTypes.object,
+};
