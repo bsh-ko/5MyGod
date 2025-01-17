@@ -238,15 +238,6 @@ export default function Detail() {
         dynamicTextColor: "text-white",
         dynamicCursor: "cursor-pointer",
       };
-    } else if (isMyErrand && errandState === "PS020") {
-      // 내가 요청한 && 진행 중
-      return {
-        text: `심부름 완료 및 결제하기`,
-        action: () => {},
-        dynamicBg: "bg-primary-500",
-        dynamicTextColor: "text-white",
-        dynamicCursor: "cursor-pointer",
-      };
     } else if (!isMyErrand && errandState === "PS010") {
       // 남이 요청한 && 구인 중
       if (isAlreadyApplied) {
