@@ -36,6 +36,7 @@ export default function Detail() {
     onError: (err) => {
       console.error(err);
     },
+    enabled: !!user,
   });
   console.log("이 심부름에 대한 나의 지원 내역: ", myAppliesToThis);
 
@@ -45,6 +46,7 @@ export default function Detail() {
     queryFn: () => axios.get(`/seller/orders?custom={"products._id": ${_id}}`),
     select: (res) => res.data,
     onError: (err) => console.error(err),
+    enabled: !!user,
   });
   console.log("이 심부름에 대한 지원 데이터: ", applicantsData);
 
@@ -185,6 +187,10 @@ export default function Detail() {
 
   //////////////////////////////////////////////////////////////// 다이나믹 버튼 ////////////////////////////////////////////////////////////////
 
+  // 로그인 상태인지 아닌지 구분
+  const isLoggedIn = user !== null && user !== undefined;
+  console.log("로그인 상태인지: ", isLoggedIn);
+
   // 심부름 구분
   // 내가 올린 심부름인지 아닌지 여부
   const isMyErrand = data?.item?.seller_id === user?._id || false;
@@ -228,15 +234,6 @@ export default function Detail() {
         action: () => {
           navigate(`/errand/applicants/${_id}`, { state: { applicantsData } }); // 지원자목록 페이지로 이동, 지원자 데이터를 전달
         },
-        dynamicBg: "bg-primary-500",
-        dynamicTextColor: "text-white",
-        dynamicCursor: "cursor-pointer",
-      };
-    } else if (isMyErrand && errandState === "PS020") {
-      // 내가 요청한 && 진행 중
-      return {
-        text: `심부름 완료 및 결제하기`,
-        action: () => {},
         dynamicBg: "bg-primary-500",
         dynamicTextColor: "text-white",
         dynamicCursor: "cursor-pointer",
@@ -434,10 +431,12 @@ export default function Detail() {
       <div className="pb-40 bg-background-color"></div>
 
       {/* 결제 컴포넌트 버튼 */}
-      {isMyErrand && errandState === "PS020" && <Payment item={data.item} />}
+      {isLoggedIn && isMyErrand && errandState === "PS020" && (
+        <Payment item={data.item} />
+      )}
 
       {/* 다이나믹 버튼 */}
-      {!(isMyErrand && errandState === "PS020") && (
+      {isLoggedIn && !(isMyErrand && errandState === "PS020") && (
         <button
           type="button"
           onClick={action}
