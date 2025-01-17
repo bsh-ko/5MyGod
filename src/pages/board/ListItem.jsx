@@ -57,13 +57,18 @@ export default function ListItem({ item }) {
   // 심부름 상태 변수
   const isCompleted = item.extra?.productState[0] === "PS030";
   const isExpired = item.extra?.productState[0] === "PS010" && isPastDue;
-  // const listItemColor = isCompleted || isExpired ? "bg-gray-300" : "bg-white";
+  const isOngoing = item.extra?.productState[0] === "PS020";
 
-  // 완료 또는 만료된 심부름에 덮을 반투명 레이어
-  const overlayClass =
-    isCompleted || isExpired
-      ? "absolute inset-0 bg-gray-400 bg-opacity-50 rounded-[10px]"
-      : "";
+  // 완료 / 기한 만료 / 진행 중 심부름에 덮을 반투명 레이어
+  let overlayClass;
+  if (isCompleted || isExpired) {
+    overlayClass = "absolute inset-0 bg-gray-400 bg-opacity-50 rounded-[10px]";
+  } else if (isOngoing) {
+    overlayClass =
+      "absolute inset-0 bg-primary-100 bg-opacity-50 rounded-[10px]";
+  } else {
+    overlayClass = "";
+  }
 
   // 반투명 레이어에 띄울 메시지
   let overlayMessage;
@@ -71,6 +76,8 @@ export default function ListItem({ item }) {
     overlayMessage = "완료된 심부름";
   } else if (isExpired) {
     overlayMessage = "기한이 지난 심부름";
+  } else if (isOngoing) {
+    overlayMessage = "진행 중인 심부름";
   }
 
   // category에 따라 이미지 경로 매핑
