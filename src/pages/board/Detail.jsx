@@ -255,11 +255,12 @@ export default function Detail() {
         dynamicCursor: "cursor-default",
       };
     }
+
     return {
       text: "",
       action: () => {},
-      dynamicBg: "bg-gray-400",
-      dynamicTextColor: "text-white",
+      dynamicBg: "",
+      dynamicTextColor: "",
       dynamicCursor: "cursor-default",
     };
   };
@@ -424,11 +425,7 @@ export default function Detail() {
 
       {/* 결제 컴포넌트 버튼 */}
       {isLoggedIn && isMyErrand && errandState === "PS020" && (
-        <Payment
-          item={data.item}
-          className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
-          style={{ top: `${buttonPos}px` }}
-        />
+        <Payment item={data.item} buttonPos={buttonPos} />
       )}
 
       {/* 다이나믹 버튼 */}
