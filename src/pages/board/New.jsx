@@ -21,12 +21,16 @@ export default function New() {
   const navigate = useNavigate();
   const axios = useAxiosInstance();
   const user = useUserStore();
+  const hasHandledRedirect = useRef(false);
 
   /////////////////////////////////////////////////// 로그아웃 상태일 경우, 로그인 페이지로 이동시키기 ////////////////////////////////////////////////
   useEffect(() => {
     if (user === null || !user || !user._id) {
-      alert("로그인이 필요합니다. 로그인 페이지로 이동할까요?");
-      navigate(`/users/login`);
+      if (!hasHandledRedirect.current) {
+        hasHandledRedirect.current = true;
+        alert("로그인이 필요합니다. 로그인 페이지로 이동할까요?");
+        navigate(`/users/login`);
+      }
     }
   }, [user, navigate]);
 
