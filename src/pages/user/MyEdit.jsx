@@ -102,7 +102,7 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* 자기소개 */}
-      <div className="intro bg-white p-5">
+      <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
         <label htmlFor="introduction" className="block text-lg font-bold mb-2">
           자기소개
         </label>
@@ -127,9 +127,18 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
       </div>
 
       {/* 심부름 */}
-      <div className="intro bg-white my-3 p-5">
-        <label className="text-lg font-bold text-gray-700">심부름</label>
-        <div className="space-y-3">
+      <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
+        <div className="flex justify-between items-center mb-2">
+          <label className="text-lg font-bold ">심부름</label>
+          <button
+            type="button"
+            className="items-center text-blue-500 text-sm font-bold mr-[2px]"
+            onClick={() => appendErrands("")}
+          >
+            ➕
+          </button>
+        </div>
+        <div className="">
           {errandsFields.map((field, index) => (
             <div key={field.id} className="flex flex-wrap items-center">
               <div className="flex-1 min-w-0">
@@ -137,7 +146,6 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
                   type="text"
                   placeholder="심부름을 입력하세요."
                   className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500"
-                  {...register(`errands.${index}`, { required: "심부름은 필수입니다." })}
                 />
               </div>
               <button
@@ -150,12 +158,20 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
             </div>
           ))}
         </div>
-        <button type="button" className="mt-2 mb-5 text-blue-500 font-bold" onClick={() => appendErrands("")}>
-          추가하기
-        </button>
+      </div>
 
-        {/* 이동수단 */}
-        <label className="block text-lg font-bold mb-2">이동수단</label>
+      {/* 이동수단 */}
+      <div className="intro bg-white mx-5 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
+        <div className="flex justify-between items-center mb-2">
+          <label className="block text-lg font-bold">이동수단</label>
+          <button
+            type="button"
+            className="items-center text-blue-500 text-sm font-bold mr-[2px]"
+            onClick={() => appendTransportation("")}
+          >
+            ➕
+          </button>
+        </div>
         <div className="space-y-3">
           {transportationFields.map((field, index) => (
             <div key={field.id} className="flex flex-wrap items-center">
@@ -164,7 +180,6 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
                   type="text"
                   placeholder="이동수단을 입력하세요."
                   className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500"
-                  {...register(`transportation.${index}`, { required: "이동수단은 필수입니다." })}
                 />
               </div>
               <button
@@ -177,33 +192,45 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
             </div>
           ))}
         </div>
-        <button type="button" className="mt-2 mb-5 text-blue-500 font-bold" onClick={() => appendTransportation("")}>
-          추가하기
-        </button>
-
-        {/* 심부름 상세 */}
-        <label className="block text-lg font-bold mb-2">심부름 상세</label>
+      </div>
+      {/* 심부름 상세 */}
+      <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
+        <div className="flex justify-between items-center mb-2">
+          <label className="block text-lg font-bold mb-2">심부름 상세</label>
+          <button
+            type="button"
+            className="items-center text-blue-500 text-sm font-bold"
+            onClick={() => appendDetails("")}
+          >
+            ➕
+          </button>
+        </div>
         {detailsFields.map((field, index) => (
           <div key={field.id} className="flex items-center mb-2">
             <input
               type="text"
               placeholder="심부름 상세를 입력하세요."
               className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500"
-              {...register(`details.${index}`, { required: "심부름 상세는 필수입니다." })}
             />
             <button type="button" className="ml-2 mb-5 text-red-500 font-bold" onClick={() => removeDetails(index)}>
               🗑️
             </button>
           </div>
         ))}
-        <button type="button" className="mt-2 text-blue-500 font-bold" onClick={() => appendDetails("")}>
-          추가하기
-        </button>
       </div>
 
-      {/* 경험 */}
-      <div className="intro bg-white my-3 p-5">
-        <label className="block text-lg font-bold mb-2">경험</label>
+      {/* 경력 */}
+      <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
+        <div className="flex justify-between items-center mb-2">
+          <label className="block text-lg font-bold mb-2">경력</label>
+          <button
+            type="button"
+            className="items-center text-blue-500 text-sm font-bold mr-[2px]"
+            onClick={() => appendExperience("")}
+          >
+            ➕
+          </button>
+        </div>
         {experienceFields.map((field, index) => (
           <div key={field.id} className="flex items-center mb-2">
             <input
@@ -216,12 +243,20 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
             </button>
           </div>
         ))}
-        <button type="button" className="mt-2 mb-5 text-blue-500 font-bold" onClick={() => appendExperience("")}>
-          추가하기
-        </button>
+      </div>
 
-        {/* 자격증 */}
-        <label className="block text-lg font-bold mb-2">자격증</label>
+      {/* 자격증 */}
+      <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
+        <div className="flex justify-between items-center mb-2">
+          <label className="block text-lg font-bold mb-2">자격증</label>
+          <button
+            type="button"
+            className="items-center text-blue-500 text-sm font-bold"
+            onClick={() => appendCertificates("")}
+          >
+            ➕
+          </button>
+        </div>
         {certificatesFields.map((field, index) => (
           <div key={field.id} className="flex items-center mb-2">
             <input
@@ -234,12 +269,20 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
             </button>
           </div>
         ))}
-        <button type="button" className="mt-2 mb-5 text-blue-500 font-bold" onClick={() => appendCertificates("")}>
-          추가하기
-        </button>
+      </div>
 
-        {/* 사업자 */}
-        <label className="block text-lg font-bold mb-2">사업자</label>
+      {/* 사업자 */}
+      <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
+        <div className="flex justify-between items-center mb-2">
+          <label className="block text-lg font-bold mb-2">사업자</label>
+          <button
+            type="button"
+            className="items-center text-blue-500 text-sm font-bold mr-[2px]"
+            onClick={() => appendBusiness("")}
+          >
+            ➕
+          </button>
+        </div>
         {businessFields.map((field, index) => (
           <div key={field.id} className="flex items-center mb-2">
             <input
@@ -252,15 +295,12 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
             </button>
           </div>
         ))}
-        <button type="button" className="mt-2 text-blue-500 font-bold" onClick={() => appendBusiness("")}>
-          추가하기
-        </button>
       </div>
 
-      <div className="flex justify-end space-x-4 pb-24">
+      <div className="flex justify-end space-x-4 pb-24 my-2 px-5">
         <button
           type="button"
-          className="bg-gray-500 text-white font-semibold py-2 px-4 rounded"
+          className="bg-gray-500 text-white font-semibold py-2 px-4 rounded mr-[2px]"
           onClick={() => setIsEditing(false)}
         >
           취소
