@@ -1,19 +1,15 @@
 import LikeButton from "@pages/pay/LikeButton";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 export default function PaySuccess() {
   const location = useLocation();
-  const prodData = location.state;
-  console.log(prodData);
-
-  const matchedUserId = location.state?.extra?.matchedUserId;
+  // const prodData = location.state; // 결제 완료한 상품 데이터
+  const matchedUserId = location.state?.extra?.matchedUserId; //매칭된 유저 아이디
   const payAmount = location.state?.price;
 
   const axios = useAxiosInstance();
-
-  console.log("매칭된 유저 아이디 ", matchedUserId);
 
   const { data: userData } = useQuery({
     queryKey: ["users", matchedUserId],
@@ -21,10 +17,8 @@ export default function PaySuccess() {
     select: (res) => res.data.item,
     enabled: !!matchedUserId,
   });
-
   console.log("매칭된 유저 데이터 ", userData);
 
-  // 결제 금액, 유저 닉네임 동적 구현 요구됨
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="content-center flex flex-col items-center">
@@ -41,6 +35,19 @@ export default function PaySuccess() {
           심부름에 만족하셨다면
         </p>
         <LikeButton className="mx-auto" />
+        <button>
+          <Link
+            to="/users/mypage"
+            className="bg-primary-500 text-white font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full"
+            style={{
+              top: `${
+                (window.visualViewport?.height || window.innerHeight) - 76
+              }px`,
+            }}
+          >
+            확인
+          </Link>
+        </button>
       </div>
     </div>
   );
