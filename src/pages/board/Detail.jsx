@@ -36,6 +36,7 @@ export default function Detail() {
     onError: (err) => {
       console.error(err);
     },
+    enabled: !!user,
   });
   console.log("이 심부름에 대한 나의 지원 내역: ", myAppliesToThis);
 
@@ -45,6 +46,7 @@ export default function Detail() {
     queryFn: () => axios.get(`/seller/orders?custom={"products._id": ${_id}}`),
     select: (res) => res.data,
     onError: (err) => console.error(err),
+    enabled: !!user,
   });
   console.log("이 심부름에 대한 지원 데이터: ", applicantsData);
 
