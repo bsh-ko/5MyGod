@@ -3,7 +3,7 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import useUserStore from "@zustand/userStore";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 import Profile from "@pages/user/Profile";
 import Tabs from "@pages/user/Tabs";
@@ -11,7 +11,11 @@ import MyRequests from "@pages/user/MyRequests";
 import MyApplies from "@pages/user/MyApplies";
 
 export default function MyPage() {
-  const [activeTab, setActiveTab] = useState("intro"); //탭 전환
+  const location = useLocation();
+
+  const [activeTab, setActiveTab] = useState(
+    location.state?.activeTab || "intro"
+  ); //탭 전환
   const { user } = useUserStore();
   const { _id } = useParams();
   const axios = useAxiosInstance();
@@ -77,7 +81,8 @@ export default function MyPage() {
   if (isLoading) return <div>로딩 중...</div>;
 
   if (error) {
-    const errorMessage = error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
+    const errorMessage =
+      error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
     return <div>{errorMessage}</div>;
   }
 
@@ -111,7 +116,9 @@ export default function MyPage() {
             <div id="intro" className="tab-content">
               <div className="intro bg-white p-5">
                 <div className="flex justify-between">
-                  <h3 className="text-lg font-bold mb-3 text-gray-700">자기소개</h3>
+                  <h3 className="text-lg font-bold mb-3 text-gray-700">
+                    자기소개
+                  </h3>
                   {/* {!isEditing ? (
                     <button onClick={handleEditClick} className="text-primary-500 font-bold text-sm">
                       수정하기
@@ -158,36 +165,67 @@ export default function MyPage() {
 
                 <div className="flex justify-between my-3">
                   <h3 className="text-lg font-bold text-gray-700">이동 수단</h3>
-                  <a href="#" className="text-primary-500 font-bold text-sm"></a>
+                  <a
+                    href="#"
+                    className="text-primary-500 font-bold text-sm"
+                  ></a>
                 </div>
                 <ul className="flex space-x-3">
                   {users.item.extra.transportation?.map((transport, index) => (
                     <li key={index} className="flex items-center">
-                      <p className="bg-gray-100 px-2 py-1 rounded-md">{transport}</p>
+                      <p className="bg-gray-100 px-2 py-1 rounded-md">
+                        {transport}
+                      </p>
                     </li>
                   ))}
                 </ul>
 
-                <h3 className="text-lg font-bold mt-6 text-gray-700">심부름 상세 (선택)</h3>
-                <p className="text-gray-700 text-sm mb-3">가격이나 자주 하는 질문 또는 안내사항을 작성할 수 있어요</p>
-                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
+                <h3 className="text-lg font-bold mt-6 text-gray-700">
+                  심부름 상세 (선택)
+                </h3>
+                <p className="text-gray-700 text-sm mb-3">
+                  가격이나 자주 하는 질문 또는 안내사항을 작성할 수 있어요
+                </p>
+                <select
+                  name=""
+                  id=""
+                  className="w-full h-14 bg-gray-100 rounded-[10px] px-4"
+                >
                   <option value="예시1">예시1</option>
                   <option value="예시2">예시2</option>
                 </select>
               </div>
               <div className="intro bg-white p-5 mt-3 mb-[150px]">
-                <h3 className="text-lg font-bold text-gray-700 pb-3">경력 (선택)</h3>
-                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
+                <h3 className="text-lg font-bold text-gray-700 pb-3">
+                  경력 (선택)
+                </h3>
+                <select
+                  name=""
+                  id=""
+                  className="w-full h-14 bg-gray-100 rounded-[10px] px-4"
+                >
                   <option value="예시1">예시1</option>
                   <option value="예시2">예시2</option>
                 </select>
-                <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">자격증 (선택)</h3>
-                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
+                <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">
+                  자격증 (선택)
+                </h3>
+                <select
+                  name=""
+                  id=""
+                  className="w-full h-14 bg-gray-100 rounded-[10px] px-4"
+                >
                   <option value="예시1">예시1</option>
                   <option value="예시2">예시2</option>
                 </select>
-                <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">사업자 (선택)</h3>
-                <select name="" id="" className="w-full h-14 bg-gray-100 rounded-[10px] px-4">
+                <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">
+                  사업자 (선택)
+                </h3>
+                <select
+                  name=""
+                  id=""
+                  className="w-full h-14 bg-gray-100 rounded-[10px] px-4"
+                >
                   <option value="예시1">예시1</option>
                   <option value="예시2">예시2</option>
                 </select>
