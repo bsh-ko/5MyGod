@@ -7,6 +7,7 @@ const ApplicantList = () => {
   const [loading, setLoading] = useState(true);
   const axiosInstance = useAxiosInstance();
   const { _id } = useParams(); // 디테일에서 URL의 게시글 번호를 가져옴
+  const clientId = "exampleClientId";
 
   useEffect(() => {
     const fetchApplicants = async () => {
@@ -16,6 +17,10 @@ const ApplicantList = () => {
         // /seller/orders API 호출
         const response = await axiosInstance.get("/seller/orders");
         const data = response.data; //데이터 획득
+        console.log("현재 clientId 값:", clientId); // clientId 확인
+
+        const imagePath = `/files/${clientId}/user-neo.webp`;
+        console.log("생성된 이미지 경로:", imagePath); // 이미지 경로 확인
 
         if (data.ok === 1) {
           // A 데이터와 비교하여 B 데이터 필터링
@@ -28,7 +33,7 @@ const ApplicantList = () => {
             id: item.user._id,
             name: item.user.name,
             description: item.user.extra.introduction || "소개글이 없습니다.",
-            profileImage: item.user.image,
+            profileImage: item.user.image || imagePath, // 기본 이미지 경로를 imagePath로 설정
           }));
 
           setApplicants(formattedApplicants); //applicants에 저장
@@ -52,35 +57,38 @@ const ApplicantList = () => {
       {/* 지원자 목록 */}
       <main className="font-Pretendard text-gray-black-900 flex-1 p-4 space-y-6 overflow-y-auto bg-[#fff]">
         {applicants.length > 0 ? (
-          applicants.map((applicant) => (
-            <div
-              key={applicant.id}
-              className="w-[360px] h-[84px] flex-shrink-0 flex items-center bg-white rounded-[10px] shadow-card-shadow"
-            >
-              <div className="flex items-center ml-[16px] flex-grow">
-                <div
-                  // 프로필 이미지
-                  className="w-[42px] h-[42px] rounded-full bg-[#D9D9D9] mr-[16px]"
-                  style={{
-                    backgroundImage: `url(${applicant.profileImage})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
-                <div className="flex flex-col justify-center">
-                  <h3 className="font-Pretendard text-[18px] font-semibold text-gray-black-900 tracking-[-1.08px]">
-                    {applicant.name}
-                  </h3>
-                  <p className="font-Pretendard text-[16px] font-medium text-gray-black-900 tracking-[-0.96px]">
-                    {applicant.description}
-                  </p>
+          applicants.map((applicant) => {
+            console.log("프로필 이미지 URL:", applicant.profileImage); // 이미지 URL 디버깅 로그
+            return (
+              <div
+                key={applicant.id}
+                className="w-[360px] h-[84px] flex-shrink-0 flex items-center bg-white rounded-[10px] shadow-card-shadow"
+              >
+                <div className="flex items-center ml-[16px] flex-grow">
+                  <div
+                    // 프로필 이미지
+                    className="w-[42px] h-[42px] rounded-full bg-[#D9D9D9] mr-[16px]"
+                    style={{
+                      backgroundImage: `url(${applicant.profileImage})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  ></div>
+                  <div className="flex flex-col justify-center">
+                    <h3 className="font-Pretendard text-[18px] font-semibold text-gray-black-900 tracking-[-1.08px]">
+                      {applicant.name}
+                    </h3>
+                    <p className="font-Pretendard text-[16px] font-medium text-gray-black-900 tracking-[-0.96px]">
+                      {applicant.description}
+                    </p>
+                  </div>
                 </div>
+                <button className="font-laundry w-[77px] h-[84px] flex-shrink-0 rounded-r-[10px] bg-[#4849E8] text-white shadow-card-shadow">
+                  수락하기
+                </button>
               </div>
-              <button className="font-laundry w-[77px] h-[84px] flex-shrink-0 rounded-r-[10px] bg-[#4849E8] text-white shadow-card-shadow">
-                수락하기
-              </button>
-            </div>
-          ))
+            );
+          })
         ) : (
           <div className="text-center text-gray-black-700">
             지원자가 없습니다.
