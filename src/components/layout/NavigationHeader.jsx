@@ -118,6 +118,7 @@ export default function NavigationHeader() {
   const commonHeaderStyle =
     "w-full min-h-[49px] flex justify-between items-center tracking-tighter sticky top-0";
 
+  //결제 완료 페이지에서 안보이도록 처리
   if (location.pathname === "/pay/paysuccess") {
     return null;
   }

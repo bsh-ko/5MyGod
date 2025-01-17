@@ -33,7 +33,7 @@ export default function PaySuccess() {
   return (
     <div className="min-h-screen flex items-center justify-center relative">
       <button
-        onClick={handleMoveToMyRequests} // X 버튼 클릭 핸들러 추가
+        onClick={handleMoveToMyRequests}
         className="absolute top-5 left-5 text-gray-400 text-2xl"
       >
         <img src="/src/assets/x-icon.png" />
