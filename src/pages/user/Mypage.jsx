@@ -72,7 +72,7 @@ export default function MyPage() {
   return (
     <div className="flex flex-col items-center justify-center">
       {/* 핸드폰 사이즈 맞춘 레이아웃 */}
-      <div className="max-w-[393px] h-screen mx-auto  bg-background-color">
+      <div className="w-[393px] mx-auto min-h-screen bg-background-color">
         <Profile
           image={users.item.image}
           nickname={users.item.name || "닉네임 없음"}

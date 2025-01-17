@@ -129,7 +129,7 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
       {/* 심부름 */}
       <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
         <div className="flex justify-between items-center mb-2">
-          <label className="text-lg font-bold ">심부름</label>
+          <label className="text-lg font-bold">심부름</label>
           <button
             type="button"
             className="items-center text-blue-500 text-sm font-bold mr-[2px]"
@@ -138,7 +138,7 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
             ➕
           </button>
         </div>
-        <div className="">
+        <div className="space-y-3">
           {errandsFields.map((field, index) => (
             <div key={field.id} className="flex flex-wrap items-center">
               <div className="flex-1 min-w-0">
@@ -146,13 +146,10 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
                   type="text"
                   placeholder="심부름을 입력하세요."
                   className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500"
+                  {...register(`errands.${index}`, { required: "추가된 칸에 심부름을 적어주세요." })}
                 />
               </div>
-              <button
-                type="button"
-                className="ml-2 text-red-500 font-bold flex-shrink-0"
-                onClick={() => removeErrands(index)}
-              >
+              <button type="button" className="ml-2  font-bold flex-shrink-0" onClick={() => removeErrands(index)}>
                 🗑️
               </button>
             </div>
@@ -161,9 +158,9 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
       </div>
 
       {/* 이동수단 */}
-      <div className="intro bg-white mx-5 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
+      <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
         <div className="flex justify-between items-center mb-2">
-          <label className="block text-lg font-bold">이동수단</label>
+          <label className="text-lg font-bold">이동수단</label>
           <button
             type="button"
             className="items-center text-blue-500 text-sm font-bold mr-[2px]"
@@ -180,6 +177,7 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
                   type="text"
                   placeholder="이동수단을 입력하세요."
                   className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500"
+                  {...register(`transportation.${index}`, { required: "이동수단은 필수입니다." })}
                 />
               </div>
               <button
@@ -193,13 +191,14 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
           ))}
         </div>
       </div>
+
       {/* 심부름 상세 */}
       <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
         <div className="flex justify-between items-center mb-2">
-          <label className="block text-lg font-bold mb-2">심부름 상세</label>
+          <label className="block text-lg font-bold">심부름 상세</label>
           <button
             type="button"
-            className="items-center text-blue-500 text-sm font-bold"
+            className="items-center text-blue-500 text-sm font-bold mr-[2px]"
             onClick={() => appendDetails("")}
           >
             ➕
@@ -211,6 +210,7 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
               type="text"
               placeholder="심부름 상세를 입력하세요."
               className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500"
+              {...register(`details.${index}`, { required: "심부름 상세는 필수입니다." })}
             />
             <button type="button" className="ml-2 mb-5 text-red-500 font-bold" onClick={() => removeDetails(index)}>
               🗑️
@@ -222,7 +222,7 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
       {/* 경력 */}
       <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
         <div className="flex justify-between items-center mb-2">
-          <label className="block text-lg font-bold mb-2">경력</label>
+          <label className="block text-lg font-bold">경력</label>
           <button
             type="button"
             className="items-center text-blue-500 text-sm font-bold mr-[2px]"
@@ -248,10 +248,10 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
       {/* 자격증 */}
       <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
         <div className="flex justify-between items-center mb-2">
-          <label className="block text-lg font-bold mb-2">자격증</label>
+          <label className="block text-lg font-bold">자격증</label>
           <button
             type="button"
-            className="items-center text-blue-500 text-sm font-bold"
+            className="items-center text-blue-500 text-sm font-bold mr-[2px]"
             onClick={() => appendCertificates("")}
           >
             ➕
@@ -274,7 +274,7 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
       {/* 사업자 */}
       <div className="intro bg-white mx-5 my-3 p-5 rounded-[10px] shadow-card-shadow px-[22px] py-[18px] gap-[24px] items-center">
         <div className="flex justify-between items-center mb-2">
-          <label className="block text-lg font-bold mb-2">사업자</label>
+          <label className="block text-lg font-bold">사업자</label>
           <button
             type="button"
             className="items-center text-blue-500 text-sm font-bold mr-[2px]"
@@ -297,10 +297,10 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
         ))}
       </div>
 
-      <div className="flex justify-end space-x-4 pb-24 my-2 px-5">
+      <div className="flex justify-end space-x-4 pb-24 mx-5">
         <button
           type="button"
-          className="bg-gray-500 text-white font-semibold py-2 px-4 rounded mr-[2px]"
+          className="bg-gray-500 text-white font-semibold py-2 px-4 rounded"
           onClick={() => setIsEditing(false)}
         >
           취소
