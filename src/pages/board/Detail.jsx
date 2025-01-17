@@ -270,6 +270,13 @@ export default function Detail() {
         dynamicCursor: "cursor-default",
       };
     }
+    return {
+      text: "",
+      action: () => {},
+      dynamicBg: "bg-gray-400",
+      dynamicTextColor: "text-white",
+      dynamicCursor: "cursor-default",
+    };
   };
 
   const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } =
