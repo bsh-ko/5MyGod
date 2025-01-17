@@ -6,6 +6,7 @@ import DateAndTimePicker from "@components/DateAndTimePicker";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import useUserStore from "@zustand/userStore";
 
 export default function New() {
   const {
@@ -17,11 +18,23 @@ export default function New() {
     formState: { errors },
   } = useForm();
 
-  const { _id } = useParams();
   const navigate = useNavigate();
   const axios = useAxiosInstance();
+  const user = useUserStore();
+  const hasHandledRedirect = useRef(false);
 
-  ////////////////////////////////////////////////////////////// 제목 //////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////// 로그아웃 상태일 경우, 로그인 페이지로 이동시키기 ////////////////////////////////////////////////
+  useEffect(() => {
+    if (user === null || !user || !user._id) {
+      if (!hasHandledRedirect.current) {
+        hasHandledRedirect.current = true;
+        alert("로그인이 필요합니다. 로그인 페이지로 이동할까요?");
+        navigate(`/users/login`);
+      }
+    }
+  }, [user, navigate]);
+
+  ////////////////////////////////////////////////////////////// 제목 //////////////////////////////////////////////////////////////////
   // 제목 입력 상태 관리 및 실시간 반영
   const title = watch("name", "");
 

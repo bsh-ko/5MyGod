@@ -4,25 +4,30 @@ meta {
   seq: 2
 }
 
-get {
+post {
   url: {{url}}/seller/products
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
 }
 
 body:json {
   {
-  "price": "data.price", // 가격(필수)
+  "price": 10, // 가격(필수)
   "quantity": 1, // 수량(필수)
-  "name": "formData.name", // 상품명(필수)
-  "content": "data.content", // 상품 설명(필수)
+  "name": "결제 테스트용 심부름", // 상품명(필수)
+  "content": "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ", // 상품 설명(필수)
   "extra": {
-    "category": "selectedCategory",
-    "tags": "selectedTags",
-    "pickupAddress": "isPickupDisabled ? null : pickupAddress",
-    "deliveryAddress": "isdeliveryDisabled ? null : deliveryAddress",
-    "dateAndTime": "dateAndTime",
-    "productState": "PS010"
+    "category": ["PC01"],
+    "tags": ["TA01"],
+    "pickupLocation": null,
+    "deliveryLocation": null,
+    "due": "2025.12.31 23:50:00",
+    "productState": "PS020", // 진행 중
+    "matchedUserId": 2
     }
   }  
 }
