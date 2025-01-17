@@ -19,12 +19,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm({
-    defaultValues: {
-      email: "5mygod@gmail.com",
-      password: "55555555",
-    },
-  });
+  } = useForm();
 
   const axios = useAxiosInstance();
   const login = useMutation({
@@ -48,14 +43,9 @@ export default function Login() {
     },
     onError: (err) => {
       if (err.response?.data.errors) {
-        err.response?.data.errors.forEach((error) =>
-          setError(error.path, { message: error.msg })
-        );
+        err.response?.data.errors.forEach((error) => setError(error.path, { message: error.msg }));
       } else {
-        alert(
-          err.response?.data.message ||
-            "네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-        );
+        alert(err.response?.data.message || "네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       }
     },
     onSettled: () => setLoading(false),
@@ -68,10 +58,7 @@ export default function Login() {
           <h1 className="login__title text-[36px] font-bold text-primary-500 leading-normal tracking-[-2.88px] text-center">
             오는길에
           </h1>
-          <form
-            className="login__form mt-6 w-full font-normal"
-            onSubmit={handleSubmit(login.mutate)}
-          >
+          <form className="login__form mt-6 w-full font-normal" onSubmit={handleSubmit(login.mutate)}>
             <div className="login__field mb-3">
               <input
                 type="email"
@@ -114,9 +101,7 @@ export default function Login() {
             >
               {loading ? "로그인 중..." : "로그인하기"}
             </button>
-            <p className="pt-[100px] text-center text-gray-700 font-pretendard">
-              간편 로그인
-            </p>
+            <p className="pt-[100px] text-center text-gray-700 font-pretendard">간편 로그인</p>
             <button
               type="button"
               className="login__button w-full mt-3 px-4 py-3 bg-kakao text-black font-semibold rounded-lg hover:bg-yellow-400 transition duration-200 font-pretendard"
