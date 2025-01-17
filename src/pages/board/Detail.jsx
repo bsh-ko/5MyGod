@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@contexts/NavigationContext";
+import Payment from "@pages/pay/Payment";
 
 export default function Detail() {
   const axios = useAxiosInstance();
@@ -45,7 +46,7 @@ export default function Detail() {
     select: (res) => res.data,
     onError: (err) => console.error(err),
   });
-  console.log("이 심부름에 지원한 지원자 데이터: ", applicantsData);
+  console.log("이 심부름에 대한 지원 데이터: ", applicantsData);
 
   //////////////////////////////////////////////////////////////////// 함수 //////////////////////////////////////////////////////////////////
 
@@ -101,25 +102,24 @@ export default function Detail() {
     },
   });
 
-  // 심부름 완료 처리 함수
-  const finish = useMutation({
-    mutationFn: (_id) => {
-      const body = {
-        "extra.productState": ["PS030"],
-      };
-      return axios.patch(`/seller/products/${_id}`, body);
-    },
+  // 심부름 상태를 완료로 변경하는 함수 (결제 함수 성공 시 호출)
+  // const handleFinish = useMutation({
+  //   mutationFn: (_id) => {
+  //     const body = {
+  //       "extra.productState": ["PS030"],
+  //     };
+  //     return axios.patch(`/seller/products/${_id}`, body);
+  //   },
 
-    onSuccess: () => {
-      alert("심부름이 완료되었습니다. 결제 페이지로 이동합니다.");
-      // 심부름 결제 함수 추가해야 함
-    },
+  //   onSuccess: () => {
+  //     console.log("심부름 상태가 PS030으로 수정되었습니다.");
+  //   },
 
-    onError: (err) => {
-      alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-      console.error(err);
-    },
-  });
+  //   onError: (err) => {
+  //     alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+  //     console.error(err);
+  //   },
+  // });
 
   ///////////////////////////////////////////////////////////////////// UI //////////////////////////////////////////////////////////////////
 
@@ -236,11 +236,7 @@ export default function Detail() {
       // 내가 요청한 && 진행 중
       return {
         text: `심부름 완료 및 결제하기`,
-        // 심부름 완료 처리 함수 호출
-        action: () => {
-          finish.mutate(_id); // 심부름 상태를 PS030으로 바꿈
-          // 결제프로세스 추가 필요
-        },
+        action: () => {},
         dynamicBg: "bg-primary-500",
         dynamicTextColor: "text-white",
         dynamicCursor: "cursor-pointer",
@@ -281,6 +277,8 @@ export default function Detail() {
 
   const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } =
     defineDynamicButton();
+
+  //////////////////////////////////////////////////////////////// 리턴 블록 /////////////////////////////////////////////////////////////////
 
   if (!data) {
     return <div>로딩 중...</div>;
@@ -432,16 +430,23 @@ export default function Detail() {
       </div>
 
       <CommentList />
+
       <div className="pb-40 bg-background-color"></div>
 
-      <button
-        type="button"
-        onClick={action}
-        className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
-        style={{ top: `${buttonPos}px` }}
-      >
-        {text}
-      </button>
+      {/* 결제 컴포넌트 버튼 */}
+      {isMyErrand && errandState === "PS020" && <Payment item={data.item} />}
+
+      {/* 다이나믹 버튼 */}
+      {!(isMyErrand && errandState === "PS020") && (
+        <button
+          type="button"
+          onClick={action}
+          className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
+          style={{ top: `${buttonPos}px` }}
+        >
+          {text}
+        </button>
+      )}
     </main>
   );
 }
