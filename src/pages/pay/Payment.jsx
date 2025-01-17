@@ -5,28 +5,25 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
 
 // 상품(product)의 상태를 심부름 완료 및 종료("PS030")로 상태 바꾸는 함수
-export const useUpdateProdState = () => {
+const useUpdateProductState = () => {
   const axios = useAxiosInstance();
 
-  const updateProdState = async (productId) => {
+  const updateProdState = async ({ productId }) => {
     try {
-      const response = await axios.post(`/products/${productId}`, {
+      const response = await axios.patch(`/seller/products/${productId}`, {
         extra: {
           productState: ["PS030"],
         },
       });
-
-      if (response.data.ok !== 1) {
+      if (!response.data.ok) {
         throw new Error("상품 상태 업데이트에 실패했습니다.");
       }
-
       return response.data;
     } catch (error) {
       console.error("상품 상태 업데이트 중 오류 발생:", error);
       throw error;
     }
   };
-
   return useMutation({
     mutationFn: updateProdState,
     onSuccess: (data) => {
@@ -34,7 +31,6 @@ export const useUpdateProdState = () => {
     },
     onError: (error) => {
       console.error("상품 상태 업데이트 실패:", error);
-      alert("상품 상태 업데이트에 실패했습니다. 다시 시도해주세요.");
     },
   });
 };
@@ -64,14 +60,14 @@ export default function Payment({ item, className, style }) {
   }, []);
 
   const navigate = useNavigate();
-  const { mutateAsync: updateProdState } = useUpdateProdState();
+  const { mutateAsync: updateProdState } = useUpdateProductState();
 
   const handlePayment = async () => {
     try {
       if (window.PortOne) {
         const result = await window.PortOne.requestPayment({
           storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
-          paymentId: productId + "18", //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
+          paymentId: productId + "28", //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
           orderName: "테스트 결제",
           totalAmount: payAmount, //결제 금액
           currency: "KRW",
@@ -82,7 +78,7 @@ export default function Payment({ item, className, style }) {
         });
         console.log("결제 완료되었습니다.", result);
         // 결제 완료 후 product 상태 변경 (PS030)
-        await updateProdState(productId);
+        await updateProdState({ productId });
         navigate("/pay/paysuccess", { state: item });
       } else {
         alert("결제 모듈이 로드되지 않았습니다.");
