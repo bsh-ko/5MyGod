@@ -118,6 +118,10 @@ export default function NavigationHeader() {
   const commonHeaderStyle =
     "w-full min-h-[49px] flex justify-between items-center tracking-tighter sticky top-0";
 
+  if (location.pathname === "/pay/paysuccess") {
+    return null;
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 ${commonHeaderStyle} ${config.bgColor} h-14 border-b border-gray-100 flex items-center max-w-[393px] mx-auto z-50`}
