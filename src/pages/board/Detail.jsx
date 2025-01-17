@@ -187,6 +187,10 @@ export default function Detail() {
 
   //////////////////////////////////////////////////////////////// 다이나믹 버튼 ////////////////////////////////////////////////////////////////
 
+  // 로그인 상태인지 아닌지 구분
+  const isLoggedIn = user !== null && user !== undefined;
+  console.log("로그인 상태인지: ", isLoggedIn);
+
   // 심부름 구분
   // 내가 올린 심부름인지 아닌지 여부
   const isMyErrand = data?.item?.seller_id === user?._id || false;
@@ -436,10 +440,12 @@ export default function Detail() {
       <div className="pb-40 bg-background-color"></div>
 
       {/* 결제 컴포넌트 버튼 */}
-      {isMyErrand && errandState === "PS020" && <Payment item={data.item} />}
+      {isLoggedIn && isMyErrand && errandState === "PS020" && (
+        <Payment item={data.item} />
+      )}
 
       {/* 다이나믹 버튼 */}
-      {!(isMyErrand && errandState === "PS020") && (
+      {isLoggedIn && !(isMyErrand && errandState === "PS020") && (
         <button
           type="button"
           onClick={action}
