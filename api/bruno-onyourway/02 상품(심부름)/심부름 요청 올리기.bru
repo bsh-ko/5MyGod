@@ -7,11 +7,7 @@ meta {
 post {
   url: {{url}}/seller/products
   body: json
-  auth: bearer
-}
-
-auth:bearer {
-  token: {{accessToken}}
+  auth: inherit
 }
 
 body:json {
