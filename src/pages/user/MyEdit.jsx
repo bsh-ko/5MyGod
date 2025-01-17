@@ -237,6 +237,7 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
               type="text"
               placeholder="경력을 입력하세요."
               className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500"
+              {...register(`experience.${index}`, { required: "경력은 필수입니다." })}
             />
             <button type="button" className="ml-2 text-red-500 font-bold" onClick={() => removeExperience(index)}>
               🗑️
@@ -263,6 +264,7 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
               type="text"
               placeholder="자격증을 입력하세요."
               className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500"
+              {...register(`certificates.${index}`, { required: "자격증은 필수입니다." })}
             />
             <button type="button" className="ml-2 text-red-500 font-bold" onClick={() => removeCertificates(index)}>
               🗑️
@@ -289,6 +291,7 @@ export default function Edit({ users, setIsEditing, onUserUpdate }) {
               type="text"
               placeholder="사업자를 입력하세요."
               className="w-full p-3 border rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500"
+              {...register(`business.${index}`, { required: "사업자는 필수입니다." })}
             />
             <button type="button" className="ml-2 text-red-500 font-bold" onClick={() => removeBusiness(index)}>
               🗑️
