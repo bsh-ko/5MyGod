@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import useUserStore from "@zustand/userStore";
+import { useParams, useLocation } from "react-router-dom";
 
 import Profile from "@pages/user/Profile";
 import Tabs from "@pages/user/Tabs";
@@ -12,7 +13,11 @@ import MyApplies from "@pages/user/MyApplies";
 import MyEdit from "@pages/user/MyEdit";
 
 export default function MyPage() {
-  const [activeTab, setActiveTab] = useState("intro"); //탭 전환
+  const location = useLocation();
+
+  const [activeTab, setActiveTab] = useState(
+    location.state?.activeTab || "intro"
+  ); //탭 전환
   const { user, setUser } = useUserStore();
   const axios = useAxiosInstance();
   const navigate = useNavigate();
@@ -51,7 +56,8 @@ export default function MyPage() {
   if (isLoading) return <div>로딩 중...</div>;
 
   if (error) {
-    const errorMessage = error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
+    const errorMessage =
+      error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
     return <div>{errorMessage}</div>;
   }
 
