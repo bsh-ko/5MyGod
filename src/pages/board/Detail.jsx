@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@contexts/NavigationContext";
-import Payment from "@pages/pay/Payment";
+import Payment from "@components/pay/Payment";
 
 export default function Detail() {
   const axios = useAxiosInstance();
@@ -36,6 +36,7 @@ export default function Detail() {
     onError: (err) => {
       console.error(err);
     },
+    enabled: !!user,
   });
   console.log("이 심부름에 대한 나의 지원 내역: ", myAppliesToThis);
 
@@ -45,6 +46,7 @@ export default function Detail() {
     queryFn: () => axios.get(`/seller/orders?custom={"products._id": ${_id}}`),
     select: (res) => res.data,
     onError: (err) => console.error(err),
+    enabled: !!user,
   });
   console.log("이 심부름에 대한 지원 데이터: ", applicantsData);
 
@@ -185,6 +187,10 @@ export default function Detail() {
 
   //////////////////////////////////////////////////////////////// 다이나믹 버튼 ////////////////////////////////////////////////////////////////
 
+  // 로그인 상태인지 아닌지 구분
+  const isLoggedIn = user !== null && user !== undefined;
+  console.log("로그인 상태인지: ", isLoggedIn);
+
   // 심부름 구분
   // 내가 올린 심부름인지 아닌지 여부
   const isMyErrand = data?.item?.seller_id === user?._id || false;
@@ -232,15 +238,6 @@ export default function Detail() {
         dynamicTextColor: "text-white",
         dynamicCursor: "cursor-pointer",
       };
-    } else if (isMyErrand && errandState === "PS020") {
-      // 내가 요청한 && 진행 중
-      return {
-        text: `심부름 완료 및 결제하기`,
-        action: () => {},
-        dynamicBg: "bg-primary-500",
-        dynamicTextColor: "text-white",
-        dynamicCursor: "cursor-pointer",
-      };
     } else if (!isMyErrand && errandState === "PS010") {
       // 남이 요청한 && 구인 중
       if (isAlreadyApplied) {
@@ -273,6 +270,13 @@ export default function Detail() {
         dynamicCursor: "cursor-default",
       };
     }
+    return {
+      text: "",
+      action: () => {},
+      dynamicBg: "bg-gray-400",
+      dynamicTextColor: "text-white",
+      dynamicCursor: "cursor-default",
+    };
   };
 
   const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } =
@@ -434,10 +438,16 @@ export default function Detail() {
       <div className="pb-40 bg-background-color"></div>
 
       {/* 결제 컴포넌트 버튼 */}
-      {isMyErrand && errandState === "PS020" && <Payment item={data.item} />}
+      {isMyErrand && errandState === "PS020" && (
+        <Payment
+          item={data.item}
+          className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
+          style={{ top: `${buttonPos}px` }}
+        />
+      )}
 
       {/* 다이나믹 버튼 */}
-      {!(isMyErrand && errandState === "PS020") && (
+      {isLoggedIn && !(isMyErrand && errandState === "PS020") && (
         <button
           type="button"
           onClick={action}
