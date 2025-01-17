@@ -96,7 +96,11 @@ export default function Detail() {
 
     onSuccess: () => {
       alert("심부름 지원이 완료되었습니다.");
-      navigate(`/users/mypage`);
+      navigate(`/users/mypage`, {
+        state: {
+          activeTab: "apply",
+        },
+      });
     },
     onError: (err) => {
       alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
