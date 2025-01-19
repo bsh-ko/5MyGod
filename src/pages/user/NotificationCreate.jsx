@@ -13,8 +13,8 @@ export default function NotificationCreate() {
 
   const handleButtonClick = () => {
     const notificationData = {
-      type: "qna",
-      target_id: 4, // product?.item?.seller?._id
+      type: "apply", // apply || comment || expired
+      target_id: 4, // 알림을 받는 사람의 _id값 product?.item?.seller?._id
       channel: "toast",
       content: "종로구뽀또그래퍼님이 지원했어요.", // `${지원자 닉네임}님이 지원했어요.`
       extra: {

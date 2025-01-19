@@ -4,8 +4,8 @@ export default function NotificationItem({ notification }) {
   const navigate = useNavigate();
 
   const handleRequestClick = () => {
-    navigate(`${notification?.extra?.url}`); // 작성페이지로 이동
-    window.scrollTo(0, 0); // 스크롤 위치 초기화
+    navigate(`${notification?.extra?.url}`); // 클릭시 해당 url로 이동
+    window.scrollTo(0, 0);
   };
 
   return (
