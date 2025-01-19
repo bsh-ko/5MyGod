@@ -17,6 +17,7 @@ const ApplicantList = () => {
       const data = response.data;
 
       if (data.ok === 1) {
+        console.log("API 응답 데이터:", data);
         const imagePath = `/files/${clientId}/user-neo.webp`;
         const filteredItems = data.item.filter(
           (item) => item.products[0]._id === parseInt(_id)
