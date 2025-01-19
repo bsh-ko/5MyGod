@@ -43,6 +43,15 @@ export default function NavigationHeader() {
       },
     },
     {
+      pattern: /^\/users\/notifications$/,
+      config: {
+        title: "알림",
+        showBackButton: true,
+        showHeaderButton: false,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
       pattern: /^\/users\/mypage$/,
       config: {
         title: "내 정보",

@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
+import NotificationsList from "@pages/user/NotificationsList";
 
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
@@ -11,6 +12,7 @@ const Signup = lazy(() => import("@pages/user/Signup"));
 const MyPage = lazy(() => import("@pages/user/Mypage"));
 const UserPage = lazy(() => import("@pages/user/Userpage"));
 const PaySuccess = lazy(() => import("@components/pay/PaySuccess"));
+const Notifications = lazy(() => import("@pages/user/NotificationsList"));
 
 const router = createBrowserRouter(
   [
@@ -28,6 +30,7 @@ const router = createBrowserRouter(
         { path: "users/mypage", element: <MyPage /> },
         { path: "users/:_id", element: <UserPage /> },
         { path: "pay/paysuccess", element: <PaySuccess /> },
+        { path: "users/notifications", element: <Notifications /> },
       ],
     },
   ],
