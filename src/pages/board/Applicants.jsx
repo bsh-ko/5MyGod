@@ -10,47 +10,46 @@ const ApplicantList = () => {
   const { _id } = useParams();
   const clientId = "final05";
 
-  useEffect(() => {
-    const fetchApplicants = async () => {
-      try {
-        setLoading(true);
-        const response = await axiosInstance.get("/seller/orders");
-        const data = response.data;
+  const fetchApplicants = async () => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.get("/seller/orders");
+      const data = response.data;
 
-        if (data.ok === 1) {
-          const imagePath = `/files/${clientId}/user-neo.webp`;
-          const filteredItems = data.item.filter(
-            (item) => item.products[0]._id === parseInt(_id)
-          );
+      if (data.ok === 1) {
+        const imagePath = `/files/${clientId}/user-neo.webp`;
+        const filteredItems = data.item.filter(
+          (item) => item.products[0]._id === parseInt(_id)
+        );
 
-          const formattedApplicants = filteredItems.map((item) => ({
-            id: item.user._id,
-            name: item.user.name,
-            description: item.user.extra.introduction || "소개글이 없습니다.",
-            profileImage: item.user.image || imagePath,
-            productId: item.products[0]._id,
-            productState: item.products[0].extra.productState[0],
-            matchedUserId: item.products[0].extra.matchedUserId || null,
-          }));
+        const formattedApplicants = filteredItems.map((item) => ({
+          id: item.user._id,
+          name: item.user.name,
+          description: item.user.extra.introduction || "소개글이 없습니다.",
+          profileImage: item.user.image || imagePath,
+          productId: item.products[0]._id,
+          productState: item.products[0].extra.productState[0],
+          matchedUserId: item.products[0].extra.matchedUserId || null,
+        }));
 
-          setApplicants(formattedApplicants);
-          setLoading(false); // 데이터 로딩이 완료되면 loading 상태를 false로 변경
-        }
-      } catch (error) {
-        console.error("지원자 데이터를 가져오는 중 오류 발생:", error);
-        setLoading(false); // 에러가 발생해도 loading 상태를 false로 변경
+        setApplicants(formattedApplicants);
+        setLoading(false);
       }
-    };
+    } catch (error) {
+      console.error("지원자 데이터를 가져오는 중 오류 발생:", error);
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchApplicants();
   }, []);
 
   const handleAcceptApplicant = async (productId, applicantId) => {
     try {
-      // products의 extra 필드 내의 productState와 matchedUserId를 업데이트
       const response = await axiosInstance.patch(`/seller/products/${_id}`, {
         extra: {
-          productState: ["PS020"], // 배열 형태로 전송
+          productState: ["PS020"], // 상태 변경
           matchedUserId: applicantId,
         },
       });
@@ -58,11 +57,8 @@ const ApplicantList = () => {
       if (response.data.ok === 1) {
         console.log("지원자 수락 성공:", response.data);
 
-        // 로컬 상태 업데이트 후 새로운 데이터를 다시 불러오기
-        await fetchApplicants(); // 데이터 리프레시
-
-        // 성공 시 심부름 요청한 페이지로 이동
-        navigate("/errand-requested");
+        // 상태 업데이트 후 심부름 요청 페이지로 이동
+        navigate("/users/mypage");
       } else {
         console.error("지원자 수락 실패:", response.data);
       }
