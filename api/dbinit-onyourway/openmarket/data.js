@@ -561,12 +561,12 @@ export const initData = async (clientId, nextSeq) => {
 
       // O6: 매칭 완료, 심부름 진행 중 (PS020)
       {
-        _id: 6,
+        _id: await nextSeq("order"),
         user_id: 4,
         state: "OS020", // 매칭 완료, 심부름 진행 중
         products: [
           {
-            _id: await nextSeq("product"),
+            _id: 6,
             seller_id: 2,
             price: 20000,
 
@@ -593,12 +593,12 @@ export const initData = async (clientId, nextSeq) => {
       },
       // O7: 완료 (PS030)
       {
-        _id: 7,
+        _id: await nextSeq("order"),
         user_id: 4,
         state: "OS030", // 심부름 완료
         products: [
           {
-            _id: await nextSeq("product"),
+            _id: 7,
             seller_id: 2,
             price: 40000,
 
@@ -625,12 +625,12 @@ export const initData = async (clientId, nextSeq) => {
       },
       // O8: 기간 만료 (PS010 && due 지남)
       {
-        _id: 8,
+        _id: await nextSeq("order"),
         user_id: 4,
         state: "OS040", // 기간 만료
         products: [
           {
-            _id: await nextSeq("product"),
+            _id: 8,
             seller_id: 2,
             price: 50000,
 
