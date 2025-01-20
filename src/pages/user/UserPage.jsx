@@ -111,7 +111,7 @@ export default function UserPage() {
                   {users.item.extra.experience && users.item.extra.experience.length > 0 && (
                     <>
                       <h3 className="text-lg font-bold text-gray-700 pb-3">경력</h3>
-                      <ul className="flex flex-wrap h-14 bg-gray-100 rounded-[10px] px-4">
+                      {/* <ul className="flex flex-wrap h-14 bg-gray-100 rounded-[10px] px-4">
                         {users.item.extra.experience
                           .reduce((acc, exp, index) => {
                             const threeIndex = Math.floor(index / 3); // 3개씩 묶기 위한 인덱스 계산
@@ -135,6 +135,13 @@ export default function UserPage() {
                               ))}
                             </li>
                           ))}
+                      </ul> */}
+                      <ul>
+                        {users.item.extra.experience.map((experience, index) => (
+                          <li key={index} className="w-full h-14 bg-gray-100 rounded-[10px] px-4 mb-2 leading-[56px]">
+                            {experience}
+                          </li>
+                        ))}
                       </ul>
                     </>
                   )}
@@ -144,7 +151,7 @@ export default function UserPage() {
                       <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">자격증</h3>
                       <ul>
                         {users.item.extra.certificates.map((cert, index) => (
-                          <li key={index} className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">
+                          <li key={index} className="w-full h-14 bg-gray-100 rounded-[10px] px-4 mb-2 leading-[56px]">
                             {cert}
                           </li>
                         ))}
@@ -157,7 +164,7 @@ export default function UserPage() {
                       <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">사업자</h3>
                       <ul>
                         {users.item.extra.business.map((bus, index) => (
-                          <li key={index} className="w-full h-14 bg-gray-100 rounded-[10px] px-4 leading-[56px]">
+                          <li key={index} className="w-full h-14 bg-gray-100 rounded-[10px] px-4 mb-2 leading-[56px]">
                             {bus}
                           </li>
                         ))}
