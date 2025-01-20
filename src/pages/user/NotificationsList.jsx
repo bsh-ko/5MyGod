@@ -1,49 +1,64 @@
 import { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useNotification } from "@contexts/NotificationProvider";
 import NotificationItem from "./NotificationItem";
-import NotificationCreate from "./NotificationCreate";
+import NotificationCreate from "@components/NotificationCreate";
+// import useAxiosInstance from "@hooks/useAxiosInstance";
 
 export default function NotificationsList() {
-  const axios = useAxiosInstance();
   const location = useLocation();
-  const queryClient = useQueryClient();
+  const { notifications, markAllAsRead } = useNotification();
 
-  // 읽음 처리 mutation
-  const markAsRead = useMutation({
-    mutationFn: async () => {
-      const response = await axios.patch("/notifications/read");
-      return response.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["notifications"]);
-    },
-  });
-
-  const { data } = useQuery({
-    queryKey: ["notifications"],
-    queryFn: async () => {
-      const response = await axios.get("/notifications");
-      return response;
-    },
-    select: (res) => res.data,
-  });
-  console.log("알람 목록 ", data);
-
-  // 페이지를 벗어날 때 읽음 처리
   useEffect(() => {
-    // 현재 페이지가 알림 페이지일 때만 확인(markAsRead) 함수 실행
     return () => {
-      if (location.pathname === "/users/notification") {
-        markAsRead.mutate();
+      // 페이지를 벗어날 때 읽음 처리
+      if (location.pathname === "/users/notifications") {
+        markAllAsRead(); // Context에서 제공된 markAllAsRead 호출
       }
     };
-  }, [location]);
+  }, [location.pathname, markAllAsRead]);
 
-  if (!data) return <div>알림이 없습니다</div>;
+  // const axios = useAxiosInstance();
+  // const queryClient = useQueryClient();
 
-  const sortedNotifications = [...data.item].sort(
+  // 읽음 처리 mutation
+  //   const markAsRead = useMutation({
+  //     mutationFn: async () => {
+  //       const response = await axios.patch("/notifications/read");
+  //       return response.data;
+  //     },
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries(["notifications"]);
+  //     },
+  //   });
+
+  //   const { data } = useQuery({
+  //     queryKey: ["notifications"],
+  //     queryFn: async () => {
+  //       const response = await axios.get("/notifications");
+  //       return response;
+  //     },
+  //     select: (res) => res.data,
+  //   });
+  //   console.log("알람 목록 ", data);
+
+  //   useEffect(() => {
+  //     return () => {
+  //       if (location.pathname === "/users/notification") {
+  //         markAsRead();
+  //       }
+  //     };
+  //   }, [location, markAsRead]);
+
+  if (!notifications.length)
+    return (
+      <div>
+        <div>알림이 없습니다</div> <NotificationCreate />
+      </div>
+    );
+
+  const sortedNotifications = [...notifications].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 

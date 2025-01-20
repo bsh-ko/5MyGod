@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
+import { NotificationProvider } from "@contexts/NotificationProvider";
 import { lazy } from "react";
-import NotificationsList from "@pages/user/NotificationsList";
 
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
@@ -18,7 +18,11 @@ const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <Layout />,
+      element: (
+        <NotificationProvider>
+          <Layout />
+        </NotificationProvider>
+      ),
       // errorElement: <ErrorPage />,
       children: [
         { index: true, element: <MainPage /> },
