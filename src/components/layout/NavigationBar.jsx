@@ -58,7 +58,8 @@ export default function NavigationBar() {
   // 로그인, 회원가입 페이지에서는 네비게이션 바를 숨김
   if (
     location.pathname === "/users/login" ||
-    location.pathname === "/users/signup"
+    location.pathname === "/users/signup" ||
+    location.pathname === "/pay/paysuccess"
   ) {
     return null;
   }

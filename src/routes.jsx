@@ -12,6 +12,7 @@ const MyPage = lazy(() => import("@pages/user/Mypage"));
 const UserPage = lazy(() => import("@pages/user/Userpage"));
 const OngoingErrands = lazy(() => import("@pages/user/ongoingErrands"));
 const MyApplies = lazy(() => import("@pages/user/MyApplies"));
+const PaySuccess = lazy(() => import("@components/pay/PaySuccess"));
 
 const router = createBrowserRouter(
   [

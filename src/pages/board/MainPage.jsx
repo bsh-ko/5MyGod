@@ -56,17 +56,15 @@ export default function MainPage() {
   console.log("페이지 로드 시각: ", now);
 
   // 심부름 목록 필터링
-  const filteredItems = data.item.filter((item) => {
-    const isRecruiting = item.extra.productState[0] === "PS010"; // 구인 중
-    const isBeforeDue = new Date(item.extra.due) >= now; // 기한 안 지남
+  // const filteredItems = data.item.filter((item) => {
+  //   const isRecruiting = item.extra.productState[0] === "PS010"; // 구인 중
+  //   const isBeforeDue = new Date(item.extra.due) >= now; // 기한 안 지남
 
-    return isRecruiting && isBeforeDue;
-  });
+  //   return isRecruiting && isBeforeDue;
+  // });
 
-  // 필터링된 심부름 배열을 순회하며 <ListItem> 생성
-  const list = filteredItems.map((item) => (
-    <ListItem key={item._id} item={item} />
-  ));
+  // 심부름 배열을 순회하며 <ListItem> 생성
+  const list = data.item.map((item) => <ListItem key={item._id} item={item} />);
   console.log("필터링된 심부름으로 생성한 리스트아이템 목록: ", list);
 
   const handleRequestClick = () => {
@@ -79,8 +77,7 @@ export default function MainPage() {
       <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] relative">
         <div className="list_info font-laundry text-[14px] text-gray-700 flex justify-between items-center px-2">
           <p>
-            심부름{" "}
-            <span className="text-red-500">{filteredItems.length}건이</span>{" "}
+            심부름 <span className="text-red-500">{data.item.length}건이</span>{" "}
             있어요
           </p>
 
