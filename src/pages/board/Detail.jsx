@@ -96,7 +96,11 @@ export default function Detail() {
 
     onSuccess: () => {
       alert("심부름 지원이 완료되었습니다.");
-      navigate(`/users/mypage`);
+      navigate(`/users/mypage`, {
+        state: {
+          activeTab: "apply",
+        },
+      });
     },
     onError: (err) => {
       alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
@@ -104,26 +108,7 @@ export default function Detail() {
     },
   });
 
-  // 심부름 상태를 완료로 변경하는 함수 (결제 함수 성공 시 호출)
-  // const handleFinish = useMutation({
-  //   mutationFn: (_id) => {
-  //     const body = {
-  //       "extra.productState": ["PS030"],
-  //     };
-  //     return axios.patch(`/seller/products/${_id}`, body);
-  //   },
-
-  //   onSuccess: () => {
-  //     console.log("심부름 상태가 PS030으로 수정되었습니다.");
-  //   },
-
-  //   onError: (err) => {
-  //     alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-  //     console.error(err);
-  //   },
-  // });
-
-  ////////////////////////////////////////////////////////////////////// UI //////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////// UI //////////////////////////////////////////////////////////////////
 
   // 버튼 위치 관리
   useEffect(() => {
@@ -223,12 +208,12 @@ export default function Detail() {
         dynamicTextColor: "text-white",
         dynamicCursor: "cursor-default",
       };
-    } else if (isMyErrand && errandState === "PS010") {
+    } else if (isOngoingErrands && errandState === "PS010") {
       // 내가 요청한 && 구인 중
       return {
         text: `지원자 ${applicantCount}명 확인하기`,
         action: () => {
-          navigate(`/errand/applicants/${_id}`, { state: { applicantsData } }); // 지원자목록 페이지로 이동, 지원자 데이터를 전달
+          navigate(`/errand/applicants/${_id}`, { state: { applicantsData } }); // 지원자목록 페이지로 이동, 지원 데이터를 전달
         },
         dynamicBg: "bg-primary-500",
         dynamicTextColor: "text-white",
@@ -236,26 +221,16 @@ export default function Detail() {
       };
     } else if (!isMyErrand && errandState === "PS010") {
       // 남이 요청한 && 구인 중
-      if (isAlreadyApplied) {
-        // 이미 지원한 경우
-        return {
-          text: "이미 지원한 심부름이에요",
-          dynamicBg: "bg-gray-400",
-          dynamicTextColor: "text-white",
-          dynamicCursor: "cursor-default",
-        };
-      } else {
-        // 아직 지원 안한 경우
-        return {
-          text: "지원하기",
-          action: () => {
-            apply.mutate(_id); // 지원하기 함수 호출
-          },
-          dynamicBg: "bg-complementary-300",
-          dynamicTextColor: "text-primary-500",
-          dynamicCursor: "cursor-pointer",
-        };
-      }
+      return {
+        text: "지원하기",
+        // 지원하기 함수 호출
+        action: () => {
+          apply.mutate(_id);
+        },
+        dynamicBg: "bg-complementary-300",
+        dynamicTextColor: "text-primary-500",
+        dynamicCursor: "cursor-pointer",
+      };
     } else if (!isMyErrand && errandState === "PS020") {
       // 남이 요청한 && 진행 중
       return {
@@ -266,18 +241,41 @@ export default function Detail() {
         dynamicCursor: "cursor-default",
       };
     }
+
     return {
       text: "",
       action: () => {},
-      dynamicBg: "bg-gray-400",
-      dynamicTextColor: "text-white",
+      dynamicBg: "",
+      dynamicTextColor: "",
       dynamicCursor: "cursor-default",
     };
   };
 
   const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } = defineDynamicButton();
 
-  //////////////////////////////////////////////////////////////// 리턴 블록 /////////////////////////////////////////////////////////////////
+  // isMyErrand && data?.item?.extra?.productState[0] === PS010 (내가 요청한 && 구인 중)
+  // 버튼 문구: '지원자 n명 확인하기'
+  // 버튼 동작: 지원자 목록 페이지로 이동
+
+  // isMyErrand && data?.item?.extra?.productState[0] === PS020 (내가 요청한 && 진행 중)
+  // 버튼 문구: '심부름 완료하기'
+  // 버튼 동작: 심부름 상태를 PS030으로 변경, 결제 페이지로 이동
+
+  // !isMyErrand && data?.item?.extra?.productState[0] === PS010 (남이 요청한 && 구인 중)
+  // 버튼 문구: '지원하기'
+  // 버튼 동작: 지원자 게시판에 글 작성
+
+  // !isMyErrand && data?.item?.extra?.productState[0] === PS020 (남이 요청한 && 진행 중)
+  // 버튼 문구: '이미 진행 중이에요'
+  // 버튼 동작:
+
+  // data?.item?.extra?.poructState[0] === PS030 (완료된 심부름)
+  // 버튼 문구: '완료된 심부름이에요'
+  // 버튼 동작:
+
+  // data?.item?.extra?.poructState[0] === PS040 (기한 만료된 심부름)
+  // 버튼 문구: '기한이 지났어요'
+  // 버튼 동작:
 
   if (!data) {
     return <div>로딩 중...</div>;
@@ -405,12 +403,8 @@ export default function Detail() {
       <div className="pb-40 bg-background-color"></div>
 
       {/* 결제 컴포넌트 버튼 */}
-      {isMyErrand && errandState === "PS020" && (
-        <Payment
-          item={data.item}
-          className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
-          style={{ top: `${buttonPos}px` }}
-        />
+      {isLoggedIn && isMyErrand && errandState === "PS020" && (
+        <Payment item={data.item} buttonPos={buttonPos} />
       )}
 
       {/* 다이나믹 버튼 */}
