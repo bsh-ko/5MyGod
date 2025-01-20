@@ -79,20 +79,20 @@ export default function NavigationHeader() {
       },
     },
     {
+      pattern: /^\/users\/login$/,
+      config: {
+        title: "로그인",
+        showBackButton: true,
+        showHeaderButton: false,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
       pattern: /^\/users\/[^/]+$/,
       config: {
         title: "프로필",
         showBackButton: true,
         showHeaderButton: true,
-        bgColor: "bg-background-color",
-      },
-    },
-    {
-      pattern: /^\/login$/,
-      config: {
-        title: "로그인",
-        showBackButton: true,
-        showHeaderButton: false,
         bgColor: "bg-background-color",
       },
     },
@@ -142,7 +142,7 @@ export default function NavigationHeader() {
           <h1 className={`${getTitleStyle(config.title)}`}>{config.title}</h1>
         </div>
         {/* 오른쪽: 로그인시 알람, 로그아웃시 "시작하기" */}
-        <HeaderButton />
+        {config.showHeaderButton && <HeaderButton />}
       </div>
     </header>
   );

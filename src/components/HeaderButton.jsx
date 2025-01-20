@@ -8,16 +8,6 @@ export default function HeaderButton() {
     if (!isLogin) navigate("/users/login");
   };
 
-  // 로그인 페이지에서는 버튼을 숨김
-  if (
-    location.pathname === "/users/login" ||
-    location.pathname === "/users/signup" ||
-    location.pathname === "/users/notifications"
-    // 이부분 다음에 체크 필요
-  ) {
-    return null;
-  }
-
   return (
     <div className="flex items-center">
       {isLogin ? (
