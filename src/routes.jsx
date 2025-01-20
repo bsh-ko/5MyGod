@@ -1,11 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
-import Applicants from "@pages/board/Applicants";
 
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
 const Detail = lazy(() => import("@pages/board/Detail"));
-// const Applicants = lazy(() => import("@pages/board/Applicants"));
+const Applicants = lazy(() => import("@pages/board/Applicants"));
 const New = lazy(() => import("@pages/board/New"));
 const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
@@ -28,10 +27,11 @@ const router = createBrowserRouter(
         { path: "errand/new", element: <New /> },
         { path: "users/signup", element: <Signup /> },
         { path: "users/login", element: <Login /> },
+        { path: "users/:_id", element: <UserPage /> },
+        { path: "pay/paysuccess", element: <PaySuccess /> },
         { path: "users/mypage", element: <MyPage /> },
         { path: "users/ongoingErrands", element: <OngoingErrands /> },
         { path: "users/myApplies", element: <MyApplies /> },
-        // { path: "users/userpage", element: <UserPage /> },
       ],
     },
   ],
