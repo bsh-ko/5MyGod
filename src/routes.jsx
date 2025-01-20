@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
+import Applicants from "@pages/board/Applicants";
 
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
@@ -23,7 +24,7 @@ const router = createBrowserRouter(
       children: [
         { index: true, element: <MainPage /> },
         { path: "errand/:_id", element: <Detail /> },
-        // { path: "errand/:_id/applicants", element: <Applicants /> },
+        { path: "errand/applicants/:_id", element: <Applicants /> },
         { path: "errand/new", element: <New /> },
         { path: "users/signup", element: <Signup /> },
         { path: "users/login", element: <Login /> },
