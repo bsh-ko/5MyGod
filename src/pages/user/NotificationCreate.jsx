@@ -17,7 +17,6 @@ const contentByType = (type, userName) => {
 export default function NotificationCreate({
   type,
   targetId,
-  userName,
   errandId,
   errandTitle,
 }) {
@@ -31,14 +30,19 @@ export default function NotificationCreate({
   });
 
   const handleButtonClick = () => {
+    const sessionData = sessionStorage.getItem("user");
+
     const notificationData = {
-      type,
-      target_id: `${targetId}`, // 알림을 받는 사람의 _id값 product?.item?.seller?._id
+      type: "apply",
+      target_id: 4, // `${targetId}`, // 알림을 받는 사람의 _id값 product?.item?.seller?._id
       channel: "toast",
-      content: contentByType(type, userName),
+      content: contentByType(
+        "apply",
+        JSON.parse(sessionData).state?.user?.name
+      ), //contentByType(type, userName),
       extra: {
-        url: `/errand/${errandId}`,
-        errand_title: `${errandTitle}`, //product?.item?.name
+        url: "/errand/2", //`/errand/${errandId}`,
+        errand_title: "SNS 프로필 사진 찍어주세요", //`${errandTitle}`, //product?.item?.name
       },
     };
 
@@ -55,10 +59,10 @@ export default function NotificationCreate({
   );
 }
 
-NotificationCreate.propTypes = {
-  type: PropTypes.oneOf(["apply", "comment", "expire", "complete", "accept"]),
-  targetId: PropTypes.number.isRequired,
-  userName: PropTypes.string,
-  errandId: PropTypes.number.isRequired,
-  errandTitle: PropTypes.string.isRequired,
-};
+// NotificationCreate.propTypes = {
+//   type: PropTypes.oneOf(["apply", "comment", "expire", "complete", "accept"])
+//     .isRequired,
+//   targetId: PropTypes.number.isRequired,
+//   errandId: PropTypes.number.isRequired,
+//   errandTitle: PropTypes.string.isRequired,
+// };
