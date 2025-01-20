@@ -11,6 +11,14 @@ const Applicants = () => {
   const { _id } = useParams();
   const clientId = "final05";
 
+  // 이미지 로드 실패시 사용할 기본 이미지 경로
+  const defaultImagePath = `/files/${clientId}/user-neo.webp`;
+
+  const handleImageError = (e) => {
+    e.target.onerror = null; // 무한 로딩 방지
+    e.target.src = defaultImagePath;
+  };
+
   const fetchApplicants = async () => {
     try {
       setLoading(true);
@@ -19,7 +27,6 @@ const Applicants = () => {
 
       if (data.ok === 1) {
         console.log("API 응답 데이터:", data);
-        const imagePath = `/files/${clientId}/user-neo.webp`;
         const filteredItems = data.item.filter(
           (item) => item.products[0]._id === parseInt(_id)
         );
@@ -32,7 +39,8 @@ const Applicants = () => {
           id: item.user._id,
           name: item.user.name,
           description: item.user.extra.introduction || "소개글이 없습니다.",
-          profileImage: item.user.image || imagePath,
+          // 사용자의 이미지 경로를 직접 사용
+          profileImage: item.user.image,
           productId: item.products[0]._id,
           productState: item.products[0].extra.productState[0],
           matchedUserId: item.products[0].extra.matchedUserId || null,
@@ -114,14 +122,14 @@ const Applicants = () => {
               }`}
             >
               <div className="flex items-center ml-[16px] flex-grow">
-                <div
-                  className="w-[42px] h-[42px] rounded-full bg-[#D9D9D9] mr-[16px]"
-                  style={{
-                    backgroundImage: `url(${applicant.profileImage})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                ></div>
+                <img
+                  src={`https://11.fesp.shop${applicant.profileImage}`}
+                  alt={`${applicant.name}의 프로필`}
+                  onError={handleImageError}
+                  className="w-[42px] h-[42px] rounded-full object-cover mr-[16px] cursor-pointer"
+                  onClick={() => navigate(`/user/${applicant.id}`)}
+                />
+
                 <div className="flex flex-col justify-center">
                   <h3 className="font-Pretendard text-[18px] font-semibold text-gray-black-900 tracking-[-1.08px]">
                     {applicant.name}
