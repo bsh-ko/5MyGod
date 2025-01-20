@@ -24,7 +24,6 @@ const ApplicantList = () => {
           (item) => item.products[0]._id === parseInt(_id)
         );
 
-        // 현재 제품 정보 저장
         if (filteredItems.length > 0) {
           setCurrentProduct(filteredItems[0].products[0]);
         }
@@ -54,13 +53,11 @@ const ApplicantList = () => {
 
   const handleAcceptApplicant = async (productId, applicantId) => {
     try {
-      // 먼저 현재 제품 정보를 가져옵니다
       const productResponse = await axiosInstance.get(
         `/seller/products/${_id}`
       );
       const currentProductData = productResponse.data.item;
 
-      // 기존 extra 데이터를 유지하면서 필요한 필드만 업데이트
       const updatedExtra = {
         ...currentProductData.extra,
         productState: ["PS020"],
@@ -92,12 +89,29 @@ const ApplicantList = () => {
 
   return (
     <div className="w-[393px] min-h-[852px] max-h-screen flex flex-col bg-[#F5F9FF] overflow-hidden">
-      <main className="font-Pretendard text-gray-black-900 flex-1 p-4 space-y-6 overflow-y-auto bg-[#fff]">
+      <main className="font-Pretendard text-gray-black-900 flex-1 p-4 space-y-6 overflow-y-auto bg-[#fff] relative">
+        {isMatchedExists ? (
+          <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 z-10">
+            <div className="text-center">
+              <div className="text-xl font-semibold text-[#4849E8] mb-2">
+                매칭이 완료된 심부름입니다
+              </div>
+              <div className="text-gray-600">
+                다른 지원자들의 지원은 자동으로 마감되었습니다
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         {applicants.length > 0 ? (
           applicants.map((applicant) => (
             <div
               key={applicant.id}
-              className="w-[360px] h-[84px] flex-shrink-0 flex items-center bg-white rounded-[10px] shadow-card-shadow"
+              className={`w-[360px] h-[84px] flex-shrink-0 flex items-center bg-white rounded-[10px] shadow-card-shadow ${
+                isMatchedExists && applicant.productState !== "PS020"
+                  ? "opacity-50"
+                  : ""
+              }`}
             >
               <div className="flex items-center ml-[16px] flex-grow">
                 <div
