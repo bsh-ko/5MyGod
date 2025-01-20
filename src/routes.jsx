@@ -10,7 +10,7 @@ const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
 const MyPage = lazy(() => import("@pages/user/Mypage"));
 const UserPage = lazy(() => import("@pages/user/UserPage"));
-const OngoingErrands = lazy(() => import("@pages/user/ongoingErrands"));
+const OngoingErrands = lazy(() => import("@pages/user/OngoingErrands"));
 const MyApplies = lazy(() => import("@pages/user/MyApplies"));
 const PaySuccess = lazy(() => import("@components/pay/PaySuccess"));
 
