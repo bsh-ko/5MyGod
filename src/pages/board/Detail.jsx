@@ -114,7 +114,8 @@ export default function Detail() {
   useEffect(() => {
     const updateButtonPosition = () => {
       // 뷰포트 높이를 기준으로 버튼 위치 계산
-      const viewportHeight = window.visualViewport?.height || window.innerHeight;
+      const viewportHeight =
+        window.visualViewport?.height || window.innerHeight;
       setButtonPos(
         visible
           ? viewportHeight - 83 - 76 // 네비게이션 바가 보일 때
@@ -150,10 +151,13 @@ export default function Detail() {
     const date = new Date(due);
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    const formattedTime = `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
+    const formattedTime = `${date.getHours()}:${String(
+      date.getMinutes()
+    ).padStart(2, "0")}`;
     dueDateDisplay = (
       <div>
-        <span className="text-primary-700">{month}</span>월 <span className="text-primary-700">{day}</span>일{" "}
+        <span className="text-primary-700">{month}</span>월{" "}
+        <span className="text-primary-700">{day}</span>일{" "}
         <span className="text-primary-700">{formattedTime}</span> 까지
       </div>
     );
@@ -208,7 +212,7 @@ export default function Detail() {
         dynamicTextColor: "text-white",
         dynamicCursor: "cursor-default",
       };
-    } else if (isOngoingErrands && errandState === "PS010") {
+    } else if (isMyErrand && errandState === "PS010") {
       // 내가 요청한 && 구인 중
       return {
         text: `지원자 ${applicantCount}명 확인하기`,
@@ -221,16 +225,26 @@ export default function Detail() {
       };
     } else if (!isMyErrand && errandState === "PS010") {
       // 남이 요청한 && 구인 중
-      return {
-        text: "지원하기",
-        // 지원하기 함수 호출
-        action: () => {
-          apply.mutate(_id);
-        },
-        dynamicBg: "bg-complementary-300",
-        dynamicTextColor: "text-primary-500",
-        dynamicCursor: "cursor-pointer",
-      };
+      if (isAlreadyApplied) {
+        // 이미 지원한 경우
+        return {
+          text: "이미 지원한 심부름이에요",
+          dynamicBg: "bg-gray-400",
+          dynamicTextColor: "text-white",
+          dynamicCursor: "cursor-default",
+        };
+      } else {
+        // 아직 지원 안한 경우
+        return {
+          text: "지원하기",
+          action: () => {
+            apply.mutate(_id); // 지원하기 함수 호출
+          },
+          dynamicBg: "bg-complementary-300",
+          dynamicTextColor: "text-primary-500",
+          dynamicCursor: "cursor-pointer",
+        };
+      }
     } else if (!isMyErrand && errandState === "PS020") {
       // 남이 요청한 && 진행 중
       return {
@@ -251,31 +265,10 @@ export default function Detail() {
     };
   };
 
-  const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } = defineDynamicButton();
+  const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } =
+    defineDynamicButton();
 
-  // isMyErrand && data?.item?.extra?.productState[0] === PS010 (내가 요청한 && 구인 중)
-  // 버튼 문구: '지원자 n명 확인하기'
-  // 버튼 동작: 지원자 목록 페이지로 이동
-
-  // isMyErrand && data?.item?.extra?.productState[0] === PS020 (내가 요청한 && 진행 중)
-  // 버튼 문구: '심부름 완료하기'
-  // 버튼 동작: 심부름 상태를 PS030으로 변경, 결제 페이지로 이동
-
-  // !isMyErrand && data?.item?.extra?.productState[0] === PS010 (남이 요청한 && 구인 중)
-  // 버튼 문구: '지원하기'
-  // 버튼 동작: 지원자 게시판에 글 작성
-
-  // !isMyErrand && data?.item?.extra?.productState[0] === PS020 (남이 요청한 && 진행 중)
-  // 버튼 문구: '이미 진행 중이에요'
-  // 버튼 동작:
-
-  // data?.item?.extra?.poructState[0] === PS030 (완료된 심부름)
-  // 버튼 문구: '완료된 심부름이에요'
-  // 버튼 동작:
-
-  // data?.item?.extra?.poructState[0] === PS040 (기한 만료된 심부름)
-  // 버튼 문구: '기한이 지났어요'
-  // 버튼 동작:
+  //////////////////////////////////////////////////////////////// 리턴 블록 /////////////////////////////////////////////////////////////////
 
   if (!data) {
     return <div>로딩 중...</div>;
@@ -298,7 +291,10 @@ export default function Detail() {
 
             <div className="nickname">{data.item.seller.name}</div>
 
-            <img className="gender w-[24px] h-[24px] shrink-0" src={`${genderImage}`} />
+            <img
+              className="gender w-[24px] h-[24px] shrink-0"
+              src={`${genderImage}`}
+            />
 
             {/* <div className="like_number shrink-0 flex gap-[2px] items-center">
               <img src="/assets/thumb.png" className="w-[24px] h-[24px]" />
@@ -325,7 +321,10 @@ export default function Detail() {
             <div className="post_price flex gap-[8px] items-center">
               <img src="/assets/moneypouch.png" className="w-[20px] h-[20px]" />
               <p>
-                <span className="text-primary-700">{`${new Intl.NumberFormat().format(data.item.price)} `}</span>원
+                <span className="text-primary-700">
+                  {`${new Intl.NumberFormat().format(data.item.price)} `}
+                </span>
+                원
               </p>
             </div>
 
@@ -341,17 +340,28 @@ export default function Detail() {
                 {pickupLocation?.coordinates ? (
                   <>
                     {pickupLocation?.coordinates && (
-                      <LocationMap title="픽업 위치" coordinates={pickupLocation.coordinates} />
+                      <LocationMap
+                        title="픽업 위치"
+                        coordinates={pickupLocation.coordinates}
+                      />
                     )}
 
                     <div className="post_address p-[8px] pb-0 text-small-text flex flex-col gap-[4px]">
                       <div className="address_main flex gap-[4px]">
-                        <span className="text-small-text text-primary-700">기본 주소:{"  "}</span>
-                        <p className="text-small-text">{pickupLocation.address}</p>
+                        <span className="text-small-text text-primary-700">
+                          기본 주소:{"  "}
+                        </span>
+                        <p className="text-small-text">
+                          {pickupLocation.address}
+                        </p>
                       </div>
                       <div className="address_main flex gap-[4px]">
-                        <span className="text-small-text text-primary-700">상세 주소:{"  "}</span>
-                        <p className="text-small-text">{pickupLocation.detailAddress}</p>
+                        <span className="text-small-text text-primary-700">
+                          상세 주소:{"  "}
+                        </span>
+                        <p className="text-small-text">
+                          {pickupLocation.detailAddress}
+                        </p>
                       </div>
                     </div>
                   </>
@@ -374,16 +384,27 @@ export default function Detail() {
                 {arrivalLocation?.coordinates ? (
                   <>
                     {arrivalLocation?.coordinates && (
-                      <LocationMap title="도착 위치" coordinates={arrivalLocation.coordinates} />
+                      <LocationMap
+                        title="도착 위치"
+                        coordinates={arrivalLocation.coordinates}
+                      />
                     )}
                     <div className="post_address p-[8px] pb-0 text-small-text flex flex-col gap-[4px]">
                       <div className="address_main flex gap-[4px]">
-                        <span className="text-small-text text-primary-700">기본 주소:{"  "}</span>
-                        <p className="text-small-text">{arrivalLocation.address}</p>
+                        <span className="text-small-text text-primary-700">
+                          기본 주소:{"  "}
+                        </span>
+                        <p className="text-small-text">
+                          {arrivalLocation.address}
+                        </p>
                       </div>
                       <div className="address_main flex gap-[4px]">
-                        <span className="text-small-text text-primary-700">상세 주소:{"  "}</span>
-                        <p className="text-small-text">{arrivalLocation.detailAddress}</p>
+                        <span className="text-small-text text-primary-700">
+                          상세 주소:{"  "}
+                        </span>
+                        <p className="text-small-text">
+                          {arrivalLocation.detailAddress}
+                        </p>
                       </div>
                     </div>
                   </>
