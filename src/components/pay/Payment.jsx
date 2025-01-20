@@ -104,7 +104,7 @@ export default function Payment({ item, buttonPos }) {
   return (
     <button
       onClick={handlePayment}
-      className={`font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full bg-complementary-400 text-primary-500 cursor-pointer`}
+      className={`font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full bg-complementary-400 text-primary-600 cursor-pointer`}
       style={{ top: `${buttonPos}px` }}
     >
       심부름 완료 및 결제하기
