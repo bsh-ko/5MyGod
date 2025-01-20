@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useParams, useNavigate } from "react-router-dom";
 
-const ApplicantList = () => {
+const Applicants = () => {
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentProduct, setCurrentProduct] = useState(null);
@@ -156,4 +156,4 @@ const ApplicantList = () => {
   );
 };
 
-export default ApplicantList;
+export default Applicants;
