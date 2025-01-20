@@ -61,7 +61,7 @@ const OngoingErrands = () => {
 
     // API 호출
     fetchErrands(endpoint);
-  }, [activeTab, user]); // activeTab 또는 user 변경 시 호출
+  }, [activeTab]); // activeTab 또는 user 변경 시 호출
 
   return (
     <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] overflow-auto">
