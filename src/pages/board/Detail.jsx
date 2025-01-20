@@ -212,7 +212,7 @@ export default function Detail() {
         dynamicTextColor: "text-white",
         dynamicCursor: "cursor-default",
       };
-    } else if (isMyErrand && errandState === "PS010") {
+    } else if (isOngoingErrands && errandState === "PS010") {
       // 내가 요청한 && 구인 중
       return {
         text: `지원자 ${applicantCount}명 확인하기`,
@@ -225,26 +225,16 @@ export default function Detail() {
       };
     } else if (!isMyErrand && errandState === "PS010") {
       // 남이 요청한 && 구인 중
-      if (isAlreadyApplied) {
-        // 이미 지원한 경우
-        return {
-          text: "이미 지원한 심부름이에요",
-          dynamicBg: "bg-gray-400",
-          dynamicTextColor: "text-white",
-          dynamicCursor: "cursor-default",
-        };
-      } else {
-        // 아직 지원 안한 경우
-        return {
-          text: "지원하기",
-          action: () => {
-            apply.mutate(_id); // 지원하기 함수 호출
-          },
-          dynamicBg: "bg-complementary-300",
-          dynamicTextColor: "text-primary-500",
-          dynamicCursor: "cursor-pointer",
-        };
-      }
+      return {
+        text: "지원하기",
+        // 지원하기 함수 호출
+        action: () => {
+          apply.mutate(_id);
+        },
+        dynamicBg: "bg-complementary-300",
+        dynamicTextColor: "text-primary-500",
+        dynamicCursor: "cursor-pointer",
+      };
     } else if (!isMyErrand && errandState === "PS020") {
       // 남이 요청한 && 진행 중
       return {
@@ -268,7 +258,29 @@ export default function Detail() {
   const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } =
     defineDynamicButton();
 
-  //////////////////////////////////////////////////////////////// 리턴 블록 /////////////////////////////////////////////////////////////////
+  // isMyErrand && data?.item?.extra?.productState[0] === PS010 (내가 요청한 && 구인 중)
+  // 버튼 문구: '지원자 n명 확인하기'
+  // 버튼 동작: 지원자 목록 페이지로 이동
+
+  // isMyErrand && data?.item?.extra?.productState[0] === PS020 (내가 요청한 && 진행 중)
+  // 버튼 문구: '심부름 완료하기'
+  // 버튼 동작: 심부름 상태를 PS030으로 변경, 결제 페이지로 이동
+
+  // !isMyErrand && data?.item?.extra?.productState[0] === PS010 (남이 요청한 && 구인 중)
+  // 버튼 문구: '지원하기'
+  // 버튼 동작: 지원자 게시판에 글 작성
+
+  // !isMyErrand && data?.item?.extra?.productState[0] === PS020 (남이 요청한 && 진행 중)
+  // 버튼 문구: '이미 진행 중이에요'
+  // 버튼 동작:
+
+  // data?.item?.extra?.poructState[0] === PS030 (완료된 심부름)
+  // 버튼 문구: '완료된 심부름이에요'
+  // 버튼 동작:
+
+  // data?.item?.extra?.poructState[0] === PS040 (기한 만료된 심부름)
+  // 버튼 문구: '기한이 지났어요'
+  // 버튼 동작:
 
   if (!data) {
     return <div>로딩 중...</div>;
