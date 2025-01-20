@@ -5,6 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 const ApplicantList = () => {
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentProduct, setCurrentProduct] = useState(null);
   const axiosInstance = useAxiosInstance();
   const navigate = useNavigate();
   const { _id } = useParams();
@@ -22,6 +23,11 @@ const ApplicantList = () => {
         const filteredItems = data.item.filter(
           (item) => item.products[0]._id === parseInt(_id)
         );
+
+        // 현재 제품 정보 저장
+        if (filteredItems.length > 0) {
+          setCurrentProduct(filteredItems[0].products[0]);
+        }
 
         const formattedApplicants = filteredItems.map((item) => ({
           id: item.user._id,
@@ -48,17 +54,25 @@ const ApplicantList = () => {
 
   const handleAcceptApplicant = async (productId, applicantId) => {
     try {
+      // 먼저 현재 제품 정보를 가져옵니다
+      const productResponse = await axiosInstance.get(
+        `/seller/products/${_id}`
+      );
+      const currentProductData = productResponse.data.item;
+
+      // 기존 extra 데이터를 유지하면서 필요한 필드만 업데이트
+      const updatedExtra = {
+        ...currentProductData.extra,
+        productState: ["PS020"],
+        matchedUserId: applicantId,
+      };
+
       const response = await axiosInstance.patch(`/seller/products/${_id}`, {
-        extra: {
-          productState: ["PS020"], // 상태 변경
-          matchedUserId: applicantId,
-        },
+        extra: updatedExtra,
       });
 
       if (response.data.ok === 1) {
         console.log("지원자 수락 성공:", response.data);
-
-        // 상태 업데이트 후 심부름 요청 페이지로 이동
         navigate("/users/mypage");
       } else {
         console.error("지원자 수락 실패:", response.data);
