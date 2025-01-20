@@ -80,16 +80,11 @@ function useAxiosInstance() {
   );
 
   function navigateLogin() {
-<<<<<<< HEAD
-    const gotoLogin = confirm(
-      "로그인 후 이용 가능합니다.\n로그인 페이지로 이동하시겠습니까?"
-    );
-    if (gotoLogin) {
-      navigate("/users/login", { state: { from: location.pathname } });
-=======
     if (!isLoginPromptShown) {
       isLoginPromptShown = true;
-      const gotoLogin = confirm("로그인 후 이용 가능합니다.\n로그인 페이지로 이동하시겠습니까?");
+      const gotoLogin = confirm(
+        "로그인 후 이용 가능합니다.\n로그인 페이지로 이동하시겠습니까?"
+      );
       if (gotoLogin) {
         navigate("/users/login", { state: { from: location.pathname } });
       } else {
@@ -98,7 +93,6 @@ function useAxiosInstance() {
       setTimeout(() => {
         isLoginPromptShown = false;
       }, 5000); // 5초 후 재설정
->>>>>>> 6588f428ffc56c58a200aa83560e7d85b50276df
     }
   }
 
