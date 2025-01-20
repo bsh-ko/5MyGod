@@ -31,7 +31,14 @@ export default function PaySuccess() {
   console.log("매칭된 유저 데이터 ", userData);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center relative">
+      <button
+        onClick={handleMoveToMyRequests}
+        className="absolute top-5 left-5 text-gray-400 text-2xl"
+      >
+        <img src="/src/assets/x-icon.png" />
+      </button>
+
       <div className="content-center flex flex-col items-center">
         <img src="/src/assets/success.png" className="mx-auto" />
         <p className="font-pretendard font-extrabold text-popup-title text-primary-500 text-center my-5">
