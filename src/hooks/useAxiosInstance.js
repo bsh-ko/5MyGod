@@ -82,13 +82,11 @@ function useAxiosInstance() {
   function navigateLogin() {
     if (!isLoginPromptShown) {
       isLoginPromptShown = true;
-      const gotoLogin = confirm(
-        "로그인 후 이용 가능합니다.\n로그인 페이지로 이동하시겠습니까?"
-      );
+      const gotoLogin = confirm("로그인 후 이용 가능합니다.\n로그인 페이지로 이동하시겠습니까?");
       if (gotoLogin) {
         navigate("/users/login", { state: { from: location.pathname } });
       } else {
-        navigate("", { state: { from: location.pathname } });
+        navigate("/", { state: { from: location.pathname } });
       }
       setTimeout(() => {
         isLoginPromptShown = false;
