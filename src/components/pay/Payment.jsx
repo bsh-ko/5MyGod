@@ -4,6 +4,12 @@ import { useNavigate } from "react-router-dom";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
 
+// Props Validation
+Payment.propTypes = {
+  item: PropTypes.object.isRequired,
+  buttonPos: PropTypes.number.isRequired,
+};
+
 // 상품(product)의 상태를 심부름 완료 및 종료("PS030")로 상태 바꾸는 함수
 const useUpdateProductState = () => {
   const axios = useAxiosInstance();
@@ -38,7 +44,7 @@ const useUpdateProductState = () => {
   });
 };
 
-export default function Payment({ item, className, style }) {
+export default function Payment({ item, buttonPos }) {
   const productId = item?._id;
   const payAmount = item?.price;
 
@@ -96,8 +102,12 @@ export default function Payment({ item, className, style }) {
   };
 
   return (
-    <button onClick={handlePayment} className={className} style={style}>
-      결제하기
+    <button
+      onClick={handlePayment}
+      className={`font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full bg-complementary-400 text-primary-600 cursor-pointer`}
+      style={{ top: `${buttonPos}px` }}
+    >
+      심부름 완료 및 결제하기
     </button>
   );
 }
