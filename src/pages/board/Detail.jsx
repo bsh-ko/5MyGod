@@ -114,8 +114,7 @@ export default function Detail() {
   useEffect(() => {
     const updateButtonPosition = () => {
       // 뷰포트 높이를 기준으로 버튼 위치 계산
-      const viewportHeight =
-        window.visualViewport?.height || window.innerHeight;
+      const viewportHeight = window.visualViewport?.height || window.innerHeight;
       setButtonPos(
         visible
           ? viewportHeight - 83 - 76 // 네비게이션 바가 보일 때
@@ -151,13 +150,10 @@ export default function Detail() {
     const date = new Date(due);
     const month = date.getMonth() + 1;
     const day = date.getDate();
-    const formattedTime = `${date.getHours()}:${String(
-      date.getMinutes()
-    ).padStart(2, "0")}`;
+    const formattedTime = `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
     dueDateDisplay = (
       <div>
-        <span className="text-primary-700">{month}</span>월{" "}
-        <span className="text-primary-700">{day}</span>일{" "}
+        <span className="text-primary-700">{month}</span>월 <span className="text-primary-700">{day}</span>일{" "}
         <span className="text-primary-700">{formattedTime}</span> 까지
       </div>
     );
@@ -255,8 +251,7 @@ export default function Detail() {
     };
   };
 
-  const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } =
-    defineDynamicButton();
+  const { text, action, dynamicBg, dynamicTextColor, dynamicCursor } = defineDynamicButton();
 
   // isMyErrand && data?.item?.extra?.productState[0] === PS010 (내가 요청한 && 구인 중)
   // 버튼 문구: '지원자 n명 확인하기'
@@ -303,10 +298,7 @@ export default function Detail() {
 
             <div className="nickname">{data.item.seller.name}</div>
 
-            <img
-              className="gender w-[24px] h-[24px] shrink-0"
-              src={`${genderImage}`}
-            />
+            <img className="gender w-[24px] h-[24px] shrink-0" src={`${genderImage}`} />
 
             {/* <div className="like_number shrink-0 flex gap-[2px] items-center">
               <img src="/assets/thumb.png" className="w-[24px] h-[24px]" />
@@ -333,10 +325,7 @@ export default function Detail() {
             <div className="post_price flex gap-[8px] items-center">
               <img src="/assets/moneypouch.png" className="w-[20px] h-[20px]" />
               <p>
-                <span className="text-primary-700">
-                  {`${new Intl.NumberFormat().format(data.item.price)} `}
-                </span>
-                원
+                <span className="text-primary-700">{`${new Intl.NumberFormat().format(data.item.price)} `}</span>원
               </p>
             </div>
 
@@ -352,28 +341,17 @@ export default function Detail() {
                 {pickupLocation?.coordinates ? (
                   <>
                     {pickupLocation?.coordinates && (
-                      <LocationMap
-                        title="픽업 위치"
-                        coordinates={pickupLocation.coordinates}
-                      />
+                      <LocationMap title="픽업 위치" coordinates={pickupLocation.coordinates} />
                     )}
 
                     <div className="post_address p-[8px] pb-0 text-small-text flex flex-col gap-[4px]">
                       <div className="address_main flex gap-[4px]">
-                        <span className="text-small-text text-primary-700">
-                          기본 주소:{"  "}
-                        </span>
-                        <p className="text-small-text">
-                          {pickupLocation.address}
-                        </p>
+                        <span className="text-small-text text-primary-700">기본 주소:{"  "}</span>
+                        <p className="text-small-text">{pickupLocation.address}</p>
                       </div>
                       <div className="address_main flex gap-[4px]">
-                        <span className="text-small-text text-primary-700">
-                          상세 주소:{"  "}
-                        </span>
-                        <p className="text-small-text">
-                          {pickupLocation.detailAddress}
-                        </p>
+                        <span className="text-small-text text-primary-700">상세 주소:{"  "}</span>
+                        <p className="text-small-text">{pickupLocation.detailAddress}</p>
                       </div>
                     </div>
                   </>
@@ -396,27 +374,16 @@ export default function Detail() {
                 {arrivalLocation?.coordinates ? (
                   <>
                     {arrivalLocation?.coordinates && (
-                      <LocationMap
-                        title="도착 위치"
-                        coordinates={arrivalLocation.coordinates}
-                      />
+                      <LocationMap title="도착 위치" coordinates={arrivalLocation.coordinates} />
                     )}
                     <div className="post_address p-[8px] pb-0 text-small-text flex flex-col gap-[4px]">
                       <div className="address_main flex gap-[4px]">
-                        <span className="text-small-text text-primary-700">
-                          기본 주소:{"  "}
-                        </span>
-                        <p className="text-small-text">
-                          {arrivalLocation.address}
-                        </p>
+                        <span className="text-small-text text-primary-700">기본 주소:{"  "}</span>
+                        <p className="text-small-text">{arrivalLocation.address}</p>
                       </div>
                       <div className="address_main flex gap-[4px]">
-                        <span className="text-small-text text-primary-700">
-                          상세 주소:{"  "}
-                        </span>
-                        <p className="text-small-text">
-                          {arrivalLocation.detailAddress}
-                        </p>
+                        <span className="text-small-text text-primary-700">상세 주소:{"  "}</span>
+                        <p className="text-small-text">{arrivalLocation.detailAddress}</p>
                       </div>
                     </div>
                   </>
