@@ -150,21 +150,21 @@ export const initData = async (clientId, nextSeq) => {
 
     // 상품 (심부름 요청 글)
     product: [
-      // 4번 유저가 올린 심부름
+      // 1번 유저가 올린 심부름 - 2번 유저가 지원
       // P1: 구인 중 (PS010)
       {
         _id: await nextSeq("product"),
-        seller_id: 4,
-        price: 15000,
+        seller_id: 1,
+        price: 10000,
 
         show: true,
         active: true,
-        name: "죽과 상비약 부탁",
+        name: "신라면 블랙 사다 주세요",
         quantity: 999,
         buyQuantity: 0,
 
-        content: `죽과 상비약 사다 주세요
-        제발요`,
+        content: `너무 배가 고픈데 나가기가 귀찮아요
+        오는 길에 신라면 블랙 5개짜리 한 묶음만 사다 주세요`,
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
@@ -172,6 +172,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA01", "TA02"],
           productState: ["PS010"], // 구인 중
           due: "2025.01.31 18:00:00",
+          matchedOrderId: null, // 매칭된 주문(지원)의 _id
           matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
           pickupLocation: {
             address: "서울 종로구 세종로 186",
@@ -194,16 +195,16 @@ export const initData = async (clientId, nextSeq) => {
       // P2: 매칭 완료, 진행 중 (PS020)
       {
         _id: await nextSeq("product"),
-        seller_id: 4,
-        price: 20000,
+        seller_id: 1,
+        price: 30000,
 
         show: true,
         active: true,
-        name: "SNS 프로필 사진 찍어주세요",
+        name: "영상 편집 도와주세요",
         quantity: 999,
         buyQuantity: 0,
 
-        content: "프로필 사진 바꾸고 싶은데 가볍게 찍어주세요",
+        content: "앱 시연 영상을 만들어야 하는데 제발 좀 도와주세요",
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
@@ -211,22 +212,23 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA03"],
           productState: ["PS020"], // 진행 중
           due: "2025.01.31 18:00:00",
+          matchedOrderId: 2, // 매칭된 주문(지원)의 _id (2번 주문과 매칭됨)
           matchedUserId: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
         },
       },
       // P3: 완료 (PS030)
       {
         _id: await nextSeq("product"),
-        seller_id: 4,
+        seller_id: 1,
         price: 30000,
 
         show: true,
         active: true,
-        name: "문서 작성해주세요",
+        name: "창문 샤시 수리해주세요",
         quantity: 999,
         buyQuantity: 0,
 
-        content: "전문 문서 작성 도와주세요",
+        content: "베란다 창문 샤시가 떨어졌어요. 깔끔하게 수리해주세요",
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
@@ -234,6 +236,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA03", "TA04"],
           productState: ["PS030"], // 완료
           due: "2025.01.31 18:00:00",
+          matchedOrderId: 3, // 매칭된 주문(지원)의 _id (3번 주문과 매칭됨)
           matchedUserId: 2, // 매칭된 유저(지원자)의 _id (2번 유저와 매칭됨)
           pickupLocation: {},
           arrivalLocation: {
@@ -249,8 +252,8 @@ export const initData = async (clientId, nextSeq) => {
       // P4: 기간 만료 (PS010 && due 지남)
       {
         _id: await nextSeq("product"),
-        seller_id: 4,
-        price: 20000,
+        seller_id: 1,
+        price: 40000,
 
         show: true,
         active: true,
@@ -266,11 +269,12 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA05", "TA07"],
           productState: ["PS010"],
           due: "2025.01.05 18:00:00",
-          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+          matchedOrderId: 4, // 매칭된 주문(지원)의 _id
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id
         },
       },
 
-      // 2번 유저가 올린 심부름
+      // 2번 유저가 올린 심부름 - 1번 유저가 지원
       // P5: 구인 중 (PS010)
       {
         _id: await nextSeq("product"),
@@ -291,14 +295,15 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA02", "TA04"],
           productState: ["PS010"], // 구인 중
           due: "2025.12.31 20:00:00",
-          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+          matchedOrderId: null, // 매칭된 주문(지원)의 _id
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id
         },
       },
       // P6: 매칭 완료, 진행 중 (PS020)
       {
         _id: await nextSeq("product"),
         seller_id: 2,
-        price: 20000,
+        price: 40000,
 
         show: true,
         active: true,
@@ -314,7 +319,17 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA06", "TA07"],
           productState: ["PS020"], // 진행 중
           due: "2025.01.31 18:00:00",
-          matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
+          matchedOrderId: 6, // 매칭된 주문(지원)의 _id
+          matchedUserId: 1, // 매칭된 유저(지원자)의 _id (1번 유저와 매칭됨)
+          pickupLocation: {},
+          arrivalLocation: {
+            address: "서울특별시 마포구 마포대로 195",
+            detailAddress: "마포래미안 1동 1호",
+            coordinates: {
+              latitude: 37.553491092579186, // 위도
+              longitude: 126.95314745548572, // 경도
+            },
+          },
         },
       },
       // P7: 완료 (PS030)
@@ -329,7 +344,7 @@ export const initData = async (clientId, nextSeq) => {
         quantity: 999,
         buyQuantity: 0,
 
-        content: "코딩 좀 도와주세요",
+        content: "코딩할게 너무 많아요 좀 도와주세요",
         createdAt: getTime(-41, -60 * 60 * 2),
         updatedAt: getTime(-40, -60 * 15),
         extra: {
@@ -337,7 +352,8 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA01", "TA02"],
           productState: ["PS030"], // 완료
           due: "2025.01.31 18:00:00",
-          matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
+          matchedOrderId: 7, // 매칭된 주문(지원)의 _id
+          matchedUserId: 1, // 매칭된 유저(지원자)의 _id (1번 유저와 매칭됨)
         },
       },
       // P8: 기간 만료 (PS010 && due 지남)
@@ -361,7 +377,282 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA04", "TA07"],
           productState: ["PS010"],
           due: "2025.01.04 18:00:00",
+          matchedOrderId: null, // 매칭된 주문(지원)의 _id
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id
+          pickupLocation: {},
+          arrivalLocation: {
+            address: "강원 속초시 동해대로 3988",
+            detailAddress: "속초역",
+            coordinates: {
+              latitude: 38.1905186369686, // 위도
+              longitude: 128.598886861064, // 경도
+            },
+          },
+        },
+      },
+
+      // 3번 유저가 올린 심부름 - 4번 유저가 지원
+      // P9: 구인 중 (PS010)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 3,
+        price: 10000,
+
+        show: true,
+        active: true,
+        name: "죽과 상비약 부탁",
+        quantity: 999,
+        buyQuantity: 0,
+
+        content: `죽과 상비약 사다 주세요
+        제발요`,
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC01"],
+          tags: ["TA01", "TA02"],
+          productState: ["PS010"], // 구인 중
+          due: "2025.01.31 18:00:00",
+          matchedOrderId: null, // 매칭된 주문(지원)의 _id
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id
+          pickupLocation: {
+            address: "서울 중구 통일로 10 (연세대학교세브란스빌딩) 지하 1층",
+            detailAddress: "본죽 연세세브란스빌딩점",
+            coordinates: {
+              latitude: 37.5570966597, // 위도
+              longitude: 126.973633761228, // 경도
+            },
+          },
+          arrivalLocation: {
+            address: "서울특별시 중구 만리재로 175",
+            detailAddress: "서울역센트럴 자이아파트",
+            coordinates: {
+              latitude: 37.55470201062915, // 위도
+              longitude: 126.96326429421285, // 경도
+            },
+          },
+        },
+      },
+      // P10: 매칭 완료, 진행 중 (PS020)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 3,
+        price: 30000,
+
+        show: true,
+        active: true,
+        name: "SNS 프로필 사진 찍어주세요",
+        quantity: 999,
+        buyQuantity: 0,
+
+        content: "프로필 사진 바꾸고 싶은데 가볍게 찍어주세요",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC03"],
+          tags: ["TA03"],
+          productState: ["PS020"], // 진행 중
+          due: "2025.01.31 18:00:00",
+          matchedOrderId: 10, // 매칭된 주문(지원)의 _id
+          matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
+        },
+      },
+      // P11: 완료 (PS030)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 3,
+        price: 30000,
+
+        show: true,
+        active: true,
+        name: "문서 작성해주세요",
+        quantity: 999,
+        buyQuantity: 0,
+
+        content: "전문 문서 작성 도와주세요",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC02"],
+          tags: ["TA03", "TA04"],
+          productState: ["PS030"], // 완료
+          due: "2025.01.31 18:00:00",
+          matchedOrderId: 11, // 매칭된 주문(지원)의 _id
+          matchedUserId: 4, // 매칭된 유저(지원자)의 _id (4번 유저와 매칭됨)
+          pickupLocation: {},
+          arrivalLocation: {
+            address: "서울특별시 마포구 마포대로 195",
+            detailAddress: "마포래미안 2동 2호",
+            coordinates: {
+              latitude: 37.553491092579186, // 위도
+              longitude: 126.95314745548572, // 경도
+            },
+          },
+        },
+      },
+      // P12: 기간 만료 (PS010 && due 지남)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 3,
+        price: 20000,
+
+        show: true,
+        active: true,
+        name: "고양이 돌봄 해주세요",
+        quantity: 999,
+        buyQuantity: 0,
+
+        content: "저희 집 야옹이 밥이랑 물 좀 챙겨주세요",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC05"],
+          tags: ["TA05", "TA07"],
+          productState: ["PS010"],
+          due: "2025.01.05 18:00:00",
+          matchedOrderId: null, // 매칭된 주문(지원)의 _id
           matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+          pickupLocation: {},
+          arrivalLocation: {
+            address: "서울 마포구 공덕동 12-116195",
+            detailAddress: "공덕헤리지움아파트 3동 3호",
+            coordinates: {
+              latitude: 37.54891650614539, // 위도
+              longitude: 126.95989486212639, // 경도
+            },
+          },
+        },
+      },
+
+      // 4번 유저가 올린 심부름 - 3번 유저가 지원
+      // P13: 구인 중 (PS010)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 4,
+        price: 10000,
+
+        show: true,
+        active: true,
+        name: "오는 길에 커피 좀 사다 주세요",
+        quantity: 999,
+        buyQuantity: 0,
+
+        content: `커피를 안마셨더니 나갈 힘이 없어요. 오시는 길에 카페라떼 아이스 큰걸로 하나 사다 주세요`,
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC01"],
+          tags: ["TA01", "TA02"],
+          productState: ["PS010"], // 구인 중
+          due: "2025.01.31 18:00:00",
+          matchedOrderId: null, // 매칭된 주문(지원)의 _id
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+          pickupLocation: {
+            address: "서울특별시 성북구 고려대로 102-2",
+            detailAddress: "스타벅스",
+            coordinates: {
+              latitude: 37.586112415089616, // 위도
+              longitude: 127.03076181081309, // 경도
+            },
+          },
+          arrivalLocation: {
+            address: "서울특별시 성북구 안암로 145",
+            detailAddress: "학생회관 401호",
+            coordinates: {
+              latitude: 37.58695879642238, // 위도
+              longitude: 127.03281146005767, // 경도
+            },
+          },
+        },
+      },
+      // P14: 매칭 완료, 진행 중 (PS020)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 4,
+        price: 50000,
+
+        show: true,
+        active: true,
+        name: "졸업 스냅사진 찍어주세요",
+        quantity: 999,
+        buyQuantity: 0,
+
+        content: "졸업 스냅사진 예쁘게 찍어주세요",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC03"],
+          tags: ["TA03"],
+          productState: ["PS020"], // 진행 중
+          due: "2025.01.31 18:00:00",
+          matchedOrderId: 14, // 매칭된 주문(지원)의 _id
+          matchedUserId: 3, // 매칭된 유저(지원자)의 _id (3번 유저와 매칭됨)
+        },
+      },
+      // P15: 완료 (PS030)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 4,
+        price: 50000,
+
+        show: true,
+        active: true,
+        name: "계약서 검토해주세요",
+        quantity: 999,
+        buyQuantity: 0,
+
+        content: "중요한 계약을 위한 계약서 같이 검토해주세요",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC02"],
+          tags: ["TA03", "TA04"],
+          productState: ["PS030"], // 완료
+          due: "2025.01.31 18:00:00",
+          matchedOrderId: 15, // 매칭된 주문(지원)의 _id
+          matchedUserId: 3, // 매칭된 유저(지원자)의 _id (3번 유저와 매칭됨)
+          pickupLocation: {},
+          arrivalLocation: {
+            address: "서울특별시 성북구 고려대로 102-2",
+            detailAddress: "스타벅스",
+            coordinates: {
+              latitude: 37.586112415089616, // 위도
+              longitude: 127.03076181081309, // 경도
+            },
+          },
+        },
+      },
+      // P16: 기간 만료 (PS010 && due 지남)
+      {
+        _id: await nextSeq("product"),
+        seller_id: 4,
+        price: 30000,
+
+        show: true,
+        active: true,
+        name: "거북이 돌봄 해주세요",
+        quantity: 999,
+        buyQuantity: 0,
+
+        content: "저희 집 거북이 기어 가는 것 좀 봐주세요",
+        createdAt: getTime(-41, -60 * 60 * 2),
+        updatedAt: getTime(-40, -60 * 15),
+        extra: {
+          category: ["PC05"],
+          tags: ["TA05", "TA07"],
+          productState: ["PS010"],
+          due: "2025.01.05 18:00:00",
+          matchedOrderId: null, // 매칭된 주문(지원)의 _id
+          matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
+          pickupLocation: {},
+          arrivalLocation: {
+            address: "서울특별시 동대문구 왕산로19가길 34",
+            detailAddress: "해오름아파트 101동 101호",
+            coordinates: {
+              latitude: 37.5798006657316, // 위도
+              longitude: 127.03185735283465, // 경도
+            },
+          },
         },
       },
     ],
