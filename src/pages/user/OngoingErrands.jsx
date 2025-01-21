@@ -15,28 +15,6 @@ const OngoingErrands = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  // 인증 체크
-  useEffect(() => {
-    const hasConfirmed = sessionStorage.getItem("hasConfirmed");
-
-    if (!user && !hasConfirmed) {
-      const isConfirmed = window.confirm(
-        "로그인 후 이용 가능합니다. 로그인 화면으로 이동하시겠습니까?"
-      );
-
-      if (isConfirmed) {
-        sessionStorage.setItem("hasConfirmed", "true");
-        navigate("/users/login", {
-          replace: true,
-          state: { from: "/users/ongoingErrands" },
-        });
-      } else {
-        sessionStorage.setItem("hasConfirmed", "true");
-        navigate("/", { replace: true });
-      }
-    }
-  }, [user, navigate]);
-
   // activeTab이 변경될 때마다 sessionStorage에 저장
   useEffect(() => {
     sessionStorage.setItem("activeTab", activeTab);
