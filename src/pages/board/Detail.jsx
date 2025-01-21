@@ -4,7 +4,7 @@ import CommentList from "@pages/board/CommentList";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import dayjs from "dayjs";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@contexts/NavigationContext";
 import Payment from "@components/pay/Payment";
@@ -97,32 +97,13 @@ export default function Detail() {
 
     onSuccess: () => {
       alert("심부름 지원이 완료되었습니다.");
-      navigate(`/users/mypage`);
+      navigate(`/users/mypage?tab=apply`);
     },
     onError: (err) => {
       alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       console.error(err);
     },
   });
-
-  // 심부름 상태를 완료로 변경하는 함수 (결제 함수 성공 시 호출)
-  // const handleFinish = useMutation({
-  //   mutationFn: (_id) => {
-  //     const body = {
-  //       "extra.productState": ["PS030"],
-  //     };
-  //     return axios.patch(`/seller/products/${_id}`, body);
-  //   },
-
-  //   onSuccess: () => {
-  //     console.log("심부름 상태가 PS030으로 수정되었습니다.");
-  //   },
-
-  //   onError: (err) => {
-  //     alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-  //     console.error(err);
-  //   },
-  // });
 
   ///////////////////////////////////////////////////////////////////// UI //////////////////////////////////////////////////////////////////
 
@@ -233,7 +214,7 @@ export default function Detail() {
       return {
         text: `지원자 ${applicantCount}명 확인하기`,
         action: () => {
-          navigate(`/errand/applicants/${_id}`, { state: { applicantsData } }); // 지원자목록 페이지로 이동, 지원자 데이터를 전달
+          navigate(`/errand/applicants/${_id}`, { state: { applicantsData } }); // 지원자목록 페이지로 이동, 지원 데이터를 전달
         },
         dynamicBg: "bg-primary-500",
         dynamicTextColor: "text-white",
@@ -277,11 +258,12 @@ export default function Detail() {
         dynamicCursor: "cursor-default",
       };
     }
+
     return {
       text: "",
       action: () => {},
-      dynamicBg: "bg-gray-400",
-      dynamicTextColor: "text-white",
+      dynamicBg: "",
+      dynamicTextColor: "",
       dynamicCursor: "cursor-default",
     };
   };
@@ -304,24 +286,26 @@ export default function Detail() {
           </div>
 
           {/* 작성자 프로필 */}
-          <div className="profile_card flex gap-[12px] items-center text-small-text">
-            <img
-              src={`https://11.fesp.shop${data.item.seller.image}`}
-              className="profile_image rounded-full w-[36px] h-[36px] border-primary-50 border-[1px] bg-cover bg-center shrink-0"
-            />
+          <Link to={`/users/${data.item.seller_id}`}>
+            <div className="profile_card flex gap-[12px] items-center text-small-text">
+              <img
+                src={`https://11.fesp.shop${data.item.seller.image}`}
+                className="profile_image rounded-full w-[36px] h-[36px] border-primary-50 border-[1px] bg-cover bg-center shrink-0"
+              />
 
-            <div className="nickname">{data.item.seller.name}</div>
+              <div className="nickname">{data.item.seller.name}</div>
 
-            <img
-              className="gender w-[24px] h-[24px] shrink-0"
-              src={`${genderImage}`}
-            />
+              <img
+                className="gender w-[24px] h-[24px] shrink-0"
+                src={`${genderImage}`}
+              />
 
-            {/* <div className="like_number shrink-0 flex gap-[2px] items-center">
+              {/* <div className="like_number shrink-0 flex gap-[2px] items-center">
               <img src="/assets/thumb.png" className="w-[24px] h-[24px]" />
               {data.item.seller.extra.likes}
             </div> */}
-          </div>
+            </div>
+          </Link>
         </div>
 
         <div className="post_body pt-[20px] flex flex-col gap-[16px] font-pretendard text-regular-text">
@@ -445,12 +429,8 @@ export default function Detail() {
       <div className="pb-40 bg-background-color"></div>
 
       {/* 결제 컴포넌트 버튼 */}
-      {isMyErrand && errandState === "PS020" && (
-        <Payment
-          item={data.item}
-          className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
-          style={{ top: `${buttonPos}px` }}
-        />
+      {isLoggedIn && isMyErrand && errandState === "PS020" && (
+        <Payment item={data.item} buttonPos={buttonPos} />
       )}
 
       {/* 다이나믹 버튼 */}
@@ -458,7 +438,7 @@ export default function Detail() {
         <button
           type="button"
           onClick={action}
-          className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
+          className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full z-10`}
           style={{ top: `${buttonPos}px` }}
         >
           {text}

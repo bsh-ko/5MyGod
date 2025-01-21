@@ -61,7 +61,7 @@ export default function NavigationHeader() {
       },
     },
     {
-      pattern: /^\/users\/myerrand$/,
+      pattern: /^\/users\/ongoingErrands$/,
       config: {
         title: "진행중 심부름",
         showBackButton: false,
@@ -73,6 +73,16 @@ export default function NavigationHeader() {
       pattern: /^\/users\/signup$/,
       config: {
         title: "회원가입",
+        showBackButton: true,
+        showHeaderButton: false,
+        bgColor: "bg-background-color",
+      },
+    },
+
+    {
+      pattern: /^\/users\/login$/,
+      config: {
+        title: "로그인",
         showBackButton: true,
         showHeaderButton: false,
         bgColor: "bg-background-color",
@@ -126,6 +136,11 @@ export default function NavigationHeader() {
   };
   const commonHeaderStyle =
     "w-full min-h-[49px] flex justify-between items-center tracking-tighter sticky top-0";
+
+  //결제 완료 페이지에서 안보이도록 처리
+  if (location.pathname === "/pay/paysuccess") {
+    return null;
+  }
 
   return (
     <header

@@ -153,7 +153,7 @@ export const initData = async (clientId, nextSeq) => {
       // 4번 유저가 올린 심부름
       // P1: 구인 중 (PS010)
       {
-        _id: 1,
+        _id: await nextSeq("product"),
         seller_id: 4,
         price: 15000,
 
@@ -193,7 +193,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // P2: 매칭 완료, 진행 중 (PS020)
       {
-        _id: 2,
+        _id: await nextSeq("product"),
         seller_id: 4,
         price: 20000,
 
@@ -216,7 +216,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // P3: 완료 (PS030)
       {
-        _id: 3,
+        _id: await nextSeq("product"),
         seller_id: 4,
         price: 30000,
 
@@ -248,7 +248,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // P4: 기간 만료 (PS010 && due 지남)
       {
-        _id: 4,
+        _id: await nextSeq("product"),
         seller_id: 4,
         price: 20000,
 
@@ -273,7 +273,7 @@ export const initData = async (clientId, nextSeq) => {
       // 2번 유저가 올린 심부름
       // P5: 구인 중 (PS010)
       {
-        _id: 5,
+        _id: await nextSeq("product"),
         seller_id: 2,
         price: 20000,
 
@@ -296,7 +296,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // P6: 매칭 완료, 진행 중 (PS020)
       {
-        _id: 6,
+        _id: await nextSeq("product"),
         seller_id: 2,
         price: 20000,
 
@@ -319,7 +319,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // P7: 완료 (PS030)
       {
-        _id: 7,
+        _id: await nextSeq("product"),
         seller_id: 2,
         price: 40000,
 
@@ -342,7 +342,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // P8: 기간 만료 (PS010 && due 지남)
       {
-        _id: 8,
+        _id: await nextSeq("product"),
         seller_id: 2,
         price: 50000,
 
@@ -371,7 +371,7 @@ export const initData = async (clientId, nextSeq) => {
       // 2번 유저의 지원 (4번 유저의 심부름에 대해)
       // O1: 지원 완료, 매칭 대기 중 (PS010)
       {
-        _id: 1,
+        _id: await nextSeq("order"),
         user_id: 2,
         state: "OS010", // 지원 완료, 매칭 대기 중
         products: [
@@ -420,7 +420,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // O2: 매칭 완료, 진행 중 (PS020)
       {
-        _id: 2,
+        _id: await nextSeq("order"),
         user_id: 2,
         state: "OS020", // 매칭 완료, 심부름 진행 중
         products: [
@@ -452,7 +452,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // O3: 완료 (PS030)
       {
-        _id: 3,
+        _id: await nextSeq("order"),
         user_id: 2,
         state: "OS030", // 심부름 완료
         products: [
@@ -493,7 +493,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // O4: 기간 만료 (PS010 && due 지남)
       {
-        _id: 4,
+        _id: await nextSeq("order"),
         user_id: 2,
         state: "OS040", // 기간 만료
         products: [
@@ -561,7 +561,7 @@ export const initData = async (clientId, nextSeq) => {
 
       // O6: 매칭 완료, 심부름 진행 중 (PS020)
       {
-        _id: 6,
+        _id: await nextSeq("order"),
         user_id: 4,
         state: "OS020", // 매칭 완료, 심부름 진행 중
         products: [
@@ -593,7 +593,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // O7: 완료 (PS030)
       {
-        _id: 7,
+        _id: await nextSeq("order"),
         user_id: 4,
         state: "OS030", // 심부름 완료
         products: [
@@ -625,7 +625,7 @@ export const initData = async (clientId, nextSeq) => {
       },
       // O8: 기간 만료 (PS010 && due 지남)
       {
-        _id: 8,
+        _id: await nextSeq("order"),
         user_id: 4,
         state: "OS040", // 기간 만료
         products: [

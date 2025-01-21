@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { NotificationProvider } from "@contexts/NotificationProvider";
 import { lazy } from "react";
+import Protected from "./protected";
 
 const Layout = lazy(() => import("@components/layout"));
 const MainPage = lazy(() => import("@pages/board/MainPage"));
@@ -10,7 +11,9 @@ const New = lazy(() => import("@pages/board/New"));
 const Login = lazy(() => import("@pages/user/Login"));
 const Signup = lazy(() => import("@pages/user/Signup"));
 const MyPage = lazy(() => import("@pages/user/Mypage"));
-const UserPage = lazy(() => import("@pages/user/Userpage"));
+const UserPage = lazy(() => import("@pages/user/UserPage"));
+const OngoingErrands = lazy(() => import("@pages/user/OngoingErrands"));
+const MyApplies = lazy(() => import("@pages/user/MyApplies"));
 const PaySuccess = lazy(() => import("@components/pay/PaySuccess"));
 const Notifications = lazy(() => import("@pages/user/NotificationsList"));
 
@@ -26,15 +29,30 @@ const router = createBrowserRouter(
       // errorElement: <ErrorPage />,
       children: [
         { index: true, element: <MainPage /> },
-        { path: "errand/:_id", element: <Detail /> },
-        { path: "errand/applicants/:_id", element: <Applicants /> },
-        { path: "errand/new", element: <New /> },
         { path: "users/signup", element: <Signup /> },
         { path: "users/login", element: <Login /> },
+<<<<<<< HEAD
         { path: "users/mypage", element: <MyPage /> },
         { path: "users/:_id", element: <UserPage /> },
         { path: "pay/paysuccess", element: <PaySuccess /> },
         { path: "users/notifications", element: <Notifications /> },
+=======
+        { path: "errand/:_id", element: <Detail /> },
+
+        //로그인 필요한 페이지
+        {
+          element: <Protected />,
+          children: [
+            { path: "errand/applicants/:_id", element: <Applicants /> },
+            { path: "errand/new", element: <New /> },
+            { path: "users/mypage", element: <MyPage /> },
+            { path: "users/myApplies", element: <MyApplies /> },
+            { path: "users/ongoingErrands", element: <OngoingErrands /> },
+            { path: "users/:_id", element: <UserPage /> },
+            { path: "pay/paysuccess", element: <PaySuccess /> },
+          ],
+        },
+>>>>>>> 59e4c1c940bc58c9df17ecc8c75c2c9a588969e9
       ],
     },
   ],

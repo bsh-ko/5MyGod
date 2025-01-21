@@ -5,6 +5,12 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
 import NotificationCreate from "@components/NotificationCreate";
 
+// Props Validation
+Payment.propTypes = {
+  item: PropTypes.object.isRequired,
+  buttonPos: PropTypes.number.isRequired,
+};
+
 // 상품(product)의 상태를 심부름 완료 및 종료("PS030")로 상태 바꾸는 함수
 const useUpdateProductState = () => {
   const axios = useAxiosInstance();
@@ -39,7 +45,7 @@ const useUpdateProductState = () => {
   });
 };
 
-export default function Payment({ item, className, style }) {
+export default function Payment({ item, buttonPos }) {
   const productId = item?._id;
   const payAmount = item?.price;
 
@@ -71,7 +77,7 @@ export default function Payment({ item, className, style }) {
       if (window.PortOne) {
         const result = await window.PortOne.requestPayment({
           storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
-          paymentId: productId + "34", //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
+          paymentId: productId + "3456", //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
           orderName: "테스트 결제",
           totalAmount: payAmount, //결제 금액
           currency: "KRW",
@@ -105,8 +111,12 @@ export default function Payment({ item, className, style }) {
   };
 
   return (
-    <button onClick={handlePayment} className={className} style={style}>
-      결제하기
+    <button
+      onClick={handlePayment}
+      className={`font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full bg-complementary-400 text-primary-600 cursor-pointer z-10`}
+      style={{ top: `${buttonPos}px` }}
+    >
+      심부름 완료 및 결제하기
     </button>
   );
 }

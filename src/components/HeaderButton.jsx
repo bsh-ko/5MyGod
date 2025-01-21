@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useNotification } from "@contexts/NotificationProvider";
+import useUserStore from "@zustand/userStore";
 
 const NotificationBadge = ({ count }) => {
   if (!count) return null;
@@ -10,18 +11,17 @@ const NotificationBadge = ({ count }) => {
 };
 
 export default function HeaderButton() {
-  const isLogin = sessionStorage.getItem("user");
+  const isLoggedOut = useUserStore((state) => state.user === null);
   const navigate = useNavigate();
   const { unreadCount } = useNotification();
 
   const handleClick = () => {
-    if (!isLogin) navigate("/users/login");
-    else navigate("/users/notifications");
+    if (isLoggedOut) navigate("/users/login");
   };
 
   return (
     <div className="flex items-center">
-      {isLogin ? (
+      {!isLoggedOut ? (
         <div className="relative">
           <img
             src="/assets/alarm.png"
