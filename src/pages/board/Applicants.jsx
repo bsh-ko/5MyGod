@@ -39,7 +39,6 @@ const Applicants = () => {
           id: item.user._id,
           name: item.user.name,
           description: item.user.extra.introduction || "소개글이 없습니다.",
-          // 사용자의 이미지 경로를 직접 사용
           profileImage: item.user.image,
           productId: item.products[0]._id,
           productState: item.products[0].extra.productState[0],
@@ -78,7 +77,8 @@ const Applicants = () => {
 
       if (response.data.ok === 1) {
         console.log("지원자 수락 성공:", response.data);
-        navigate("/users/mypage");
+        // MyPage의 나의 요청 탭으로 이동
+        navigate("/users/mypage?tab=requests");
       } else {
         console.error("지원자 수락 실패:", response.data);
       }
