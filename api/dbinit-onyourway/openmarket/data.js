@@ -175,19 +175,19 @@ export const initData = async (clientId, nextSeq) => {
           matchedOrderId: null, // 매칭된 주문(지원)의 _id
           matchedUserId: null, // 매칭된 유저(지원자)의 _id (아직 매칭 안됨)
           pickupLocation: {
-            address: "서울 종로구 세종로 186",
-            detailAddress: "광화문역",
+            address: "서울 중구 남대문로5길 9",
+            detailAddress: "이마트24 한국은행점",
             coordinates: {
-              latitude: 37.57166213080161, // 위도
-              longitude: 126.97645483898171, // 경도
+              latitude: 37.5617442432919, // 위도
+              longitude: 126.978862530774, // 경도
             },
           },
           arrivalLocation: {
-            address: "서울특별시 중구 한강대로 405",
-            detailAddress: "서울역 2층 대합실",
+            address: "서울특별시 중구 퇴계로 72",
+            detailAddress: "SK리더스뷰 남산아파트 101동 101호",
             coordinates: {
-              latitude: 37.554613947854044, // 위도
-              longitude: 126.97052998585586, // 경도
+              latitude: 37.55915255583279, // 위도
+              longitude: 126.9806124437641, // 경도
             },
           },
         },
@@ -269,7 +269,7 @@ export const initData = async (clientId, nextSeq) => {
           tags: ["TA05", "TA07"],
           productState: ["PS010"],
           due: "2025.01.05 18:00:00",
-          matchedOrderId: 4, // 매칭된 주문(지원)의 _id
+          matchedOrderId: null, // 매칭된 주문(지원)의 _id
           matchedUserId: null, // 매칭된 유저(지원자)의 _id
         },
       },
@@ -279,7 +279,7 @@ export const initData = async (clientId, nextSeq) => {
       {
         _id: await nextSeq("product"),
         seller_id: 2,
-        price: 20000,
+        price: 50000,
 
         show: true,
         active: true,
@@ -425,7 +425,7 @@ export const initData = async (clientId, nextSeq) => {
           },
           arrivalLocation: {
             address: "서울특별시 중구 만리재로 175",
-            detailAddress: "서울역센트럴 자이아파트",
+            detailAddress: "서울역센트럴 자이아파트 102동 102호",
             coordinates: {
               latitude: 37.55470201062915, // 위도
               longitude: 126.96326429421285, // 경도
