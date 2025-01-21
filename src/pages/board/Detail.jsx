@@ -431,7 +431,7 @@ export default function Detail() {
         <button
           type="button"
           onClick={action}
-          className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full`}
+          className={`${dynamicBg} ${dynamicTextColor} ${dynamicCursor} font-laundry text-[24px] p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0 w-full z-10`}
           style={{ top: `${buttonPos}px` }}
         >
           {text}
