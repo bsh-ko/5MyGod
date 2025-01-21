@@ -8,7 +8,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@contexts/NavigationContext";
 import Payment from "@components/pay/Payment";
-import useNotificationHandler from "@components/NotificationCreate";
+import useNotificationHandler from "@hooks/useNotificationCreate";
 
 export default function Detail() {
   const axios = useAxiosInstance();

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useParams, useNavigate } from "react-router-dom";
+import useNotificationHandler from "@hooks/useNotificationCreate";
 
 const Applicants = () => {
   const [applicants, setApplicants] = useState([]);
@@ -75,8 +76,16 @@ const Applicants = () => {
         extra: updatedExtra,
       });
 
+      const sendNotification = useNotificationHandler();
       if (response.data.ok === 1) {
         console.log("지원자 수락 성공:", response.data);
+        //수락 후 알림
+        sendNotification({
+          type: "accept",
+          targetId: applicantId,
+          errandId: _id,
+          errandTitle: ,
+        });
         // MyPage의 나의 요청 탭으로 이동
         navigate("/users/mypage?tab=requests");
       } else {
