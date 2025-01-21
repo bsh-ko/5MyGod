@@ -31,12 +31,6 @@ const router = createBrowserRouter(
         { index: true, element: <MainPage /> },
         { path: "users/signup", element: <Signup /> },
         { path: "users/login", element: <Login /> },
-<<<<<<< HEAD
-        { path: "users/mypage", element: <MyPage /> },
-        { path: "users/:_id", element: <UserPage /> },
-        { path: "pay/paysuccess", element: <PaySuccess /> },
-        { path: "users/notifications", element: <Notifications /> },
-=======
         { path: "errand/:_id", element: <Detail /> },
 
         //로그인 필요한 페이지
@@ -48,11 +42,11 @@ const router = createBrowserRouter(
             { path: "users/mypage", element: <MyPage /> },
             { path: "users/myApplies", element: <MyApplies /> },
             { path: "users/ongoingErrands", element: <OngoingErrands /> },
+            { path: "users/notifications", element: <Notifications /> },
             { path: "users/:_id", element: <UserPage /> },
             { path: "pay/paysuccess", element: <PaySuccess /> },
           ],
         },
->>>>>>> 59e4c1c940bc58c9df17ecc8c75c2c9a588969e9
       ],
     },
   ],

@@ -15,15 +15,21 @@ export default function NotificationCreate({
     const sessionData = sessionStorage.getItem("user");
     const userName = JSON.parse(sessionData)?.state?.user?.name;
 
+    const type = "apply";
+    const targetId = 1;
+    const content = contentByType(type, userName);
+    const url = "/errand/2"; // `/errand/${errandId}`
+    const errandTitle = "SNS 프로필 사진 찍어주세요"; //`${errandTitle}`, //product?.item?.name
+
     // 동적 구현 예정된 내용
     const notificationData = {
-      type: "apply",
-      target_id: 4, // `${targetId}`, // 알림을 받는 사람의 _id값 product?.item?.seller?._id
+      type: type,
+      target_id: targetId, // `${targetId}`, // 알림을 받는 사람의 _id값 product?.item?.seller?._id
       channel: "toast",
-      content: contentByType("apply", userName), //contentByType(type, userName),
+      content: content, //contentByType(type, userName),
       extra: {
-        url: "/errand/2", //`/errand/${errandId}`,
-        errand_title: "SNS 프로필 사진 찍어주세요", //`${errandTitle}`, //product?.item?.name
+        url: url,
+        errand_title: errandTitle,
       },
     };
 

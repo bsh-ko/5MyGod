@@ -36,7 +36,7 @@ export function NotificationProvider({ children }) {
   const markAllAsRead = useMutation({
     mutationFn: async () => {
       const response = await axios.patch("/notifications/read");
-      console.log("읽음 처리됨", response);
+      console.log("전체 읽음 처리됨", response);
       return response.data;
     },
     onSuccess: () => {

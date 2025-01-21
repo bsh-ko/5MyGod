@@ -8,48 +8,7 @@ import NotificationCreate from "@components/NotificationCreate";
 
 export default function NotificationsList() {
   const location = useLocation();
-  const { notifications, markAllAsRead } = useNotification();
-
-  useEffect(() => {
-    return () => {
-      // 페이지를 벗어날 때 읽음 처리
-      if (location.pathname === "/users/notifications") {
-        markAllAsRead(); // Context에서 제공된 markAllAsRead 호출
-      }
-    };
-  }, [location.pathname, markAllAsRead]);
-
-  // const axios = useAxiosInstance();
-  // const queryClient = useQueryClient();
-
-  // 읽음 처리 mutation
-  //   const markAsRead = useMutation({
-  //     mutationFn: async () => {
-  //       const response = await axios.patch("/notifications/read");
-  //       return response.data;
-  //     },
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries(["notifications"]);
-  //     },
-  //   });
-
-  //   const { data } = useQuery({
-  //     queryKey: ["notifications"],
-  //     queryFn: async () => {
-  //       const response = await axios.get("/notifications");
-  //       return response;
-  //     },
-  //     select: (res) => res.data,
-  //   });
-  //   console.log("알람 목록 ", data);
-
-  //   useEffect(() => {
-  //     return () => {
-  //       if (location.pathname === "/users/notification") {
-  //         markAsRead();
-  //       }
-  //     };
-  //   }, [location, markAsRead]);
+  const { notifications } = useNotification();
 
   if (!notifications.length)
     return (

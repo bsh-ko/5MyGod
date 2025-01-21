@@ -22,19 +22,20 @@ export default function HeaderButton() {
   return (
     <div className="flex items-center">
       {!isLoggedOut ? (
-        <div className="relative">
-          <img
-            src="/assets/alarm.png"
-            className="size-10 cursor-pointer"
-            onClick={handleClick}
-            alt="알림"
-          />
-          <NotificationBadge count={unreadCount} />
-        </div>
+        <Link to={"/users/notifications"}>
+          <div className="relative">
+            <img
+              src="/assets/alarm.png"
+              className="size-10 cursor-pointer"
+              onClick={handleClick}
+              alt="알림"
+            />
+            <NotificationBadge count={unreadCount} />
+          </div>
+        </Link>
       ) : (
         <Link
           to={"/users/login"}
-          state={{ title: "로그인" }}
           className="font-laundry text-primary-500 text-toggle-text font-bold cursor-pointer"
         >
           시작하기
