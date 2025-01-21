@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
-import NotificationCreate from "@components/NotificationCreate";
+import useNotificationHandler from "@components/NotificationCreate";
 
 // Props Validation
 Payment.propTypes = {
@@ -71,6 +71,7 @@ export default function Payment({ item, buttonPos }) {
 
   const navigate = useNavigate();
   const { mutateAsync: updateProdState } = useUpdateProductState();
+  const sendNotification = useNotificationHandler();
 
   const handlePayment = async () => {
     try {
@@ -95,7 +96,7 @@ export default function Payment({ item, buttonPos }) {
 
         navigate("/pay/paysuccess", { state: item });
         //결제 완료 후 알림
-        NotificationCreate({
+        sendNotification({
           type: "complete",
           targetId: item?.extra?.matchedUserId,
           errandId: item?._id,
