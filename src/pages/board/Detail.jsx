@@ -4,7 +4,7 @@ import CommentList from "@pages/board/CommentList";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import dayjs from "dayjs";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@contexts/NavigationContext";
 import Payment from "@components/pay/Payment";
@@ -279,24 +279,26 @@ export default function Detail() {
           </div>
 
           {/* 작성자 프로필 */}
-          <div className="profile_card flex gap-[12px] items-center text-small-text">
-            <img
-              src={`https://11.fesp.shop${data.item.seller.image}`}
-              className="profile_image rounded-full w-[36px] h-[36px] border-primary-50 border-[1px] bg-cover bg-center shrink-0"
-            />
+          <Link to={`/users/${data.item.seller_id}`}>
+            <div className="profile_card flex gap-[12px] items-center text-small-text">
+              <img
+                src={`https://11.fesp.shop${data.item.seller.image}`}
+                className="profile_image rounded-full w-[36px] h-[36px] border-primary-50 border-[1px] bg-cover bg-center shrink-0"
+              />
 
-            <div className="nickname">{data.item.seller.name}</div>
+              <div className="nickname">{data.item.seller.name}</div>
 
-            <img
-              className="gender w-[24px] h-[24px] shrink-0"
-              src={`${genderImage}`}
-            />
+              <img
+                className="gender w-[24px] h-[24px] shrink-0"
+                src={`${genderImage}`}
+              />
 
-            {/* <div className="like_number shrink-0 flex gap-[2px] items-center">
+              {/* <div className="like_number shrink-0 flex gap-[2px] items-center">
               <img src="/assets/thumb.png" className="w-[24px] h-[24px]" />
               {data.item.seller.extra.likes}
             </div> */}
-          </div>
+            </div>
+          </Link>
         </div>
 
         <div className="post_body pt-[20px] flex flex-col gap-[16px] font-pretendard text-regular-text">
