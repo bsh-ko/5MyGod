@@ -25,12 +25,12 @@ const router = createBrowserRouter(
         { index: true, element: <MainPage /> },
         { path: "users/signup", element: <Signup /> },
         { path: "users/login", element: <Login /> },
+        { path: "errand/:_id", element: <Detail /> },
 
         //로그인 필요한 페이지
         {
           element: <Protected />,
           children: [
-            { path: "errand/:_id", element: <Detail /> },
             { path: "errand/applicants/:_id", element: <Applicants /> },
             { path: "errand/new", element: <New /> },
             { path: "users/mypage", element: <MyPage /> },
