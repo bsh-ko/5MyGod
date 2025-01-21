@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 const Applicants = () => {
   const [applicants, setApplicants] = useState([]);
@@ -144,13 +144,13 @@ const Applicants = () => {
           applicants.map((applicant) => (
             <div
               key={applicant.apply_id}
-              className={`w-[360px] h-[84px] flex-shrink-0 flex items-center bg-white rounded-[10px] shadow-card-shadow ${
+              className={`w-full h-[84px] flex items-center bg-white rounded-[10px] shadow-card-shadow ${
                 isMatchedExists && applicant.productState !== "PS020"
                   ? "opacity-50"
                   : ""
               }`}
             >
-              <Link to={`/user/${applicant.user_id}`}>
+              <Link to={`/users/${applicant.user_id}`} className="grow">
                 <div className="flex items-center ml-[16px] flex-grow">
                   <img
                     src={`https://11.fesp.shop${applicant.profileImage}`}
