@@ -80,12 +80,12 @@ const Applicants = () => {
       if (response.data.ok === 1) {
         console.log("지원자 수락 성공:", response.data);
         //수락 후 알림
-        sendNotification({
-          type: "accept",
-          targetId: applicantId,
-          errandId: _id,
-          errandTitle: ,
-        });
+        // sendNotification({
+        //   type: "accept",
+        //   targetId: applicantId,
+        //   errandId: _id,
+        //   errandTitle: ,
+        // });
         // MyPage의 나의 요청 탭으로 이동
         navigate("/users/mypage?tab=requests");
       } else {
