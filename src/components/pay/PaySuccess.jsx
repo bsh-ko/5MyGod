@@ -8,12 +8,7 @@ export default function PaySuccess() {
   const navigate = useNavigate();
 
   const handleMoveToMyRequests = () => {
-    // /users/mypage로 이동하면서 state로 activeTab 정보를 전달
-    navigate("/users/mypage", {
-      state: {
-        activeTab: "requests",
-      },
-    });
+    navigate("/users/mypage?tab=requests");
   };
 
   // const prodData = location.state; // 결제 완료한 상품 데이터
@@ -36,11 +31,11 @@ export default function PaySuccess() {
         onClick={handleMoveToMyRequests}
         className="absolute top-5 left-5 text-gray-400 text-2xl"
       >
-        <img src="/src/assets/x-icon.png" />
+        <img src="/assets/x-icon.png" />
       </button>
 
       <div className="content-center flex flex-col items-center">
-        <img src="/src/assets/success.png" className="mx-auto" />
+        <img src="/assets/success.png" className="mx-auto" />
         <p className="font-pretendard font-extrabold text-popup-title text-primary-500 text-center my-5">
           결제 완료
         </p>
