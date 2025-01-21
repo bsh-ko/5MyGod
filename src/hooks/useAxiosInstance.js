@@ -24,7 +24,6 @@ function useAxiosInstance() {
       config.headers.Authorization = `Bearer ${user.accessToken}`;
     }
     config.params = {
-      delay: 500,
       ...config.params, // 기존 쿼리스트링 복사
     };
 
