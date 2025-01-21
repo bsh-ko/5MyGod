@@ -106,6 +106,7 @@ const Applicants = () => {
 
       if (applyUpdateResponse.data.ok === 1) {
         console.log("지원 데이터 수정 성공: ", applyUpdateResponse.data);
+        alert("심부름 지원을 수락하였습니다.");
         // MyPage의 나의 요청 탭으로 이동
         navigate("/users/mypage?tab=requests");
       } else {
