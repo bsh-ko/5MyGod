@@ -1325,51 +1325,51 @@ export const initData = async (clientId, nextSeq) => {
 
     // 후기
     review: [
-      {
-        _id: await nextSeq("review"),
-        user_id: 4,
-        user: {
-          _id: 4,
-          name: "제이지",
-          image: "user-jayg.webp",
-        },
-        order_id: 1,
-        product_id: 2,
-        rating: 5,
-        content: "아이가 좋아해요.",
-        createdAt: getTime(-4, -60 * 60 * 12),
-      },
-      {
-        _id: await nextSeq("review"),
-        user_id: 2,
-        user: {
-          _id: 2,
-          name: "네오",
-          image: "user-neo.webp",
-        },
-        order_id: 4,
-        product_id: 2,
-        rating: 4,
-        content: "배송이 좀 느려요.",
-        createdAt: getTime(-3, -60 * 60 * 1),
-      },
-      {
-        _id: await nextSeq("review"),
-        user_id: 4,
-        user: {
-          _id: 4,
-          name: "제이지",
-          image: "user-jayg.webp",
-        },
-        order_id: 2,
-        product_id: 3,
-        rating: 1,
-        content: "하루만에 고장났어요.",
-        extra: {
-          title: "추천하지 않습니다.",
-        },
-        createdAt: getTime(-2, -60 * 60 * 10),
-      },
+      // {
+      //   _id: await nextSeq("review"),
+      //   user_id: 4,
+      //   user: {
+      //     _id: 4,
+      //     name: "제이지",
+      //     image: "user-jayg.webp",
+      //   },
+      //   order_id: 1,
+      //   product_id: 2,
+      //   rating: 5,
+      //   content: "아이가 좋아해요.",
+      //   createdAt: getTime(-4, -60 * 60 * 12),
+      // },
+      // {
+      //   _id: await nextSeq("review"),
+      //   user_id: 2,
+      //   user: {
+      //     _id: 2,
+      //     name: "네오",
+      //     image: "user-neo.webp",
+      //   },
+      //   order_id: 4,
+      //   product_id: 2,
+      //   rating: 4,
+      //   content: "배송이 좀 느려요.",
+      //   createdAt: getTime(-3, -60 * 60 * 1),
+      // },
+      // {
+      //   _id: await nextSeq("review"),
+      //   user_id: 4,
+      //   user: {
+      //     _id: 4,
+      //     name: "제이지",
+      //     image: "user-jayg.webp",
+      //   },
+      //   order_id: 2,
+      //   product_id: 3,
+      //   rating: 1,
+      //   content: "하루만에 고장났어요.",
+      //   extra: {
+      //     title: "추천하지 않습니다.",
+      //   },
+      //   createdAt: getTime(-2, -60 * 60 * 10),
+      // },
     ],
 
     // QnA, 공지사항 등의 게시판
