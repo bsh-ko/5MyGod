@@ -7,6 +7,7 @@ const Logout = ({ isOpen, onConfirm, onCancel }) => {
 
   const handleConfirm = () => {
     resetUser(); // 로그아웃 처리
+    sessionStorage.setItem("justLoggedOut", "true");
     if (onConfirm) {
       onConfirm(); // 부모 컴포넌트에서 정의된 onConfirm 함수 호출
     }

@@ -1,25 +1,38 @@
-import { useState, useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import useUserStore from "@zustand/userStore";
 
 function Protected() {
   const { user } = useUserStore();
-  const [isLoginPromptShown, setIsLoginPromptShown] = useState(false);
+  const navigate = useNavigate();
+  const promptShownRef = useRef(false);
+  const prevUserRef = useRef(user);
 
   useEffect(() => {
-    setIsLoginPromptShown(false);
-  }, [user]);
+    const isJustLoggedOut = sessionStorage.getItem("justLoggedOut") === "true";
 
-  if (!user) {
-    if (!isLoginPromptShown) {
-      setIsLoginPromptShown = true;
+    if (!user && prevUserRef.current && !isJustLoggedOut) {
+      // 사용자가 로그아웃한 경우
+      sessionStorage.setItem("justLoggedOut", "true");
+      navigate("/");
+    } else if (!user && !promptShownRef.current && !isJustLoggedOut) {
+      promptShownRef.current = true;
       const gotoLogin = window.confirm("로그인 후 이용 가능합니다.\n로그인 페이지로 이동하시겠습니까?");
       if (gotoLogin) {
-        window.location.href = "/users/login";
+        navigate("/users/login");
       } else {
-        window.location.href = "/";
+        navigate("/");
       }
     }
+
+    if (isJustLoggedOut) {
+      sessionStorage.removeItem("justLoggedOut");
+    }
+
+    prevUserRef.current = user;
+  }, [user, navigate]);
+
+  if (!user) {
     return null;
   }
 
