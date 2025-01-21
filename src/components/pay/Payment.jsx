@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
-import useNotificationHandler from "@components/NotificationCreate";
+import useNotificationHandler from "@hooks/useNotificationCreate";
 
 // Props Validation
 Payment.propTypes = {
