@@ -9,31 +9,38 @@ const OngoingErrands = () => {
   const axiosInstance = useAxiosInstance();
   const { user } = useUserStore();
   const [errandItems, setErrandItems] = useState([]);
-  const [activeTab, setActiveTab] = useState("부탁한 심부름");
+  const [activeTab, setActiveTab] = useState(() => {
+    // 초기 상태를 sessionStorage에서 가져오거나 기본값 설정
+    return sessionStorage.getItem("activeTab") || "부탁한 심부름";
+  });
   const [loading, setLoading] = useState(false);
 
   // 인증 체크
   useEffect(() => {
-    // sessionStorage에서 이미 알림을 띄운 여부 확인
     const hasConfirmed = sessionStorage.getItem("hasConfirmed");
 
     if (!user && !hasConfirmed) {
-      // 로그인하지 않았고, 알림창을 띄운 적이 없으면
       const isConfirmed = window.confirm(
         "로그인 후 이용 가능합니다. 로그인 화면으로 이동하시겠습니까?"
       );
+
       if (isConfirmed) {
-        sessionStorage.setItem("hasConfirmed", "true"); // 확인을 눌렀으므로 sessionStorage에 저장
+        sessionStorage.setItem("hasConfirmed", "true");
         navigate("/users/login", {
           replace: true,
           state: { from: "/users/ongoingErrands" },
         });
       } else {
-        sessionStorage.setItem("hasConfirmed", "true"); // 취소를 눌렀으므로 sessionStorage에 저장
-        navigate("/", { replace: true }); // 로그인하지 않으면 다른 페이지로 리디렉션
+        sessionStorage.setItem("hasConfirmed", "true");
+        navigate("/", { replace: true });
       }
     }
   }, [user, navigate]);
+
+  // activeTab이 변경될 때마다 sessionStorage에 저장
+  useEffect(() => {
+    sessionStorage.setItem("activeTab", activeTab);
+  }, [activeTab]);
 
   // API 호출 함수
   const fetchErrands = async (endpoint) => {
