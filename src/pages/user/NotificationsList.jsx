@@ -3,8 +3,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useNotification } from "@contexts/NotificationProvider";
 import NotificationItem from "./NotificationItem";
-import NotificationCreate from "@components/NotificationCreate";
-// import useAxiosInstance from "@hooks/useAxiosInstance";
 
 export default function NotificationsList() {
   const location = useLocation();
