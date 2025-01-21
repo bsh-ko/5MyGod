@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
+import NotificationCreate from "@components/NotificationCreate";
 
 // 상품(product)의 상태를 심부름 완료 및 종료("PS030")로 상태 바꾸는 함수
 const useUpdateProductState = () => {
@@ -85,7 +86,15 @@ export default function Payment({ item, className, style }) {
           productId,
           currentItem: item,
         });
+
         navigate("/pay/paysuccess", { state: item });
+        //결제 완료 후 알림
+        NotificationCreate({
+          type: "complete",
+          targetId: item?.extra?.matchedUserId,
+          errandId: item?._id,
+          errandTitle: item?.name,
+        });
       } else {
         alert("결제 모듈이 로드되지 않았습니다.");
       }

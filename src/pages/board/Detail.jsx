@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@contexts/NavigationContext";
 import Payment from "@components/pay/Payment";
+import NotificationCreate from "@components/NotificationCreate";
 
 export default function Detail() {
   const axios = useAxiosInstance();
@@ -254,6 +255,12 @@ export default function Detail() {
           text: "지원하기",
           action: () => {
             apply.mutate(_id); // 지원하기 함수 호출
+            NotificationCreate({
+              type: "apply",
+              targetId: "",
+              _id: "",
+              errandTitle: "",
+            });
           },
           dynamicBg: "bg-complementary-300",
           dynamicTextColor: "text-primary-500",

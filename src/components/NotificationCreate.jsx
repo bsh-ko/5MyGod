@@ -40,10 +40,10 @@ export default function NotificationCreate({
   );
 }
 
-// NotificationCreate.propTypes = {
-//   type: PropTypes.oneOf(["apply", "comment", "expire", "complete", "accept"])
-//     .isRequired,
-//   targetId: PropTypes.number.isRequired,
-//   errandId: PropTypes.number.isRequired,
-//   errandTitle: PropTypes.string.isRequired,
-// };
+NotificationCreate.propTypes = {
+  type: PropTypes.oneOf(["apply", "comment", "expire", "complete", "accept"])
+    .isRequired,
+  targetId: PropTypes.number.isRequired,
+  errandId: PropTypes.number.isRequired,
+  errandTitle: PropTypes.string.isRequired,
+};
