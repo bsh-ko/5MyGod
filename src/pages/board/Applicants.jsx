@@ -150,24 +150,25 @@ const Applicants = () => {
                   : ""
               }`}
             >
-              <div className="flex items-center ml-[16px] flex-grow">
-                <img
-                  src={`https://11.fesp.shop${applicant.profileImage}`}
-                  alt={`${applicant.name}의 프로필`}
-                  onError={handleImageError}
-                  className="w-[42px] h-[42px] rounded-full object-cover mr-[16px] cursor-pointer"
-                  onClick={() => navigate(`/user/${applicant.user_id}`)}
-                />
+              <Link to={`/user/${applicant.user_id}`}>
+                <div className="flex items-center ml-[16px] flex-grow">
+                  <img
+                    src={`https://11.fesp.shop${applicant.profileImage}`}
+                    alt={`${applicant.name}의 프로필`}
+                    onError={handleImageError}
+                    className="w-[42px] h-[42px] rounded-full object-cover mr-[16px] cursor-pointer"
+                  />
 
-                <div className="flex flex-col justify-center">
-                  <h3 className="font-Pretendard text-[18px] font-semibold text-gray-black-900 tracking-[-1.08px]">
-                    {applicant.name}
-                  </h3>
-                  <p className="font-Pretendard text-[16px] font-medium text-gray-black-900 tracking-[-0.96px]">
-                    {applicant.description}
-                  </p>
+                  <div className="flex flex-col justify-center">
+                    <h3 className="font-Pretendard text-[18px] font-semibold text-gray-black-900 tracking-[-1.08px]">
+                      {applicant.name}
+                    </h3>
+                    <p className="font-Pretendard text-[16px] font-medium text-gray-black-900 tracking-[-0.96px]">
+                      {applicant.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Link>
               <button
                 className={`w-[77px] h-[84px] flex-shrink-0 rounded-r-[10px] ${
                   isMatchedExists || applicant.productState === "PS020"
