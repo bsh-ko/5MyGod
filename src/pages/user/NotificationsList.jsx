@@ -13,7 +13,13 @@ export default function NotificationsList() {
   if (!notifications.length)
     return (
       <div>
-        <div>알림이 없습니다</div> <NotificationCreate />
+        <div>알림이 없습니다</div>{" "}
+        {/* <NotificationCreate
+          type="apply"
+          targetId="1"
+          errandId="2"
+          errandTitle="텍스트"
+        /> */}
       </div>
     );
 
@@ -33,7 +39,12 @@ export default function NotificationsList() {
           ))}
         </ul>
 
-        <NotificationCreate />
+        {/* <NotificationCreate
+          type="apply"
+          targetId="1"
+          errandId="2"
+          errandTitle="텍스트"
+        /> */}
       </main>
     </div>
   );
