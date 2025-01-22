@@ -52,6 +52,14 @@ export default function NavigationHeader() {
         title: "알림",
         showBackButton: true,
         showHeaderButton: false,
+      },
+    },
+    {
+      pattern: /^\/chating$/,
+      config: {
+        title: "채팅",
+        showBackButton: false,
+        showHeaderButton: true,
         bgColor: "bg-background-color",
       },
     },
