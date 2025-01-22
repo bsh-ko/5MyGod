@@ -2,9 +2,14 @@ import React from "react";
 import ListItem from "@pages/errand/ListItem";
 
 const MyRequests = ({ requestData }) => {
-  const requestList = requestData?.item.map((item) => (
-    <ListItem key={item._id} item={item} />
-  ));
+  const requestList =
+    requestData?.item.map((product) => {
+      const item = {
+        productInfo: product, // productInfo 형식으로 변환
+      };
+      return <ListItem key={product._id} item={item} />;
+    }) || [];
+
   return (
     <div>
       {requestList && requestList.length === 0 ? (
