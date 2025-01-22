@@ -21,9 +21,10 @@ const OngoingErrands = () => {
   }, [activeTab]);
 
   // API 호출 함수
-  const fetchErrands = async (endpoint) => {
+  const fetchErrands = async () => {
     try {
       setLoading(true);
+      setErrandItems([]); // 로딩 중 데이터 초기화
 
       if (activeTab === "지원한 심부름") {
         // 지원한 심부름 탭일 때, 진행 중인 지원 데이터 받아오기
@@ -34,7 +35,7 @@ const OngoingErrands = () => {
           const ongoingApplies =
             response.data.item.map((order) => ({
               orderInfo: order, // 지원 데이터
-              productInfo: order.products[0], // 지원 데이터 안의 상품 데이터
+              productInfo: order.products?.[0] || {}, // 지원 데이터 안의 상품 데이터
             })) || [];
           setErrandItems(ongoingApplies); // errandItems로 저장
         }
@@ -43,7 +44,13 @@ const OngoingErrands = () => {
         const response = await axiosInstance.get(
           `/seller/products?custom={"extra.productState":"PS020"}`
         );
-        setErrandItems(response.data); // errandItems로 저장
+        if (response.data.ok === 1) {
+          const ongoingRequests =
+            response.data.item.map((request) => ({
+              productInfo: request,
+            })) || [];
+          setErrandItems(ongoingRequests); // errandItems로 저장
+        }
       }
     } catch (error) {
       console.error(`${activeTab} API 호출 오류:`, error);
