@@ -2,23 +2,33 @@ import { Link } from "react-router-dom";
 import TagList from "@pages/board/TagList";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useEffect } from "react";
 
 ListItem.propTypes = {
   item: PropTypes.shape({
-    _id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    user: PropTypes.shape({
+    // productInfo 데이터 구조
+    productInfo: PropTypes.shape({
+      _id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      extra: PropTypes.shape({
+        category: PropTypes.arrayOf(PropTypes.string).isRequired,
+        tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+        due: PropTypes.string.isRequired,
+        productState: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }),
     }),
-
-    extra: PropTypes.shape({
-      category: PropTypes.array.isRequired,
-      tags: PropTypes.array.isRequired,
-      due: PropTypes.string.isRequired,
-      productState: PropTypes.array.isRequired,
+    // orderInfo 데이터 구조 (optional)
+    orderInfo: PropTypes.shape({
+      _id: PropTypes.number.isRequired,
+      state: PropTypes.string.isRequired,
+      createdAt: PropTypes.string, // 생성 시간
+      user: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }),
     }),
-  }),
+  }).isRequired,
 };
 
 // 남은 시간 계산하는 헬퍼 함수
@@ -51,13 +61,52 @@ function calculateRemainingTime(due) {
 }
 
 export default function ListItem({ item }) {
-  // 기한 만료 여부 변수
-  const isPastDue = calculateRemainingTime(item?.extra?.due) === "마감";
+  const axiosInstance = useAxiosInstance();
+
+  const { orderInfo, productInfo } = item || {};
+
+  // 기한 만료 여부 변수 (productInfo 기반)
+  const isPastDue =
+    productInfo && calculateRemainingTime(productInfo?.extra?.due) === "마감";
+
+  // 기한 만료되면 order의 state를 OS040으로 변경하는 요청 전송
+  useEffect(() => {
+    const updateOrderState = async () => {
+      if (orderInfo && isPastDue && orderInfo.state !== "OS040") {
+        try {
+          const response = await axiosInstance.patch(
+            `/orders/${orderInfo._id}`,
+            { state: "OS040" }
+          );
+          console.log("서버 상태 업데이트 성공:", response.data);
+        } catch (error) {
+          console.error("서버 상태 업데이트 실패:", error);
+        }
+      }
+    };
+    updateOrderState();
+  }, [axiosInstance, orderInfo, isPastDue]);
 
   // 심부름 상태 변수
-  const isCompleted = item.extra?.productState[0] === "PS030";
-  const isExpired = item.extra?.productState[0] === "PS010" && isPastDue;
-  const isOngoing = item.extra?.productState[0] === "PS020";
+  let isCompleted, isExpired, isOngoing;
+
+  if (orderInfo) {
+    // orderInfo를 사용하여 상태 판단
+    isCompleted = orderInfo.state === "OS030"; // 완료된 지원
+    isExpired = orderInfo.state === "OS040"; // 기한 만료된 지원
+    isOngoing = orderInfo.state === "OS020"; // 진행 중인 지원
+  } else {
+    // productInfo를 사용하여 상태 판단
+    const productState = productInfo.extra?.productState[0];
+    isCompleted = productState === "PS030"; // 완료된 요청
+    isExpired = productState === "PS010" && isPastDue; // 구인 중에 기한이 지난 요청
+    isOngoing = productState === "PS020"; // 진행 중인 요청
+  }
+
+  // 만료 상태 처리 (orderInfo가 존재하고 productInfo의 만료 상태가 true인 경우 orderState를 OS040으로 변경) --- 이미 서버에 이 작업을 하도록 요청했으므로 막아둠
+  // if (orderInfo && isPastDue && orderInfo.state !== "OS040") {
+  //   orderInfo.state = "OS040";
+  // }
 
   // 완료 / 기한 만료 / 진행 중 심부름에 덮을 반투명 레이어
   let overlayClass;
@@ -89,16 +138,16 @@ export default function ListItem({ item }) {
     PC05: "/assets/twohearts.svg",
   };
 
-  // category의 첫번째 값을 기반으로 이미지 경로 설정
+  // category의 첫번째 값을 기반으로 이미지 경로 설정 (productInfo)
   const categoryImage =
-    categoryImages[item.extra?.category[0]] || "/assets/check.svg"; // category 설정이 안 된 경우 기본 이미지로 체크이미지 표시
+    categoryImages[productInfo?.extra?.category[0]] || "/assets/check.svg"; // category 설정이 안 된 경우 기본 이미지로 체크이미지 표시
 
-  // 남은 시간
-  const remainingTime = calculateRemainingTime(item.extra?.due);
+  // 남은 시간 (productInfo)
+  const remainingTime = calculateRemainingTime(productInfo?.extra?.due);
 
   return (
     <Link
-      to={`/errand/${item._id}`}
+      to={`/errand/${productInfo?._id}`}
       className={`list_item w-full h-[116px] rounded-[10px] bg-white shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center relative`}
     >
       <div
@@ -116,17 +165,17 @@ export default function ListItem({ item }) {
 
       <div className="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]">
         <h2 className="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis">
-          {item.name}
+          {productInfo?.name}
         </h2>
 
-        <TagList item={item} />
+        <TagList item={productInfo} />
 
         <div className="li_info flex flex-grow justify-between">
           <div className="font-pretendard text-card-timelimit">
             {remainingTime}
           </div>
           <div className="font-pretendard text-card-price">
-            {new Intl.NumberFormat("ko-KR").format(item.price)} 원
+            {new Intl.NumberFormat("ko-KR").format(productInfo?.price)} 원
           </div>
         </div>
       </div>

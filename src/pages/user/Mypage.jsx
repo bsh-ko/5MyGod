@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useNavigate, useSearchParams, useParams, useLocation } from "react-router-dom";
+import {
+  useNavigate,
+  useSearchParams,
+  useParams,
+  useLocation,
+} from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import useUserStore from "@zustand/userStore";
@@ -55,7 +60,8 @@ export default function MyPage() {
   if (isLoading) return <div>로딩 중...</div>;
 
   if (error) {
-    const errorMessage = error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
+    const errorMessage =
+      error.response?.data?.message || "유저 정보를 가져오는 데 실패했습니다.";
     return <div>{errorMessage}</div>;
   }
 
@@ -106,53 +112,81 @@ export default function MyPage() {
           {activeTab === "intro" && (
             <div id="intro" className="tab-content">
               {isEditing ? (
-                <MyEdit users={users} setIsEditing={setIsEditing} onUserUpdate={handleUserUpdate} />
+                <MyEdit
+                  users={users}
+                  setIsEditing={setIsEditing}
+                  onUserUpdate={handleUserUpdate}
+                />
               ) : (
                 <>
                   <div className="intro bg-white p-5 ">
                     <div className="flex justify-between mb-3">
-                      <h3 className="text-lg font-bold text-gray-700 ">자기소개</h3>
-                      <button className="text-primary-500" onClick={() => setIsEditing(true)}>
+                      <h3 className="text-lg font-bold text-gray-700 ">
+                        자기소개
+                      </h3>
+                      <button
+                        className="text-primary-500"
+                        onClick={() => setIsEditing(true)}
+                      >
                         수정하기
                       </button>
                     </div>
+
                     <p className="text-gray-black-900 mb-5">
                       {users?.item.extra.introduction || "자기소개를 작성해보세요."}
                     </p>
                   </div>
                   <div className="intro bg-white p-5 my-3">
                     <div className="flex justify-between my-3">
-                      <h3 className="text-lg font-bold text-gray-700">심부름</h3>
+                      <h3 className="text-lg font-bold text-gray-700">
+                        심부름
+                      </h3>
                     </div>
                     {users.item.extra.errands?.length > 0 ? (
                       <ul className="flex space-x-3">
                         {users.item.extra.errands?.map((task, index) => (
                           <li key={index} className="flex items-center">
-                            <p className="bg-gray-100 px-2 py-1 rounded-md">{task}</p>
+                            <p className="bg-gray-100 px-2 py-1 rounded-md">
+                              {task}
+                            </p>
                           </li>
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-gray-500 mb-5">{users.item.name}님의 선호하는 심부름을 작성해보세요</p>
+                      <p className="text-gray-500 mb-5">
+                        {users.item.name}님의 선호하는 심부름을 작성해보세요
+                      </p>
                     )}
 
                     <div className="flex justify-between my-3">
-                      <h3 className="text-lg font-bold text-gray-700">이동 수단</h3>
+                      <h3 className="text-lg font-bold text-gray-700">
+                        이동 수단
+                      </h3>
                     </div>
                     {users.item.extra.transportation?.length > 0 ? (
                       <ul className="flex space-x-3">
-                        {users.item.extra.transportation?.map((transport, index) => (
-                          <li key={index} className="flex items-center">
-                            <p className="bg-gray-100 px-2 py-1 rounded-md">{transport}</p>
-                          </li>
-                        ))}
+                        {users.item.extra.transportation?.map(
+                          (transport, index) => (
+                            <li key={index} className="flex items-center">
+                              <p className="bg-gray-100 px-2 py-1 rounded-md">
+                                {transport}
+                              </p>
+                            </li>
+                          )
+                        )}
                       </ul>
                     ) : (
-                      <p className="text-gray-500 mb-5">{users.item.name}님의 이동수단을 작성해보세요</p>
+                      <p className="text-gray-500 mb-5">
+                        {users.item.name}님의 이동수단을 작성해보세요
+                      </p>
                     )}
 
-                    <h3 className="text-lg font-bold mt-6 text-gray-700">심부름 상세</h3>
-                    <p className="text-gray-700 text-sm mb-3">자주 하는 질문 또는 안내사항을 작성할 수 있어요</p>
+                    <h3 className="text-lg font-bold mt-6 text-gray-700">
+                      심부름 상세
+                    </h3>
+                    <p className="text-gray-700 text-sm mb-3">
+                      자주 하는 질문 또는 안내사항을 작성할 수 있어요
+                    </p>
                     {users.item.extra.details?.length > 0 ? (
                       <ul className="mb-3">
                         {users.item.extra.details?.map((detail, index) => (
@@ -165,11 +199,15 @@ export default function MyPage() {
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-gray-500 mb-5">{users.item.name}님의 심부름 상세를 작성해보세요</p>
+                      <p className="text-gray-500 mb-5">
+                        {users.item.name}님의 심부름 상세를 작성해보세요
+                      </p>
                     )}
                   </div>
                   <div className="intro bg-white p-5 mt-3">
-                    <h3 className="text-lg font-bold text-gray-700 pb-3">경력</h3>
+                    <h3 className="text-lg font-bold text-gray-700 pb-3">
+                      경력
+                    </h3>
                     {/* <ul className="flex flex-wrap h-14 bg-gray-100 rounded-[10px] px-5 mb-3 ">
                       {users.item.extra.experience
                         .reduce((acc, exp, index) => {
@@ -197,35 +235,47 @@ export default function MyPage() {
                     </ul> */}
                     {users.item.extra.experience?.length > 0 ? (
                       <ul className="mb-3">
-                        {users.item.extra.experience?.map((experience, index) => (
-                          <li
-                            key={index}
-                            className="w-full h-14 leading-[56px] bg-gray-100 rounded-[10px] px-5 mb-2 text-gray-800 font-semibold"
-                          >
-                            {experience}
-                          </li>
-                        ))}
+                        {users.item.extra.experience?.map(
+                          (experience, index) => (
+                            <li
+                              key={index}
+                              className="w-full h-14 leading-[56px] bg-gray-100 rounded-[10px] px-5 mb-2 text-gray-800 font-semibold"
+                            >
+                              {experience}
+                            </li>
+                          )
+                        )}
                       </ul>
                     ) : (
-                      <p className="text-gray-500 mb-5">{users.item.name}님의 경력을 작성해보세요</p>
+                      <p className="text-gray-500 mb-5">
+                        {users.item.name}님의 경력을 작성해보세요
+                      </p>
                     )}
 
-                    <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">자격증</h3>
+                    <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">
+                      자격증
+                    </h3>
                     {users.item.extra.certificates?.length > 0 ? (
                       <ul className="mb-3">
-                        {users.item.extra.certificates?.map((certificate, index) => (
-                          <li
-                            key={index}
-                            className="w-full h-14 leading-[56px] bg-gray-100 rounded-[10px] px-5 mb-2 text-gray-800 font-semibold"
-                          >
-                            {certificate}
-                          </li>
-                        ))}
+                        {users.item.extra.certificates?.map(
+                          (certificate, index) => (
+                            <li
+                              key={index}
+                              className="w-full h-14 leading-[56px] bg-gray-100 rounded-[10px] px-5 mb-2 text-gray-800 font-semibold"
+                            >
+                              {certificate}
+                            </li>
+                          )
+                        )}
                       </ul>
                     ) : (
-                      <p className="text-gray-500 mb-5">{users.item.name}님의 자격증을 작성해보세요</p>
+                      <p className="text-gray-500 mb-5">
+                        {users.item.name}님의 자격증을 작성해보세요
+                      </p>
                     )}
-                    <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">사업자</h3>
+                    <h3 className="text-lg font-bold mt-6 text-gray-700 pb-3">
+                      사업자
+                    </h3>
                     {users.item.extra.business?.length > 0 ? (
                       <ul className="mb-3">
                         {users.item.extra.business?.map((business, index) => (
@@ -238,7 +288,9 @@ export default function MyPage() {
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-gray-500 mb-5 pb-16">{users.item.name}님의 사업자를 작성해보세요</p>
+                      <p className="text-gray-500 mb-5 pb-16">
+                        {users.item.name}님의 사업자를 작성해보세요
+                      </p>
                     )}
                   </div>
                   <div>
