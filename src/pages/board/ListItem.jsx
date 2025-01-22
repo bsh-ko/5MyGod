@@ -51,13 +51,33 @@ function calculateRemainingTime(due) {
 }
 
 export default function ListItem({ item }) {
-  // 기한 만료 여부 변수
-  const isPastDue = calculateRemainingTime(item?.extra?.due) === "마감";
+  const { orderInfo, productInfo } = item;
+
+  // 기한 만료 여부 변수 (productInfo 기반)
+  const isPastDue =
+    productInfo && calculateRemainingTime(item?.extra?.due) === "마감";
 
   // 심부름 상태 변수
-  const isCompleted = item.extra?.productState[0] === "PS030";
-  const isExpired = item.extra?.productState[0] === "PS010" && isPastDue;
-  const isOngoing = item.extra?.productState[0] === "PS020";
+  let isCompleted, isExpired, isOngoing;
+
+  if (orderInfo) {
+    // orderInfo를 사용하여 상태 판단
+    isCompleted = orderInfo.state === "OS030"; // 완료된 지원
+    isExpired = orderInfo.state === "OS040"; // 기한 만료된 지원
+    isOngoing = orderInfo.state === "OS020"; // 진행 중인 지원
+  } else {
+    // productInfo를 사용하여 상태 판단
+    const productState = productInfo.extra?.productState[0];
+    isCompleted = productState === "PS030"; // 완료된 요청
+    isExpired = productState === "PS010" && isPastDue; // 구인 중에 기한이 지난 요청
+    isOngoing = productState === "PS020"; // 진행 중인 요청
+  }
+
+  // 만료 상태 처리 (orderInfo가 존재하고 productInfo의 만료 상태가 true인 경우 orderState를 OS040으로 변경)
+  // 서버에서도 해당 order의 state가 OS040으로 변경되도록, api 통신 추가해야 함!!
+  if (orderInfo && isPastDue && orderInfo.state !== "OS040") {
+    orderInfo.state = "OS040";
+  }
 
   // 완료 / 기한 만료 / 진행 중 심부름에 덮을 반투명 레이어
   let overlayClass;
