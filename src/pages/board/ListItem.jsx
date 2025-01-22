@@ -5,20 +5,28 @@ import dayjs from "dayjs";
 
 ListItem.propTypes = {
   item: PropTypes.shape({
-    _id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    user: PropTypes.shape({
+    // productInfo 데이터 구조
+    productInfo: PropTypes.shape({
+      _id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      extra: PropTypes.shape({
+        category: PropTypes.arrayOf(PropTypes.string).isRequired,
+        tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+        due: PropTypes.string.isRequired,
+        productState: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }),
     }),
-
-    extra: PropTypes.shape({
-      category: PropTypes.array.isRequired,
-      tags: PropTypes.array.isRequired,
-      due: PropTypes.string.isRequired,
-      productState: PropTypes.array.isRequired,
+    // orderInfo 데이터 구조 (optional)
+    orderInfo: PropTypes.shape({
+      _id: PropTypes.number.isRequired,
+      state: PropTypes.string.isRequired,
+      createdAt: PropTypes.string, // 생성 시간
+      user: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }),
     }),
-  }),
+  }).isRequired,
 };
 
 // 남은 시간 계산하는 헬퍼 함수
