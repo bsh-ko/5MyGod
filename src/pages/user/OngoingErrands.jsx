@@ -24,25 +24,46 @@ const OngoingErrands = () => {
   const fetchErrands = async (endpoint) => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get(endpoint);
 
-      if (response.data.ok === 1) {
-        if (activeTab === "지원한 심부름") {
-          const filteredItems =
-            response.data.item
-              .filter((order) => order.state === "OS020")
-              .map((order) => order.products[0]) || [];
-          setErrandItems(filteredItems); // OS020인 주문 하나하나의 안에 들어 있는 상품 데이터를 목록으로 만들어 errandItems로 등록
-        } else {
-          const filteredItems =
-            response.data.item.filter(
-              (product) =>
-                product.seller_id === user?._id &&
-                product.extra?.productState[0] === "PS020"
-            ) || [];
-          setErrandItems(filteredItems); // PS020인 상품 데이터를 목록으로 만들어 errandItems로 등록
+      if (activeTab === "지원한 심부름") {
+        // 지원한 심부름 탭일 때, 진행 중인 지원 데이터 받아오기
+        const response = await axiosInstance.get(
+          `/orders?custom={"state":"OS020"}`
+        );
+        if (response.data.ok === 1) {
+          const ongoingApplies =
+            response.data.item.map((order) => ({
+              orderInfo: order, // 지원 데이터
+              productInfo: order.products[0], // 지원 데이터 안의 상품 데이터
+            })) || [];
+          setErrandItems(ongoingApplies); // errandItems로 저장
         }
+      } else {
+        // 요청한 심부름 탭일 때, 진행 중인 상품 데이터 받아오기
+        const response = await axiosInstance.get(
+          `/seller/products?custom={"extra.productState":"PS020"}`
+        );
+        setErrandItems(response.data); // errandItems로 저장
       }
+      // const response = await axiosInstance.get(endpoint);
+
+      // if (response.data.ok === 1) {
+      //   if (activeTab === "지원한 심부름") {
+      //     const filteredItems =
+      //       response.data.item
+      //         .filter((order) => order.state === "OS020")
+      //         .map((order) => order.products[0]) || [];
+      //     setErrandItems(filteredItems); // OS020인 주문 하나하나의 안에 들어 있는 상품 데이터를 목록으로 만들어 errandItems로 등록
+      //   } else {
+      //     const filteredItems =
+      //       response.data.item.filter(
+      //         (product) =>
+      //           product.seller_id === user?._id &&
+      //           product.extra?.productState[0] === "PS020"
+      //       ) || [];
+      //     setErrandItems(filteredItems); // PS020인 상품 데이터를 목록으로 만들어 errandItems로 등록
+      //   }
+      // }
     } catch (error) {
       console.error(`${activeTab} API 호출 오류:`, error);
       if (error.response) {
