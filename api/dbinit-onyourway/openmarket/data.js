@@ -27,7 +27,7 @@ export const initData = async (clientId, nextSeq) => {
         updatedAt: getTime(-100, -60 * 60 * 3),
         extra: {
           gender: "female",
-          likes: 120,
+          likes: 999,
           introduction: "",
           errands: ["편의점 배달"],
           transportation: ["도보", "자전거"],
@@ -35,7 +35,7 @@ export const initData = async (clientId, nextSeq) => {
           experience: ["배달", "배달의 민족", "5개월"],
           certificates: ["오토바이 자격증"],
           business: ["무지 사업자"],
-          earnings: 20000,
+          earnings: 100000000,
         },
       },
       // 2번 회원 (승아님)
@@ -54,7 +54,7 @@ export const initData = async (clientId, nextSeq) => {
         updatedAt: getTime(-30, -60 * 60 * 3),
         extra: {
           gender: "male",
-          likes: 540,
+          likes: 998,
           introduction: "",
           errands: ["편의점 배달", "음식 배달", "사진 촬영"],
           transportation: ["도보", "대중교통"],
@@ -62,7 +62,7 @@ export const initData = async (clientId, nextSeq) => {
           experience: ["사진관 알바", "우리동네 사진관", "8개월"],
           certificates: ["네오 자격증"],
           business: ["네오 사업자"],
-          earnings: 500000,
+          earnings: 110000000,
         },
       },
       // 3번 회원 (수현님)
@@ -81,7 +81,7 @@ export const initData = async (clientId, nextSeq) => {
         updatedAt: getTime(-30, -60 * 20),
         extra: {
           gender: "female",
-          likes: 400,
+          likes: 997,
           introduction: "",
           errands: ["빨래", "음식 배달", "사진 촬영"],
           transportation: ["자차", "대중교통"],
@@ -89,7 +89,7 @@ export const initData = async (clientId, nextSeq) => {
           experience: [],
           certificates: [],
           business: [],
-          earnings: 10000,
+          earnings: 120000000,
         },
       },
       // 4번 회원 (주석)
@@ -108,7 +108,7 @@ export const initData = async (clientId, nextSeq) => {
         updatedAt: getTime(-10, -60 * 60 * 12),
         extra: {
           gender: "male",
-          likes: 999,
+          likes: 996,
           introduction: "나는 참 새다",
           errands: ["배달"],
           transportation: ["오토바이"],
@@ -116,36 +116,9 @@ export const initData = async (clientId, nextSeq) => {
           experience: [],
           certificates: [""],
           business: [],
-          earnings: 100000,
+          earnings: 130000000,
         },
       },
-      // 5번 회원
-      // {
-      //   _id: await nextSeq("user"),
-      //   email: "n1@market.com",
-      //   password:
-      //     "$2b$10$S.8GNMDyvUF0xzujPtHBu.j5gtS19.OhRmYbpJBnCHg2S83WLx1T2",
-      //   name: "아무것도없음",
-      //   phone: "01044447555",
-      //   address: "서울시 강남구 논현동 222",
-      //   type: "seller",
-      //   loginType: "email",
-      //   image: ``,
-      //   createdAt: getTime(-20, -60 * 30),
-      //   updatedAt: getTime(-10, -60 * 60 * 12),
-      //   extra: {
-      //     gender: "female",
-      //     likes: 9,
-      //     introduction: "",
-      //     errands: [],
-      //     transportation: [],
-      //     details: [],
-      //     experience: [],
-      //     certificates: [],
-      //     business: [],
-      //     earnings: 500000,
-      //   },
-      // },
     ],
 
     // 상품 (심부름 요청 글)
