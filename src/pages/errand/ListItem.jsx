@@ -85,7 +85,7 @@ export default function ListItem({ item }) {
       }
     };
     updateOrderState();
-  }, [axiosInstance, orderInfo, isPastDue]);
+  }, []);
 
   // 심부름 상태 변수
   let isCompleted, isExpired, isOngoing;
