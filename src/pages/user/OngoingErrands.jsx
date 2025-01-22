@@ -45,25 +45,6 @@ const OngoingErrands = () => {
         );
         setErrandItems(response.data); // errandItems로 저장
       }
-      // const response = await axiosInstance.get(endpoint);
-
-      // if (response.data.ok === 1) {
-      //   if (activeTab === "지원한 심부름") {
-      //     const filteredItems =
-      //       response.data.item
-      //         .filter((order) => order.state === "OS020")
-      //         .map((order) => order.products[0]) || [];
-      //     setErrandItems(filteredItems); // OS020인 주문 하나하나의 안에 들어 있는 상품 데이터를 목록으로 만들어 errandItems로 등록
-      //   } else {
-      //     const filteredItems =
-      //       response.data.item.filter(
-      //         (product) =>
-      //           product.seller_id === user?._id &&
-      //           product.extra?.productState[0] === "PS020"
-      //       ) || [];
-      //     setErrandItems(filteredItems); // PS020인 상품 데이터를 목록으로 만들어 errandItems로 등록
-      //   }
-      // }
     } catch (error) {
       console.error(`${activeTab} API 호출 오류:`, error);
       if (error.response) {
