@@ -27,7 +27,11 @@ const MyApplies = ({ applyData }) => {
   // products 배열을 펼치고 각 항목을 ListItem에 전달
   const applyList = applyData.item.flatMap((applyItem) =>
     applyItem.products.map((product) => (
-      <ListItem key={product._id} item={transformDataForListItem(product)} />
+      <ListItem
+        key={product._id}
+        item={transformDataForListItem(product)}
+        applyItem={applyItem}
+      />
     ))
   );
 
