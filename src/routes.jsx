@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { NotificationProvider } from "@contexts/NotificationProvider";
 import { lazy } from "react";
 import Protected from "./protected";
 
@@ -14,12 +15,18 @@ const UserPage = lazy(() => import("@pages/user/UserPage"));
 const OngoingErrands = lazy(() => import("@pages/user/OngoingErrands"));
 const MyApplies = lazy(() => import("@pages/user/MyApplies"));
 const PaySuccess = lazy(() => import("@components/pay/PaySuccess"));
+const Notifications = lazy(() => import("@pages/user/NotificationsList"))
+const ChatsList = lazy(() => import("@pages/chating/ChatsList"));
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <Layout />,
+      element: (
+        <NotificationProvider>
+          <Layout />
+        </NotificationProvider>
+      ),
       // errorElement: <ErrorPage />,
       children: [
         { index: true, element: <MainPage /> },
@@ -36,6 +43,8 @@ const router = createBrowserRouter(
             { path: "users/mypage", element: <MyPage /> },
             { path: "users/myApplies", element: <MyApplies /> },
             { path: "users/ongoingErrands", element: <OngoingErrands /> },
+            { path: "users/notifications", element: <Notifications /> },
+            { path: "chating", element: <ChatsList /> },
             { path: "users/:_id", element: <UserPage /> },
             { path: "pay/paysuccess", element: <PaySuccess /> },
           ],

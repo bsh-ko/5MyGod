@@ -8,6 +8,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@contexts/NavigationContext";
 import Payment from "@components/pay/Payment";
+import useNotificationHandler from "@hooks/useNotificationCreate";
 
 export default function Detail() {
   const axios = useAxiosInstance();
@@ -80,6 +81,8 @@ export default function Detail() {
     }
   }
 
+  const sendNotification = useNotificationHandler();
+
   // 지원하기 함수
   const apply = useMutation({
     mutationFn: (_id) => {
@@ -97,6 +100,12 @@ export default function Detail() {
 
     onSuccess: () => {
       alert("심부름 지원이 완료되었습니다.");
+      sendNotification({
+        type: "apply",
+        targetId: data?.item?.seller_id,
+        errandId: data?.item?._id,
+        errandTitle: data?.item?.name,
+      });
       navigate(`/users/mypage?tab=apply`);
     },
     onError: (err) => {

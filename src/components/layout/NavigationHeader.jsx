@@ -1,9 +1,13 @@
+import { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useNotification } from "@contexts/NotificationProvider";
 import HeaderButton from "@components/HeaderButton";
 
 export default function NavigationHeader() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { markAllAsRead } = useNotification();
+  const prevPathname = useRef(location.pathname);
 
   const PAGE_CONFIGS = [
     {
@@ -38,6 +42,23 @@ export default function NavigationHeader() {
       config: {
         title: "심부름 상세",
         showBackButton: true,
+        showHeaderButton: true,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
+      pattern: /^\/users\/notifications$/,
+      config: {
+        title: "알림",
+        showBackButton: true,
+        showHeaderButton: false,
+      },
+    },
+    {
+      pattern: /^\/chating$/,
+      config: {
+        title: "채팅",
+        showBackButton: false,
         showHeaderButton: true,
         bgColor: "bg-background-color",
       },
@@ -80,6 +101,15 @@ export default function NavigationHeader() {
       },
     },
     {
+      pattern: /^\/users\/login$/,
+      config: {
+        title: "로그인",
+        showBackButton: true,
+        showHeaderButton: false,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
       pattern: /^\/users\/[^/]+$/,
       config: {
         title: "프로필",
@@ -105,6 +135,17 @@ export default function NavigationHeader() {
   };
 
   const config = getPageConfig();
+
+  useEffect(() => {
+    // 이전 경로가 알림 페이지였고, 현재 경로가 다른 페이지라면 읽음 처리
+    if (
+      prevPathname.current === "/users/notifications" &&
+      location.pathname !== "/users/notifications"
+    ) {
+      markAllAsRead();
+    }
+    prevPathname.current = location.pathname;
+  }, [location.pathname, markAllAsRead]);
 
   const handleBack = () => {
     navigate(-1);
@@ -139,7 +180,7 @@ export default function NavigationHeader() {
           <h1 className={`${getTitleStyle(config.title)}`}>{config.title}</h1>
         </div>
         {/* 오른쪽: 로그인시 알람, 로그아웃시 "시작하기" */}
-        <HeaderButton />
+        {config.showHeaderButton && <HeaderButton />}
       </div>
     </header>
   );
