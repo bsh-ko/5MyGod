@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import TagList from "@pages/board/TagList";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
+import useAxiosInstance from "@hooks/useAxiosInstance";
+import { useEffect } from "react";
 
 ListItem.propTypes = {
   item: PropTypes.shape({
@@ -59,16 +61,31 @@ function calculateRemainingTime(due) {
 }
 
 export default function ListItem({ item }) {
-  if (!item || (!item.productInfo && !item.orderInfo)) {
-    console.error("Invalid item structure");
-    return null;
-  }
+  const axiosInstance = useAxiosInstance();
 
-  const { orderInfo, productInfo } = item;
+  const { orderInfo, productInfo } = item || {};
 
   // 기한 만료 여부 변수 (productInfo 기반)
   const isPastDue =
     productInfo && calculateRemainingTime(productInfo?.extra?.due) === "마감";
+
+  // 기한 만료되면 order의 state를 OS040으로 변경하는 요청 전송
+  useEffect(() => {
+    const updateOrderState = async () => {
+      if (orderInfo && isPastDue && orderInfo.state !== "OS040") {
+        try {
+          const response = await axiosInstance.patch(
+            `/orders/${orderInfo._id}`,
+            { state: "OS040" }
+          );
+          console.log("서버 상태 업데이트 성공:", response.data);
+        } catch (error) {
+          console.error("서버 상태 업데이트 실패:", error);
+        }
+      }
+    };
+    updateOrderState();
+  }, [axiosInstance, orderInfo, isPastDue]);
 
   // 심부름 상태 변수
   let isCompleted, isExpired, isOngoing;
@@ -86,11 +103,10 @@ export default function ListItem({ item }) {
     isOngoing = productState === "PS020"; // 진행 중인 요청
   }
 
-  // 만료 상태 처리 (orderInfo가 존재하고 productInfo의 만료 상태가 true인 경우 orderState를 OS040으로 변경)
-  // 서버에서도 해당 order의 state가 OS040으로 변경되도록, api 통신 추가해야 함!!
-  if (orderInfo && isPastDue && orderInfo.state !== "OS040") {
-    orderInfo.state = "OS040";
-  }
+  // 만료 상태 처리 (orderInfo가 존재하고 productInfo의 만료 상태가 true인 경우 orderState를 OS040으로 변경) --- 이미 서버에 이 작업을 하도록 요청했으므로 막아둠
+  // if (orderInfo && isPastDue && orderInfo.state !== "OS040") {
+  //   orderInfo.state = "OS040";
+  // }
 
   // 완료 / 기한 만료 / 진행 중 심부름에 덮을 반투명 레이어
   let overlayClass;
