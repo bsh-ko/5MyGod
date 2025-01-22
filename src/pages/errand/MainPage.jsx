@@ -1,5 +1,5 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import ListItem from "@pages/board/ListItem";
+import ListItem from "@pages/errand/ListItem";
 import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { useNavigate } from "react-router-dom";

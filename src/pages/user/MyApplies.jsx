@@ -1,5 +1,5 @@
 import React from "react";
-import ListItem from "@pages/board/ListItem";
+import ListItem from "@pages/errand/ListItem";
 
 const MyApplies = ({ applyData }) => {
   if (!applyData?.item || applyData.item.length === 0) {

@@ -1,6 +1,6 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import CommentListItem from "@pages/board/CommentListItem";
-import CommentNew from "@pages/board/CommentNew";
+import CommentListItem from "@pages/errand/CommentListItem";
+import CommentNew from "@pages/errand/CommentNew";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 

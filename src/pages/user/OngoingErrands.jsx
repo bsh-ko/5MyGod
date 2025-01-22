@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import useUserStore from "@zustand/userStore";
-import ListItem from "@pages/board/ListItem";
+import ListItem from "@pages/errand/ListItem";
 
 const OngoingErrands = () => {
   const navigate = useNavigate();
