@@ -76,36 +76,34 @@ export default function MainPage() {
   };
 
   return (
-    <div className="l_container max-w-[393px] h-screen mx-auto flex flex-col">
-      <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] relative">
-        <div className="list_info font-laundry text-[14px] text-gray-700 flex justify-between items-center px-2">
-          <p>
-            구인 중인 심부름{" "}
-            <span className="text-red-500">{filteredItems.length}건이</span>{" "}
-            있어요
-          </p>
+    <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] relative">
+      <div className="list_info font-laundry text-[14px] text-gray-700 flex justify-between items-center px-2">
+        <p>
+          구인 중인 심부름{" "}
+          <span className="text-red-500">{filteredItems.length}건이</span>{" "}
+          있어요
+        </p>
 
-          <div className="flex gap-4">
-            <img src="/assets/filter.svg" />
-            <img src="/assets/search.svg" />
-          </div>
+        <div className="flex gap-4">
+          <img src="/assets/filter.svg" />
+          <img src="/assets/search.svg" />
         </div>
+      </div>
 
-        <ul className="list flex flex-col items-center gap-[24px] pb-[80px]">
-          {list}
-        </ul>
+      <ul className="list flex flex-col items-center gap-[24px] pb-[80px]">
+        {list}
+      </ul>
 
-        <button
-          type="button"
-          onClick={() => {
-            handleRequestClick();
-          }}
-          className={`bg-primary-500 font-laundry text-[24px] text-white p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0`}
-          style={{ top: `${buttonPos}px` }}
-        >
-          새로운 심부름 요청하기
-        </button>
-      </main>
-    </div>
+      <button
+        type="button"
+        onClick={() => {
+          handleRequestClick();
+        }}
+        className={`bg-primary-500 font-laundry text-[24px] text-white p-[20px] rounded-t-lg fixed max-w-[393px] mx-auto left-0 right-0`}
+        style={{ top: `${buttonPos}px` }}
+      >
+        새로운 심부름 요청하기
+      </button>
+    </main>
   );
 }
