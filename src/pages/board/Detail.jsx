@@ -87,6 +87,7 @@ export default function Detail() {
   const apply = useMutation({
     mutationFn: (_id) => {
       const body = {
+        state: "OS010",
         products: [
           {
             _id: Number(_id),

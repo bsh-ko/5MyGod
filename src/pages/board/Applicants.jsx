@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import useNotificationHandler from "@hooks/useNotificationCreate";
+
 
 const Applicants = () => {
   const [applicants, setApplicants] = useState([]);
@@ -13,7 +14,7 @@ const Applicants = () => {
   const clientId = "final05";
 
   // 이미지 로드 실패시 사용할 기본 이미지 경로
-  const defaultImagePath = `/files/${clientId}/user-neo.webp`;
+  const defaultImagePath = `/files/${clientId}/guy.webp`;
 
   const handleImageError = (e) => {
     e.target.onerror = null; // 무한 로딩 방지
@@ -23,30 +24,34 @@ const Applicants = () => {
   const fetchApplicants = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get("/seller/orders");
+      const response = await axiosInstance.get("/seller/orders"); // 나에게 들어온 모든 지원 목록
       const data = response.data;
 
       if (data.ok === 1) {
         console.log("API 응답 데이터:", data);
         const filteredItems = data.item.filter(
-          (item) => item.products[0]._id === parseInt(_id)
+          (item) => item.products[0]._id === parseInt(_id) // 현재 보고 있는 상품에 대한 지원만 필터링
         );
 
         if (filteredItems.length > 0) {
           setCurrentProduct(filteredItems[0].products[0]);
         }
 
+        // 필터링된 지원 아이템 하나하나를 형식에 맞게 가공
         const formattedApplicants = filteredItems.map((item) => ({
-          id: item.user._id,
+          apply_id: item._id, // 지원 아이템의 번호
+          apply_state: item.state, // 지원 아이템의 상태
+          user_id: item.user._id, // 지원한 유저의 번호
           name: item.user.name,
           description: item.user.extra.introduction || "소개글이 없습니다.",
           profileImage: item.user.image,
-          productId: item.products[0]._id,
-          productState: item.products[0].extra.productState[0],
-          matchedUserId: item.products[0].extra.matchedUserId || null,
+          productId: item.products[0]._id, // 지원 대상 심부름의 번호
+          productState: item.products[0].extra.productState[0], // 지원 대상 심부름의 상태
+          matchedOrderId: item.products[0].extra.matchedOrderId || null, // 지원 대상 심부름이 몇번 지원과 매칭되었는지
+          matchedUserId: item.products[0].extra.matchedUserId || null, // 지원 대상 심부름이 몇번 유저와 매칭되었는지
         }));
 
-        setApplicants(formattedApplicants);
+        setApplicants(formattedApplicants); // 가공된 지원 아이템들로 applicants를 업데이트
         setLoading(false);
       }
     } catch (error) {
@@ -59,37 +64,56 @@ const Applicants = () => {
     fetchApplicants();
   }, []);
 
-  const handleAcceptApplicant = async (productId, applicantId) => {
+  const handleAcceptApplicant = async (productId, applyId, applicantId) => {
     try {
+      // 지원 대상 상품의 extra 데이터를 수정
       const productResponse = await axiosInstance.get(
-        `/seller/products/${_id}`
+        `/seller/products/${productId}`
       );
-      const currentProductData = productResponse.data.item;
+      const currentProductData = productResponse.data.item; // 현재 상품(심부름) 데이터
 
       const updatedExtra = {
         ...currentProductData.extra,
         productState: ["PS020"],
-        matchedUserId: applicantId,
+        matchedOrderId: applyId, // 몇번 지원과 매칭되었는지
+        matchedUserId: applicantId, // 몇번 유저와 매칭되었는지
       };
 
       const response = await axiosInstance.patch(`/seller/products/${_id}`, {
         extra: updatedExtra,
       });
 
-      const sendNotification = useNotificationHandler();
+      // 지원 아이템의 상태를 수정
+      const applyResponse = await axiosInstance.get(
+        `/seller/orders/${applyId}` // 선택한 지원의 데이터 받아오기
+      );
+
+      const selectedApplyData = applyResponse.data.item; // 선택한 지원 데이터
+
+      const updatedApply = {
+        ...selectedApplyData,
+        state: "PS020", // 지원 상태 변경
+      };
+
+      const applyUpdateResponse = await axiosInstance.patch(
+        `/seller/orders/${applyId}`,
+        updatedApply
+      );
+
       if (response.data.ok === 1) {
-        console.log("지원자 수락 성공:", response.data);
-        //수락 후 알림
-        // sendNotification({
-        //   type: "accept",
-        //   targetId: applicantId,
-        //   errandId: _id,
-        //   errandTitle: ,
-        // });
+        console.log("지원 대상 상품 데이터 수정 성공: ", response.data);
+      } else {
+        console.error("지원 대상 상품 데이터 수정 실패: ", response.data);
+      }
+
+      if (applyUpdateResponse.data.ok === 1) {
+        console.log("지원 데이터 수정 성공: ", applyUpdateResponse.data);
+        alert("심부름 지원을 수락하였습니다.");
+
         // MyPage의 나의 요청 탭으로 이동
         navigate("/users/mypage?tab=requests");
       } else {
-        console.error("지원자 수락 실패:", response.data);
+        console.error("지원 데이터 수정 실패: ", applyUpdateResponse.data);
       }
     } catch (error) {
       console.error("지원자 수락 중 오류 발생:", error);
@@ -123,31 +147,32 @@ const Applicants = () => {
         {applicants.length > 0 ? (
           applicants.map((applicant) => (
             <div
-              key={applicant.id}
-              className={`w-[360px] h-[84px] flex-shrink-0 flex items-center bg-white rounded-[10px] shadow-card-shadow ${
+              key={applicant.apply_id}
+              className={`w-full h-[84px] flex items-center bg-white rounded-[10px] shadow-card-shadow ${
                 isMatchedExists && applicant.productState !== "PS020"
                   ? "opacity-50"
                   : ""
               }`}
             >
-              <div className="flex items-center ml-[16px] flex-grow">
-                <img
-                  src={`https://11.fesp.shop${applicant.profileImage}`}
-                  alt={`${applicant.name}의 프로필`}
-                  onError={handleImageError}
-                  className="w-[42px] h-[42px] rounded-full object-cover mr-[16px] cursor-pointer"
-                  onClick={() => navigate(`/user/${applicant.id}`)}
-                />
+              <Link to={`/users/${applicant.user_id}`} className="grow">
+                <div className="flex items-center ml-[16px] flex-grow">
+                  <img
+                    src={`https://11.fesp.shop${applicant.profileImage}`}
+                    alt={`${applicant.name}의 프로필`}
+                    onError={handleImageError}
+                    className="w-[42px] h-[42px] rounded-full object-cover mr-[16px] cursor-pointer"
+                  />
 
-                <div className="flex flex-col justify-center">
-                  <h3 className="font-Pretendard text-[18px] font-semibold text-gray-black-900 tracking-[-1.08px]">
-                    {applicant.name}
-                  </h3>
-                  <p className="font-Pretendard text-[16px] font-medium text-gray-black-900 tracking-[-0.96px]">
-                    {applicant.description}
-                  </p>
+                  <div className="flex flex-col justify-center">
+                    <h3 className="font-Pretendard text-[18px] font-semibold text-gray-black-900 tracking-[-1.08px]">
+                      {applicant.name}
+                    </h3>
+                    <p className="font-Pretendard text-[16px] font-medium text-gray-black-900 tracking-[-0.96px]">
+                      {applicant.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Link>
               <button
                 className={`w-[77px] h-[84px] flex-shrink-0 rounded-r-[10px] ${
                   isMatchedExists || applicant.productState === "PS020"
@@ -155,7 +180,11 @@ const Applicants = () => {
                     : "bg-[#4849E8] cursor-pointer"
                 } text-white shadow-card-shadow`}
                 onClick={() =>
-                  handleAcceptApplicant(applicant.productId, applicant.id)
+                  handleAcceptApplicant(
+                    applicant.productId,
+                    applicant.apply_id,
+                    applicant.user_id
+                  )
                 }
                 disabled={isMatchedExists || applicant.productState === "PS020"}
               >
