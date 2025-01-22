@@ -31,9 +31,6 @@ export default function MyPage() {
   } = useQuery({
     queryKey: ["userProfile"], // Query Key
     queryFn: () => axios.get(`/users/${user._id}`).then((res) => res.data),
-    refetchInterval: 1000,
-    staleTime: 0,
-    cacheTime: 0,
   });
   console.log("유저 정보 : ", users);
 
@@ -42,9 +39,6 @@ export default function MyPage() {
     queryKey: ["requests"],
     queryFn: () => axios.get("/seller/products/"),
     select: (res) => res.data,
-    refetchInterval: 1000,
-    staleTime: 0,
-    cacheTime: 0,
   });
 
   console.log("requestdata: ", requestData);
@@ -54,9 +48,6 @@ export default function MyPage() {
     queryKey: ["apply"],
     queryFn: () => axios.get("/orders/"),
     select: (res) => res.data,
-    refetchInterval: 1000,
-    staleTime: 0,
-    cacheTime: 0,
   });
 
   console.log("apply data: ", applyData);
@@ -83,7 +74,7 @@ export default function MyPage() {
   };
 
   const handleUserUpdate = (updatedUser) => {
-    setUser(updatedUser);
+    console.log("업데이트: ", updatedUser);
     queryClient.setQueryData(["userProfile"], { item: updatedUser });
   };
 
@@ -125,7 +116,9 @@ export default function MyPage() {
                         수정하기
                       </button>
                     </div>
-                    <p className="text-gray-500 mb-5">{users?.item.extra.introduction || "자기소개를 작성해보세요."}</p>
+                    <p className="text-gray-black-900 mb-5">
+                      {users?.item.extra.introduction || "자기소개를 작성해보세요."}
+                    </p>
                   </div>
                   <div className="intro bg-white p-5 my-3">
                     <div className="flex justify-between my-3">
