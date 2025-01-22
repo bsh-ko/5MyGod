@@ -30,11 +30,7 @@ const OngoingErrands = () => {
         if (activeTab === "지원한 심부름") {
           const filteredItems =
             response.data.item
-              .filter(
-                (order) =>
-                  order.state === "OS020" &&
-                  order.products[0]?.extra?.productState[0] === "PS020"
-              )
+              .filter((order) => order.state === "OS020")
               .map((order) => order.products[0]) || [];
           setErrandItems(filteredItems);
         } else {
