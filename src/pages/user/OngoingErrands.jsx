@@ -46,8 +46,8 @@ const OngoingErrands = () => {
         );
         if (response.data.ok === 1) {
           const ongoingRequests =
-            response.data.item.map((request) => ({
-              productInfo: request,
+            response.data.item.map((product) => ({
+              productInfo: product,
             })) || [];
           setErrandItems(ongoingRequests); // errandItems로 저장
         }
