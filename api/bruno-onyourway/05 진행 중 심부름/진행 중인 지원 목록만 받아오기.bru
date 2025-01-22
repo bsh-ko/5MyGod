@@ -1,0 +1,15 @@
+meta {
+  name: 진행 중인 지원 목록만 받아오기
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/orders?custom={"state":"OS020"}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  custom: {"state":"OS020"}
+}

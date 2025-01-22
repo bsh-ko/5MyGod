@@ -1,5 +1,5 @@
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import ListItem from "@pages/board/ListItem";
+import ListItem from "@pages/errand/ListItem";
 import { useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import { useNavigate } from "react-router-dom";
@@ -55,15 +55,20 @@ export default function MainPage() {
   const now = new Date();
 
   // 심부름 목록 필터링
-  // const filteredItems = data.item.filter((item) => {
-  //   const isRecruiting = item.extra.productState[0] === "PS010"; // 구인 중
-  //   const isBeforeDue = new Date(item.extra.due) >= now; // 기한 안 지남
+  const filteredItems = data.item.filter((item) => {
+    const isRecruiting = item.extra.productState[0] === "PS010"; // 구인 중
+    const isBeforeDue = new Date(item.extra.due) >= now; // 기한 안 지남
 
-  //   return isRecruiting && isBeforeDue;
-  // });
+    return isRecruiting && isBeforeDue;
+  });
 
-  // 심부름 배열을 순회하며 <ListItem> 생성
-  const list = data.item.map((item) => <ListItem key={item._id} item={item} />);
+  // 필터링된 심부름 배열을 순회하며 <ListItem> 생성
+  const list = filteredItems.map((product) => {
+    const item = {
+      productInfo: product, // 상품(심부름) 데이터를 productInfo 형태로 전달
+    };
+    return <ListItem key={product._id} item={item} />;
+  });
 
   const handleRequestClick = () => {
     navigate(`/errand/new`); // 작성페이지로 이동
@@ -75,7 +80,8 @@ export default function MainPage() {
       <main className="bg-background-color flex-grow p-[16px] flex flex-col gap-[16px] relative">
         <div className="list_info font-laundry text-[14px] text-gray-700 flex justify-between items-center px-2">
           <p>
-            심부름 <span className="text-red-500">{data.item.length}건이</span>{" "}
+            구인 중인 심부름{" "}
+            <span className="text-red-500">{filteredItems.length}건이</span>{" "}
             있어요
           </p>
 

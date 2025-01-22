@@ -57,7 +57,15 @@ export default function New() {
 
   const categories = ["배달", "전문가", "재능판매", "대행", "돌봄"];
 
-  const tags = ["시간이 생명", "도와주세요", "일정 조정 가능", "금액 협의 가능", "남자만", "여자만", "어른만"];
+  const tags = [
+    "시간이 생명",
+    "도와주세요",
+    "일정 조정 가능",
+    "금액 협의 가능",
+    "남자만",
+    "여자만",
+    "어른만",
+  ];
 
   // 카테고리와 태그를 코드와 매핑
   const categoryCodes = {
@@ -102,7 +110,9 @@ export default function New() {
       <li
         key={category}
         className={`category flex items-center gap-[4px] px-[6px] rounded  border-[1px] border-gray-500 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0 select-none cursor-pointer ${
-          selectedCategory === categoryCodes[category] ? "bg-primary-500 text-white" : "bg-gray-100 text-black"
+          selectedCategory === categoryCodes[category]
+            ? "bg-primary-500 text-white"
+            : "bg-gray-100 text-black"
         }`}
         onClick={() => handleCategoryClick(category)}
       >
@@ -116,7 +126,9 @@ export default function New() {
       <li
         key={tag}
         className={`tag flex items-center gap-[4px] px-[6px] rounded border-[1px] border-gray-500 font-pretendard text-[16px] max-w-full truncate text-ellipsis min-w-0 flex-shrink-0 select-none cursor-pointer ${
-          selectedTags.includes(tagCodes[tag]) ? "bg-primary-500 text-white" : "bg-gray-100 text-black"
+          selectedTags.includes(tagCodes[tag])
+            ? "bg-primary-500 text-white"
+            : "bg-gray-100 text-black"
         }`}
         onClick={() => handleTagClick(tag)}
       >
@@ -234,7 +246,8 @@ export default function New() {
   ////////////////////////////////////////////////////////////// 마감 일시 //////////////////////////////////////////////////////////////
   const selectedDue = watch("selectedDue", "");
 
-  const handleDueChange = (date) => setValue("selectedDue", date, { shouldValidate: true });
+  const handleDueChange = (date) =>
+    setValue("selectedDue", date, { shouldValidate: true });
 
   ////////////////////////////////////////////////////////////// 금액 //////////////////////////////////////////////////////////////
   const price = watch("price", ""); // react-hook-form에서 price값을 실시간으로 감시
@@ -264,6 +277,8 @@ export default function New() {
           category: [selectedCategory],
           tags: selectedTags,
           productState: ["PS010"],
+          matchedOrderId: null,
+          matchedUserId: null,
           pickupLocation: isPickupDisabled
             ? null
             : {
@@ -308,7 +323,9 @@ export default function New() {
         {/* 심부름 제목 입력 */}
         <div className="task_name p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
           <div className="flex flex-col">
-            <p className="font-laundry text-input-title">심부름 제목을 입력해주세요</p>
+            <p className="font-laundry text-input-title">
+              심부름 제목을 입력해주세요
+            </p>
             <InputError target={errors?.name} />
           </div>
 
@@ -336,7 +353,9 @@ export default function New() {
         {/* 카테고리 선택 */}
         <div className="task_category p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
           <div className="flex flex-col">
-            <p className="font-laundry text-input-title">심부름 구분을 선택해주세요</p>
+            <p className="font-laundry text-input-title">
+              심부름 구분을 선택해주세요
+            </p>
             <InputError target={errors?.category} />
           </div>
 
@@ -354,7 +373,8 @@ export default function New() {
         <div className="task_tag p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
           <div className="flex flex-col">
             <p className="font-laundry text-input-title">
-              태그를 선택해주세요 <span className="text-gray-500">(중복 선택 가능)</span>
+              태그를 선택해주세요{" "}
+              <span className="text-gray-500">(중복 선택 가능)</span>
             </p>
             <InputError target={errors?.tags} />
           </div>
@@ -362,7 +382,10 @@ export default function New() {
           <ul
             className="tag_list flex gap-[12px] flex-wrap"
             {...register("tags", {
-              validate: (value) => (value && value.length > 0 ? true : "최소 하나 이상의 태그를 선택해주세요."),
+              validate: (value) =>
+                value && value.length > 0
+                  ? true
+                  : "최소 하나 이상의 태그를 선택해주세요.",
             })}
           >
             {renderTags()}
@@ -394,7 +417,9 @@ export default function New() {
 
         {/* 심부름 위치 선택 */}
         <div className="task_location p-[20px] bg-[#fff] rounded-lg shadow-card-shadow flex flex-col gap-[16px]">
-          <p className="font-laundry text-input-title">심부름의 위치를 알려주세요</p>
+          <p className="font-laundry text-input-title">
+            심부름의 위치를 알려주세요
+          </p>
 
           {/* 픽업 위치 입력 필드들 */}
           {!isPickupDisabled ? (
@@ -469,12 +494,21 @@ export default function New() {
                 setPickupAddress(""); // 주소 초기화
               }}
             />
-            <label htmlFor="no-pickup" className="flex items-center cursor-pointer gap-[8px]">
+            <label
+              htmlFor="no-pickup"
+              className="flex items-center cursor-pointer gap-[8px]"
+            >
               <img
-                src={isPickupDisabled ? "/assets/checked.png" : "/assets/unchecked.png"}
+                src={
+                  isPickupDisabled
+                    ? "/assets/checked.png"
+                    : "/assets/unchecked.png"
+                }
                 className="w-[24px] h-[24px] rounded-md"
               />
-              <p className="font-pretendard font-bold select-none">픽업이 필요 없어요</p>
+              <p className="font-pretendard font-bold select-none">
+                픽업이 필요 없어요
+              </p>
             </label>
           </div>
 
@@ -551,12 +585,21 @@ export default function New() {
                 setArrivalAddress("");
               }}
             />
-            <label htmlFor="no-arrival" className="flex items-center cursor-pointer gap-[8px]">
+            <label
+              htmlFor="no-arrival"
+              className="flex items-center cursor-pointer gap-[8px]"
+            >
               <img
-                src={isArrivalDisabled ? "/assets/checked.png" : "/assets/unchecked.png"}
+                src={
+                  isArrivalDisabled
+                    ? "/assets/checked.png"
+                    : "/assets/unchecked.png"
+                }
                 className="w-[24px] h-[24px] rounded-md"
               />
-              <p className="font-pretendard font-bold">도착 위치가 필요 없어요</p>
+              <p className="font-pretendard font-bold">
+                도착 위치가 필요 없어요
+              </p>
             </label>
           </div>
         </div>
@@ -569,7 +612,9 @@ export default function New() {
           })}
         >
           <div className="flex flex-col">
-            <p className="font-laundry text-card-title">심부름의 마감 일시를 선택해주세요</p>
+            <p className="font-laundry text-card-title">
+              심부름의 마감 일시를 선택해주세요
+            </p>
             <InputError target={errors?.selectedDue} />
           </div>
 
@@ -585,7 +630,9 @@ export default function New() {
           })}
         >
           <div className="flex flex-col">
-            <p className="font-laundry text-input-title">심부름비를 제시해주세요</p>
+            <p className="font-laundry text-input-title">
+              심부름비를 제시해주세요
+            </p>
             <InputError target={errors.price} />{" "}
           </div>
 

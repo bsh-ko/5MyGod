@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import useUserStore from "@zustand/userStore";
-import ListItem from "@pages/board/ListItem";
+import ListItem from "@pages/errand/ListItem";
 
 const OngoingErrands = () => {
   const navigate = useNavigate();
@@ -21,30 +21,35 @@ const OngoingErrands = () => {
   }, [activeTab]);
 
   // API 호출 함수
-  const fetchErrands = async (endpoint) => {
+  const fetchErrands = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get(endpoint);
+      setErrandItems([]); // 로딩 중 데이터 초기화
 
-      if (response.data.ok === 1) {
-        if (activeTab === "지원한 심부름") {
-          const filteredItems =
-            response.data.item
-              .filter(
-                (order) =>
-                  order.state === "OS020" &&
-                  order.products[0]?.extra?.productState[0] === "PS020"
-              )
-              .map((order) => order.products[0]) || [];
-          setErrandItems(filteredItems);
-        } else {
-          const filteredItems =
-            response.data.item.filter(
-              (product) =>
-                product.seller_id === user?._id &&
-                product.extra?.productState[0] === "PS020"
-            ) || [];
-          setErrandItems(filteredItems);
+      if (activeTab === "지원한 심부름") {
+        // 지원한 심부름 탭일 때, 진행 중인 지원 데이터 받아오기
+        const response = await axiosInstance.get(
+          `/orders?custom={"state":"OS020"}`
+        );
+        if (response.data.ok === 1) {
+          const ongoingApplies =
+            response.data.item.map((order) => ({
+              orderInfo: order, // 지원 데이터
+              productInfo: order.products?.[0] || {}, // 지원 데이터 안의 상품 데이터
+            })) || [];
+          setErrandItems(ongoingApplies); // errandItems로 저장
+        }
+      } else {
+        // 요청한 심부름 탭일 때, 진행 중인 상품 데이터 받아오기
+        const response = await axiosInstance.get(
+          `/seller/products?custom={"extra.productState":"PS020"}`
+        );
+        if (response.data.ok === 1) {
+          const ongoingRequests =
+            response.data.item.map((product) => ({
+              productInfo: product,
+            })) || [];
+          setErrandItems(ongoingRequests); // errandItems로 저장
         }
       }
     } catch (error) {

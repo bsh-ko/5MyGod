@@ -20,6 +20,7 @@ function useAxiosInstance() {
   });
 
   instance.interceptors.request.use((config) => {
+    console.log("user: ", user);
     if (user && config.url !== REFRESH_URL) {
       config.headers.Authorization = `Bearer ${user.accessToken}`;
     }
@@ -27,6 +28,7 @@ function useAxiosInstance() {
       ...config.params, // 기존 쿼리스트링 복사
     };
 
+    console.log("요청 Authorization 헤더:", config.headers.Authorization);
     return config;
   });
 
@@ -38,6 +40,7 @@ function useAxiosInstance() {
       if (response?.status === 401 && config.url !== REFRESH_URL) {
         try {
           // 토큰 갱신 요청
+          console.log("토큰 갱신 요청 시작");
           const {
             data: { accessToken },
           } = await instance.get(REFRESH_URL, {
@@ -45,8 +48,12 @@ function useAxiosInstance() {
               Authorization: `Bearer ${user.refreshToken}`,
             },
           });
-
+          console.log("엑세스 토큰 : ", accessToken);
+          console.log("Refresh Token:", user.refreshToken); // Refresh Token이 제대로 전달되는지 확인
           setUser({ ...user, accessToken });
+          console.log("유저 상태 갱신 완료:", { ...user, accessToken });
+
+          console.log("토큰 갱신 완료");
 
           // 실패했던 요청 재시도
           config.headers.Authorization = `Bearer ${accessToken}`;

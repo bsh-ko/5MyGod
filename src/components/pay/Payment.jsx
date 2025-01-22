@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
+import useNotificationHandler from "@hooks/useNotificationCreate";
 
 // Props Validation
 Payment.propTypes = {
@@ -44,9 +45,39 @@ const useUpdateProductState = () => {
   });
 };
 
+// order 상태 바꾸는 함수
+const useUpdateOrderState = () => {
+  const axios = useAxiosInstance();
+
+  const updateOrderState = async ({ matchedOrderId }) => {
+    try {
+      const response = await axios.patch(`/seller/orders/${matchedOrderId}`, {
+        state: "OS030",
+      });
+      if (!response.data.ok) {
+        throw new Error("지원 상태 업데이트에 실패했습니다.");
+      }
+      return response.data;
+    } catch (error) {
+      console.error("지원 상태 업데이트 중 오류 발생:", error);
+      throw error;
+    }
+  };
+  return useMutation({
+    mutationFn: updateOrderState,
+    onSuccess: (data) => {
+      console.log("지원 상태가 성공적으로 업데이트되었습니다.", data);
+    },
+    onError: (error) => {
+      console.error("지원 상태 업데이트 실패:", error);
+    },
+  });
+};
+
 export default function Payment({ item, buttonPos }) {
   const productId = item?._id;
   const payAmount = item?.price;
+  const matchedOrderId = item?.extra?.matchedOrderId;
 
   useEffect(() => {
     const loadPortOneSDK = () => {
@@ -70,13 +101,15 @@ export default function Payment({ item, buttonPos }) {
 
   const navigate = useNavigate();
   const { mutateAsync: updateProdState } = useUpdateProductState();
+  const { mutateAsync: updateOrderState } = useUpdateOrderState();
+  const sendNotification = useNotificationHandler();
 
   const handlePayment = async () => {
     try {
       if (window.PortOne) {
         const result = await window.PortOne.requestPayment({
           storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
-          paymentId: productId + "3456", //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
+          paymentId: productId + "34567", //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
           orderName: "테스트 결제",
           totalAmount: payAmount, //결제 금액
           currency: "KRW",
@@ -91,7 +124,19 @@ export default function Payment({ item, buttonPos }) {
           productId,
           currentItem: item,
         });
+        // //결제 완료 후 지원 상태 변경
+        await updateOrderState({
+          matchedOrderId,
+        });
+
         navigate("/pay/paysuccess", { state: item });
+        //결제 완료 후 알림
+        sendNotification({
+          type: "complete",
+          targetId: item?.extra?.matchedUserId,
+          errandId: item?._id,
+          errandTitle: item?.name,
+        });
       } else {
         alert("결제 모듈이 로드되지 않았습니다.");
       }

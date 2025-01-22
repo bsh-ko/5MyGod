@@ -1,5 +1,5 @@
 import React from "react";
-import ListItem from "@pages/board/ListItem";
+import ListItem from "@pages/errand/ListItem";
 
 const MyApplies = ({ applyData }) => {
   if (!applyData?.item || applyData.item.length === 0) {
@@ -10,8 +10,8 @@ const MyApplies = ({ applyData }) => {
     );
   }
 
-  // 데이터 변환 함수
-  const transformDataForListItem = (data) => ({
+  // 주문 데이터에서 productInfo를 추출 및 가공하는 함수
+  const extractProductInfo = (data) => ({
     _id: data._id,
     name: data.name,
     price: data.price,
@@ -24,12 +24,19 @@ const MyApplies = ({ applyData }) => {
     },
   });
 
-  // products 배열을 펼치고 각 항목을 ListItem에 전달
-  const applyList = applyData.item.flatMap((applyItem) =>
-    applyItem.products.map((product) => (
-      <ListItem key={product._id} item={transformDataForListItem(product)} />
-    ))
-  );
+  // 주문(지원) 배열을 순회하며 가공, 리스트아이템에 전달할 배열(orderInfo와 productInfo를 포함함)을 생성
+  const applyList = applyData.item.map((applyItem) => {
+    const item = {
+      orderInfo: applyItem, // 주문(지원) 정보
+      productInfo: extractProductInfo(applyItem.products[0]), // 주문(지원) 안의 상품(심부름) 정보
+    };
+    return (
+      <ListItem
+        key={`${applyItem._id}-${applyItem.products[0]._id}`}
+        item={item}
+      />
+    );
+  });
 
   return <ul className="space-y-3">{applyList}</ul>;
 };
