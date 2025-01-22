@@ -32,7 +32,7 @@ const OngoingErrands = () => {
             response.data.item
               .filter((order) => order.state === "OS020")
               .map((order) => order.products[0]) || [];
-          setErrandItems(filteredItems);
+          setErrandItems(filteredItems); // OS020인 주문 하나하나의 안에 들어 있는 상품 데이터를 목록으로 만들어 errandItems로 등록
         } else {
           const filteredItems =
             response.data.item.filter(
@@ -40,7 +40,7 @@ const OngoingErrands = () => {
                 product.seller_id === user?._id &&
                 product.extra?.productState[0] === "PS020"
             ) || [];
-          setErrandItems(filteredItems);
+          setErrandItems(filteredItems); // PS020인 상품 데이터를 목록으로 만들어 errandItems로 등록
         }
       }
     } catch (error) {
