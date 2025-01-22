@@ -109,7 +109,7 @@ export default function Payment({ item, buttonPos }) {
       if (window.PortOne) {
         const result = await window.PortOne.requestPayment({
           storeId: "store-e4038486-8d83-41a5-acf1-844a009e0d94",
-          paymentId: productId + "34567", //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
+          paymentId: productId + "0001", //결제 ID - 심부름 고유값으로, testm5w7k로 시작하고 3자리 추가해주면 될것같습니다 ex. 1번 심부름은 testm5w7k001
           orderName: "테스트 결제",
           totalAmount: payAmount, //결제 금액
           currency: "KRW",
