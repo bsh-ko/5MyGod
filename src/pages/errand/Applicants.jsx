@@ -3,7 +3,6 @@ import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import useNotificationHandler from "@hooks/useNotificationCreate";
 
-
 const Applicants = () => {
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -92,7 +91,7 @@ const Applicants = () => {
 
       const updatedApply = {
         ...selectedApplyData,
-        state: "PS020", // 지원 상태 변경
+        state: "OS020", // 지원 상태 변경
       };
 
       const applyUpdateResponse = await axiosInstance.patch(
