@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import TagList from "@pages/board/TagList";
+import TagList from "@pages/errand/TagList";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import useAxiosInstance from "@hooks/useAxiosInstance";

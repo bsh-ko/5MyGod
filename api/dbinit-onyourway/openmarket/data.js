@@ -101,7 +101,7 @@ export const initData = async (clientId, nextSeq) => {
         name: "세상에서가장강한동물은참새",
         phone: "01044445555",
         address: "서울시 강남구 논현동 222",
-        type: "seller",
+        type: "admin",
         loginType: "email",
         image: `/files/${clientId}/sparrow.webp`,
         createdAt: getTime(-20, -60 * 30),

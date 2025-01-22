@@ -1,6 +1,6 @@
 import LocationMap from "@components/LocationMap";
 import useAxiosInstance from "@hooks/useAxiosInstance";
-import CommentList from "@pages/board/CommentList";
+import CommentList from "@pages/errand/CommentList";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import useUserStore from "@zustand/userStore";
 import dayjs from "dayjs";
