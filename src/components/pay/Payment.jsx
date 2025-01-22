@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosInstance from "@hooks/useAxiosInstance";
 import { useMutation } from "@tanstack/react-query";
+import useNotificationHandler from "@hooks/useNotificationCreate";
 
 // Props Validation
 Payment.propTypes = {
@@ -70,6 +71,7 @@ export default function Payment({ item, buttonPos }) {
 
   const navigate = useNavigate();
   const { mutateAsync: updateProdState } = useUpdateProductState();
+  const sendNotification = useNotificationHandler();
 
   const handlePayment = async () => {
     try {
@@ -91,7 +93,15 @@ export default function Payment({ item, buttonPos }) {
           productId,
           currentItem: item,
         });
+
         navigate("/pay/paysuccess", { state: item });
+        //결제 완료 후 알림
+        sendNotification({
+          type: "complete",
+          targetId: item?.extra?.matchedUserId,
+          errandId: item?._id,
+          errandTitle: item?.name,
+        });
       } else {
         alert("결제 모듈이 로드되지 않았습니다.");
       }
