@@ -63,7 +63,12 @@ export default function MainPage() {
   // });
 
   // 심부름 배열을 순회하며 <ListItem> 생성
-  const list = data.item.map((item) => <ListItem key={item._id} item={item} />);
+  const list = data.item.map((product) => {
+    const item = {
+      productInfo: product, // 상품(심부름) 데이터를 productInfo 형태로 전달
+    };
+    return <ListItem key={product._id} item={item} />;
+  });
 
   const handleRequestClick = () => {
     navigate(`/errand/new`); // 작성페이지로 이동
