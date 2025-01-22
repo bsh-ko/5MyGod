@@ -43,6 +43,15 @@ export default function NavigationHeader() {
       },
     },
     {
+      pattern: /^\/chating$/,
+      config: {
+        title: "채팅",
+        showBackButton: false,
+        showHeaderButton: true,
+        bgColor: "bg-background-color",
+      },
+    },
+    {
       pattern: /^\/users\/mypage$/,
       config: {
         title: "내 정보",

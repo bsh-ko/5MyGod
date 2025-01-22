@@ -14,6 +14,7 @@ const UserPage = lazy(() => import("@pages/user/UserPage"));
 const OngoingErrands = lazy(() => import("@pages/user/OngoingErrands"));
 const MyApplies = lazy(() => import("@pages/user/MyApplies"));
 const PaySuccess = lazy(() => import("@components/pay/PaySuccess"));
+const ChatsList = lazy(() => import("@pages/chating/ChatsList"));
 
 const router = createBrowserRouter(
   [
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
             { path: "users/mypage", element: <MyPage /> },
             { path: "users/myApplies", element: <MyApplies /> },
             { path: "users/ongoingErrands", element: <OngoingErrands /> },
+            { path: "chating", element: <ChatsList /> },
             { path: "users/:_id", element: <UserPage /> },
             { path: "pay/paysuccess", element: <PaySuccess /> },
           ],
