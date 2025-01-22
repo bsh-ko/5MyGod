@@ -59,11 +59,16 @@ function calculateRemainingTime(due) {
 }
 
 export default function ListItem({ item }) {
+  if (!item || (!item.productInfo && !item.orderInfo)) {
+    console.error("Invalid item structure");
+    return null;
+  }
+
   const { orderInfo, productInfo } = item;
 
   // 기한 만료 여부 변수 (productInfo 기반)
   const isPastDue =
-    productInfo && calculateRemainingTime(item?.extra?.due) === "마감";
+    productInfo && calculateRemainingTime(productInfo?.extra?.due) === "마감";
 
   // 심부름 상태 변수
   let isCompleted, isExpired, isOngoing;
@@ -117,16 +122,16 @@ export default function ListItem({ item }) {
     PC05: "/assets/twohearts.svg",
   };
 
-  // category의 첫번째 값을 기반으로 이미지 경로 설정
+  // category의 첫번째 값을 기반으로 이미지 경로 설정 (productInfo)
   const categoryImage =
-    categoryImages[item.extra?.category[0]] || "/assets/check.svg"; // category 설정이 안 된 경우 기본 이미지로 체크이미지 표시
+    categoryImages[productInfo?.extra?.category[0]] || "/assets/check.svg"; // category 설정이 안 된 경우 기본 이미지로 체크이미지 표시
 
-  // 남은 시간
-  const remainingTime = calculateRemainingTime(item.extra?.due);
+  // 남은 시간 (productInfo)
+  const remainingTime = calculateRemainingTime(productInfo?.extra?.due);
 
   return (
     <Link
-      to={`/errand/${item._id}`}
+      to={`/errand/${productInfo?._id}`}
       className={`list_item w-full h-[116px] rounded-[10px] bg-white shadow-card-shadow px-[22px] py-[18px] flex gap-[24px] items-center relative`}
     >
       <div
@@ -144,17 +149,17 @@ export default function ListItem({ item }) {
 
       <div className="li_contents max-w-full min-w-0 flex flex-col flex-grow gap-[4px]">
         <h2 className="li_title font-laundry text-card-title truncate overflow-hidden text-ellipsis">
-          {item.name}
+          {productInfo?.name}
         </h2>
 
-        <TagList item={item} />
+        <TagList item={productInfo} />
 
         <div className="li_info flex flex-grow justify-between">
           <div className="font-pretendard text-card-timelimit">
             {remainingTime}
           </div>
           <div className="font-pretendard text-card-price">
-            {new Intl.NumberFormat("ko-KR").format(item.price)} 원
+            {new Intl.NumberFormat("ko-KR").format(productInfo?.price)} 원
           </div>
         </div>
       </div>
